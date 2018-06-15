@@ -1,15 +1,16 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/Weapon/Weapon.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/HumanoidInteractions.cs">
     <Files>
       <File FileName="Assets/Project/Characters/Humanoid/Weapon/WeaponType.cs" Line="14" Column="9" />
-      <File FileName="Assets/Project/Characters/Humanoid/Weapon/Weapon.cs" Line="73" Column="50" />
+      <File FileName="Assets/Project/Characters/Humanoid/Weapon/Weapon.cs" Line="100" Column="30" />
       <File FileName="Assets/Project/Characters/Humanoid/Weapon/WeaponList.cs" Line="26" Column="25" />
       <File FileName="Assets/Project/Characters/Humanoid/Weapon/HitboxCreatorProjectileInstant.cs" Line="7" Column="58" />
-      <File FileName="Assets/Project/Characters/Humanoid/Playable/Amy/AmyModel.cs" Line="55" Column="39" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="71" Column="45" />
-      <File FileName="Assets/Project/Characters/Humanoid/AnimationClipSwitcher.cs" Line="28" Column="34" NotebookId="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidActionCoordinator.cs" Line="41" Column="31" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="56" Column="53" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidInteractions.cs" Line="29" Column="10" />
+      <File FileName="Assets/Project/Characters/Humanoid/Implementations/Chanion/ChanionModel.cs" Line="9" Column="3" />
+      <File FileName="Assets/Project/Characters/Humanoid/AnimationClipSwitcher.cs" Line="28" Column="11" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidActionCoordinator.cs" Line="49" Column="11" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -18,5 +19,4 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp-Editor-firstpass PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>
