@@ -96,6 +96,13 @@
     <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Chanion\ChanionModel.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Implementations\PlayerMovementDirector.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\MovementController.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\Stress\AcuteStressor.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\Stress\AIStressManager.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\Stress\AmyStressManager.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\Stress\ChanionStressManager.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\Stress\ChronicStressor.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\Stress\StressManager.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\Stress\StressorValues.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\HitboxCreatorProjectileInstant.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\Weapon.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponList.cs" />
