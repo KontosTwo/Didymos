@@ -1,13 +1,19 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/Stress/AIStressManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/Stress/AmyStressManager.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/StressorValues.cs" Line="7" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/AcuteStressor.cs" Line="16" Column="24" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/ChronicStressor.cs" Line="16" Column="4" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/StressManager.cs" Line="26" Column="20" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/AmyStressManager.cs" Line="6" Column="5" NotebookId="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/AIStressManager.cs" Line="25" Column="5" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/Implementations/Rifleman/RiflemanModel.cs" Line="7" Column="43" />
+      <File FileName="Assets/Project/Characters/Humanoid/Implementations/Amy/AmyModel.cs" Line="29" Column="48" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="72" Column="9" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidInteractions.cs" Line="70" Column="54" />
+      <File FileName="Assets/Project/Characters/Humanoid/Implementations/Chanion/ChanionModel.cs" Line="13" Column="18" />
+      <File FileName="Assets/Project/Characters/Humanoid/Weapon/Weapon.cs" Line="126" Column="41" />
+      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="148" Column="33" />
+      <File FileName="Assets/Project/Characters/Humanoid/Stress/StressManager.cs" Line="53" Column="91" />
+      <File FileName="Assets/Project/Characters/Humanoid/Stress/AmyStressManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/Stress/StressorFactory.cs" Line="17" Column="77" />
+      <File FileName="Assets/Project/Characters/Humanoid/Stress/AcuteStressor.cs" Line="15" Column="5" />
+      <File FileName="Assets/Project/Characters/Humanoid/Stress/ChronicStressor.cs" Line="9" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
