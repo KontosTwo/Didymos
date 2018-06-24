@@ -111,6 +111,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponType.cs" />
     <Compile Include="Assets\Project\Control\Controller.cs" />
     <Compile Include="Assets\Project\Control\PlayerController.cs" />
+    <Compile Include="Assets\Project\Environment\EnvironmentInteractions.cs" />
     <Compile Include="Assets\Project\Environment\EnvironmentPhysics.cs" />
     <Compile Include="Assets\Project\Environment\MapBound.cs" />
     <Compile Include="Assets\Project\Environment\Obstacle.cs" />

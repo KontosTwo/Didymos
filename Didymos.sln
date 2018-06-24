@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio for Mac
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{825F629E-91F6-DCDD-5175-BF75F16FF618}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "Assembly-CSharp.csproj", "{825F629E-91F6-DCDD-5175-BF75F16FF618}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{32D3AE9E-BC43-413A-FCD9-2D17676C93AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "Assembly-CSharp-firstpass.csproj", "{32D3AE9E-BC43-413A-FCD9-2D17676C93AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{0111A28F-562D-F610-4695-B36ABA14D731}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "Assembly-CSharp-Editor.csproj", "{0111A28F-562D-F610-4695-B36ABA14D731}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{E639C917-126B-EC92-351E-63B7805B7CD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "Assembly-CSharp-Editor-firstpass.csproj", "{E639C917-126B-EC92-351E-63B7805B7CD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
