@@ -239,7 +239,8 @@
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/UnityEngine.StandardEvents.dll.mdb
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/Unity.IvyParser.dll.mdb
-/Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-firstpass.csprojResolveAssemblyReference.cache
 /Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-firstpass.csproj.CoreCompileInputs.cache
 /Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-firstpass.dll
 /Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-firstpass.pdb
+/Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-firstpass.csprojAssemblyReference.cache
+/Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-firstpass.csproj.CopyComplete

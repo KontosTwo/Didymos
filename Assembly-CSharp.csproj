@@ -86,6 +86,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AnimationClipSwitcher.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidActionCoordinator.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidAILinker.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidDirection.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidInteractions.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidModel.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidScriptHandle.cs" />

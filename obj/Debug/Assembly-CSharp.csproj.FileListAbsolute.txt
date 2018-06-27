@@ -244,3 +244,4 @@
 /Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp.csproj.CoreCompileInputs.cache
 /Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp.dll
 /Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp.pdb
+/Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache

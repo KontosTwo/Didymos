@@ -1,16 +1,14 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Environment/EnvironmentInteractions.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AnimationClipSwitcher.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/MovementController.cs" Line="73" Column="61" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="73" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/StressManager.cs" Line="71" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/AmyStressManager.cs" Line="18" Column="3" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/ChronicStressor.cs" Line="16" Column="37" />
-      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="152" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidInteractions.cs" Line="41" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/Weapon/HitboxCreatorProjectileInstant.cs" Line="8" Column="67" />
-      <File FileName="Assets/Project/Environment/EnvironmentInteractions.cs" Line="27" Column="3" />
+      <File FileName="Assets/Project/Characters/Humanoid/Weapon/HitboxCreatorProjectileInstant.cs" Line="9" Column="6" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidInteractions.cs" Line="68" Column="51" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="60" Column="10" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidDirection.cs" Line="18" Column="71" />
+      <File FileName="Assets/Project/Characters/Humanoid/MovementController.cs" Line="75" Column="37" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidAILinker.cs" Line="41" Column="5" />
+      <File FileName="Assets/Project/Characters/Humanoid/AnimationClipSwitcher.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
