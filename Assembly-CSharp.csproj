@@ -105,12 +105,15 @@
     <Compile Include="Assets\Project\Characters\Humanoid\Stress\ChronicStressor.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Stress\StressManager.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Stress\StressorFactory.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\Weapon\HitboxCreator.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\Weapon\HitboxCreatorEMachinegun.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\HitboxCreatorProjectileInstant.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\Weapon.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponList.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponRef.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponType.cs" />
     <Compile Include="Assets\Project\Control\Controller.cs" />
+    <Compile Include="Assets\Project\Control\MouseTarget.cs" />
     <Compile Include="Assets\Project\Control\PlayerController.cs" />
     <Compile Include="Assets\Project\Environment\EnvironmentInteractions.cs" />
     <Compile Include="Assets\Project\Environment\EnvironmentPhysics.cs" />
@@ -128,6 +131,7 @@
     <Compile Include="Assets\Project\Pathfinding\Unit.cs" />
     <Compile Include="Assets\Project\Script\Script.cs" />
     <Compile Include="Assets\Project\Test\DebugCubes.cs" />
+    <Compile Include="Assets\Project\Test\DebugGunfire.cs" />
     <Compile Include="Assets\Project\Test\RotateAround.cs" />
     <Compile Include="Assets\Project\Test\Test.cs" />
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />
