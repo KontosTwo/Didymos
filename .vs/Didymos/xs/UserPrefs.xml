@@ -2,17 +2,14 @@
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Environment/EnvironmentPhysics.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="170" Column="25" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/StressManager.cs" Line="106" Column="36" />
-      <File FileName="Assets/Project/Environment/EnvironmentInteractions.cs" Line="34" Column="1" />
-      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="39" Column="12" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/ChronicStressor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/AIStressManager.cs" Line="27" Column="46" />
-      <File FileName="Assets/Project/Characters/Humanoid/Weapon/HitboxCreatorProjectileInstant.cs" Line="11" Column="29" />
-      <File FileName="Assets/Project/Characters/Humanoid/Weapon/Weapon.cs" Line="133" Column="28" />
-      <File FileName="Assets/Project/Characters/Humanoid/Stress/StressorFactory.cs" Line="12" Column="69" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidActionCoordinator.cs" Line="164" Column="64" />
-      <File FileName="Assets/Project/Environment/MapBound.cs" Line="22" Column="18" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidActionCoordinator.cs" Line="179" Column="64" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="97" Column="36" />
+      <File FileName="Assets/Project/Control/PlayerController.cs" Line="135" Column="35" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidAILinker.cs" Line="42" Column="5" />
+      <File FileName="Assets/Project/Control/Controller.cs" Line="171" Column="58" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidAI.txt" Line="14" Column="13" />
+      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="171" Column="9" />
+      <File FileName="Assets/Project/Environment/MapBound.cs" Line="18" Column="71" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
