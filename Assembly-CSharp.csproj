@@ -81,8 +81,10 @@
     <Compile Include="Assets\Project\Camera\FocusStrategy.cs" />
     <Compile Include="Assets\Project\Camera\GameplayCamera.cs" />
     <Compile Include="Assets\Project\Camera\IdleStrategy.cs" />
-    <Compile Include="Assets\Project\Characters\AIManager.cs" />
-    <Compile Include="Assets\Project\Characters\CharacterManager.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\BlackBoard.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\BlackBoardCommunicator.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyMarker.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyTarget.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AnimationClipSwitcher.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidActionCoordinator.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidAILinker.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidInteractions.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidModel.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidScriptHandle.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidStore.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidTaskExecuter.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Amy\AmyAILinker.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Amy\AmyModel.cs" />
