@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs" Line="92" Column="10" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeterCommunicator.cs" Line="64" Column="5" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs" Line="82" Column="30" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeterCommunicator.cs" Line="29" Column="1" />
       <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/EnemyMarker.cs" Line="10" Column="45" />
       <File FileName="Assets/Project/Characters/Humanoid/HumanoidActionCoordinator.cs" Line="178" Column="20" />
       <File FileName="Assets/Project/Characters/Humanoid/HumanoidDirection.cs" Line="20" Column="47" />
