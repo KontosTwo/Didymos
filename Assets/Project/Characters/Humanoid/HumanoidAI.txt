@@ -1,0 +1,14 @@
+﻿tree("Root")
+    while
+        IsActive
+        tree("WhileActive")
+
+tree("WhileActive")
+    while
+        not
+            IsFlinch
+        tree("WhileNotHitstun")
+
+
+tree("WhileNotHitstun")
+    Wait(1.0)
