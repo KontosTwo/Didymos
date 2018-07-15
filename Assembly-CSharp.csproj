@@ -136,6 +136,7 @@
     <Compile Include="Assets\Project\Script\Script.cs" />
     <Compile Include="Assets\Project\Test\DebugCubes.cs" />
     <Compile Include="Assets\Project\Test\DebugGunfire.cs" />
+    <Compile Include="Assets\Project\Test\EnemyTargeterDebugger.cs" />
     <Compile Include="Assets\Project\Test\RotateAround.cs" />
     <Compile Include="Assets\Project\Test\Test.cs" />
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />

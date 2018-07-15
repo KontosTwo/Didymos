@@ -1,13 +1,12 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Targeting/EnemyMarker.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs" Line="82" Column="30" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeterCommunicator.cs" Line="29" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/EnemyMarker.cs" Line="10" Column="45" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidActionCoordinator.cs" Line="178" Column="20" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidDirection.cs" Line="20" Column="47" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="52" Column="33" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs" Line="54" Column="27" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeterCommunicator.cs" Line="87" Column="34" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/EnemyMarker.cs" Line="23" Column="66" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidActionCoordinator.cs" Line="28" Column="42" />
+      <File FileName="Assets/Project/Test/EnemyTargeterDebugger.cs" Line="24" Column="60" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
