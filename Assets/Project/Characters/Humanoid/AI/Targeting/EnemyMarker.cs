@@ -38,6 +38,8 @@ public class EnemyMarker{
     }
 
     public void SwitchToNewFounder(HumanoidTargeter newFounder){
-        founders.Push(newFounder);
+        if(newFounder != founders.Peek()){
+            founders.Push(newFounder);
+        }
     }
 }

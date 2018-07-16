@@ -36,7 +36,7 @@ public class HumanoidTargeter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        Debug.Log(gameObject.name + ": " + hiddenEnemies.Count + " markers");
 	}
 
     public void SeesEnemy(HumanoidModel enemy, Vector3 location){
@@ -88,7 +88,7 @@ public class HumanoidTargeter : MonoBehaviour {
     public void ReceiveEnemyMarkerFromFriend(EnemyMarker marker){
         //if(!hiddenEnemies.Contains(marker)){
             AddHiddenEnemy(marker);
-        marker.SwitchToNewFounder(this);
+            //marker.SwitchToNewFounder(this);
             HumanoidTargeterCommunicator.CommunicateAddEnemyMarker(this, marker);
         //}
     }
@@ -98,7 +98,7 @@ public class HumanoidTargeter : MonoBehaviour {
         //if (hiddenEnemies.Contains(marker))
         //{
             RemoveHiddenEnemy(marker);
-        marker.SwitchToNewFounder(this);
+            //marker.SwitchToNewFounder(this);
             HumanoidTargeterCommunicator.CommunicateDeleteEnemyMarker(this,marker);
         //}
     }
