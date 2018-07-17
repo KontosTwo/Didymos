@@ -11,7 +11,7 @@ public class EnemyTargeterDebugger : MonoBehaviour {
 
     private void Awake()
     {
-        enemyMarkers = new HashSet<EnemyMarker>(new HiddenEnemyComparer());
+        enemyMarkers = new HashSet<EnemyMarker>();
         instance = this;
     }
     // Use this for initialization

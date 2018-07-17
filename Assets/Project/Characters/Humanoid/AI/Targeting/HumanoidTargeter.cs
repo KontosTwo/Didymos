@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 public class HumanoidTargeter : MonoBehaviour {
     [SerializeField]
@@ -22,6 +23,7 @@ public class HumanoidTargeter : MonoBehaviour {
     private EnemyMarker currentHiddenEnemy;
     private bool hasHiddenEnemy;
     private Dictionary<HumanoidModel,EnemyTarget> viewableEnemies;
+    private DateTime lastUpdated;
 
     private void Awake()
     {
@@ -50,7 +52,7 @@ public class HumanoidTargeter : MonoBehaviour {
             foreach(EnemyMarker marker in hiddenEnemies){
                 if (Vector3.Distance(location, marker.GetLocation()) < hiddenEnemyRadius){
                     RemoveHiddenEnemy(marker);
-                    HumanoidTargeterCommunicator.CommunicateDeleteEnemyMarker(this, marker);
+                    //HumanoidTargeterCommunicator.CommunicateDeleteEnemyMarker(this, marker);
                     break;
                 }
             }
@@ -69,7 +71,7 @@ public class HumanoidTargeter : MonoBehaviour {
             // avoid clustering enemy markers in one spot
             if (NoMarkerTooCloseTo(newMarker)){
                 AddHiddenEnemy(newMarker);
-                HumanoidTargeterCommunicator.CommunicateAddEnemyMarker(this, newMarker);
+                //HumanoidTargeterCommunicator.CommunicateAddEnemyMarker(this, newMarker);
             }
         }
     }
@@ -89,7 +91,7 @@ public class HumanoidTargeter : MonoBehaviour {
         //if(!hiddenEnemies.Contains(marker)){
             AddHiddenEnemy(marker);
             //marker.SwitchToNewFounder(this);
-            HumanoidTargeterCommunicator.CommunicateAddEnemyMarker(this, marker);
+            //HumanoidTargeterCommunicator.CommunicateAddEnemyMarker(this, marker);
         //}
     }
 
@@ -99,7 +101,7 @@ public class HumanoidTargeter : MonoBehaviour {
         //{
             RemoveHiddenEnemy(marker);
             //marker.SwitchToNewFounder(this);
-            HumanoidTargeterCommunicator.CommunicateDeleteEnemyMarker(this,marker);
+            //HumanoidTargeterCommunicator.CommunicateDeleteEnemyMarker(this,marker);
         //}
     }
 
@@ -161,6 +163,12 @@ public class HumanoidTargeter : MonoBehaviour {
     private void RemoveHiddenEnemy(EnemyMarker marker){
         hiddenEnemies.Remove(marker);
         marker.usedBy.Remove(this);
+    }
+
+    private void CommunicateUpdate()
+    {
+        lastUpdated = DateTime.Now;
+        HumanoidTargeterCommunication2.CommunicateUpdate();
     }
 
     private void OnDrawGizmos()

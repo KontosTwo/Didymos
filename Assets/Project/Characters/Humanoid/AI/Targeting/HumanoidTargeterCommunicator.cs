@@ -34,6 +34,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
     }
 
     public static void CommunicateAddEnemyMarker(HumanoidTargeter origin, EnemyMarker marker){
+        //DeleteExistingDeleteEnemyMarker(marker);
         bool communicatedByMouth = false;
         bool communicatedByRadio = false;
         //DeleteExistingDeleteEnemyMarker(marker);
@@ -41,7 +42,9 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
         List<IEnumerator> addMarkerCoroutines = new List<IEnumerator>();
         foreach(HumanoidTargeter targeter in instance.targeters){
             //Debug.Log(targeter.gameObject.name + " does not have origin: " + !targeter.AlreadyHasMarker(marker));
-            if(targeter != origin && !targeter.AlreadyHasMarker(marker) /*&& !AlreadyAddCommunicating(marker,origin)*/){
+            if(targeter != origin  && !marker.AlreadyCommunicatedAdd(targeter) /* !targeter.AlreadyHasMarker(marker) /*&& !AlreadyAddCommunicating(marker,origin)*/){
+                marker.CommunicateAddBy(origin);
+
                 if (origin.CanCommunicate(targeter)){
 
                     IEnumerator newCoroutine = CreateAddEnemyMarkerCoroutine(
@@ -70,6 +73,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
         }
         if(addMarkerCoroutines.Count != 0){
             Communicator communicator = new Communicator(
+                origin,
                 marker,
                 addMarkerCoroutines
             );
@@ -99,7 +103,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
         {
             var communicator = instance.addEnemyMarkerCommunicators[i];
             //Debug.Log(communicator.enemyMarker.GetFounder().Equals(whoToInterrupt));
-            if(communicator.enemyMarker.GetFounder().Equals( whoToInterrupt)){
+            if(communicator.origin ==  whoToInterrupt){
                 List<IEnumerator> coroutines = communicator.coroutines;
                 coroutines.ForEach(c => instance.StopCoroutine(c));
                 instance.addEnemyMarkerCommunicators.Remove(communicator);
@@ -114,9 +118,9 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
         bool communicatedByRadio = false;
         foreach (HumanoidTargeter targeter in instance.targeters)
         {
-            if (targeter != origin && targeter.AlreadyHasMarker(marker) /*&& !AlreadyDeleteCommunicating(marker)*/)
+            if (targeter != origin && !marker.AlreadyCommunicatedDelete(targeter) /*&& targeter.AlreadyHasMarker(marker) /*&& !AlreadyDeleteCommunicating(marker)*/)
             {
-                
+                marker.CommunicateDeleteBy(origin);
                 if (origin.CanCommunicate(targeter))
                 {
                     IEnumerator newCoroutine = CreateDeleteEnemyMarkerCoroutine(
@@ -127,9 +131,6 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
                     );
                     deleteMarkerCoroutines.Add(newCoroutine);
                     instance.StartCoroutine(newCoroutine);
-                    instance.deleteEnemyMarkerCommunicators.Add(new Communicator(
-                        marker, deleteMarkerCoroutines
-                    ));
                     communicatedByMouth = true;
                 }else if(targeter.HasRadio() && origin.HasRadio())
                 {
@@ -141,9 +142,6 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
                     );
                     deleteMarkerCoroutines.Add(newCoroutine);
                     instance.StartCoroutine(newCoroutine);
-                    instance.deleteEnemyMarkerCommunicators.Add(new Communicator(
-                        marker, deleteMarkerCoroutines
-                    ));
                     communicatedByRadio = true;
                 }
             }
@@ -151,6 +149,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
         if (deleteMarkerCoroutines.Count != 0)
         {
             Communicator communicator = new Communicator(
+                origin,
                 marker,
                 deleteMarkerCoroutines
             );
@@ -188,7 +187,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
     private static void DeleteExistingAddEnemyMarker(EnemyMarker deleting){
         for (int i = 0; i < instance.addEnemyMarkerCommunicators.Count; i ++){
             var communicator = instance.addEnemyMarkerCommunicators[i];
-            if (communicator.SameMarker(deleting))
+            if (communicator.SameMarkerAs(deleting))
             {
                 communicator.coroutines.ForEach(c => instance.StopCoroutine(c));
                 instance.addEnemyMarkerCommunicators.Remove(communicator);
@@ -201,7 +200,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
         for (int i = 0; i < instance.deleteEnemyMarkerCommunicators.Count; i++)
         {
             var communicator = instance.deleteEnemyMarkerCommunicators[i];
-            if (communicator.SameMarker(deleting))
+            if (communicator.origin == deleting.GetFounder())
             {
                 communicator.coroutines.ForEach(c => instance.StopCoroutine(c));
                 instance.deleteEnemyMarkerCommunicators.Remove(communicator);
@@ -214,7 +213,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
         for (int i = 0; i < instance.deleteEnemyMarkerCommunicators.Count; i ++){
             var communicator = instance.deleteEnemyMarkerCommunicators[i];
            
-            if (communicator.enemyMarker.GetFounder().Equals(whoToInterrupt))
+            if (communicator.origin == whoToInterrupt)
             {
                 List<IEnumerator> coroutines = communicator.coroutines;
                 coroutines.ForEach(c => instance.StopCoroutine(c));
@@ -230,8 +229,12 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
                                                       EnemyMarker marker,
                                                       float time){
         yield return new WaitForSeconds(time);
-        marker.SwitchToNewFounder(from);
-        targeter.ReceiveEnemyMarkerFromFriend(marker);
+        //if(!targeter.AlreadyHasMarker(marker))
+        {
+            marker.SwitchToNewFounder(from);
+            targeter.ReceiveEnemyMarkerFromFriend(marker);
+        }
+
     }
 
     private static IEnumerator CreateDeleteEnemyMarkerCoroutine(HumanoidTargeter from,
@@ -239,11 +242,15 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
                                                       EnemyMarker marker,
                                                       float time)
     {
+        //Debug.Log("communicating deleting by " + from.name);
         yield return new WaitForSeconds(time);
-        marker.SwitchToNewFounder(from);
-        targeter.DeleteEnemyMarkerFromFriend(marker);
+        //if (targeter.AlreadyHasMarker(marker))
+        {
+            marker.SwitchToNewFounder(from);
+            targeter.DeleteEnemyMarkerFromFriend(marker);
+        }
     }
-
+    /*
     private static Communicator MatchIssuer(EnemyMarker marker){
         return 
             instance.addEnemyMarkerCommunicators.Find(c => c.SameIssuer(marker));
@@ -253,7 +260,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
     {
         return
             instance.addEnemyMarkerCommunicators.Find(c => c.SameMarker(marker));
-    }
+    }*/
 
     private static IEnumerator GetRemoveFromCommunicatorList(float seconds,
                                                       List<Communicator> list,
@@ -263,25 +270,23 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
     }
 
     private class Communicator{
-        public EnemyMarker enemyMarker;
+        public HumanoidTargeter origin;
+        public EnemyMarker marker;
         public List<IEnumerator> coroutines;
 
-        public Communicator(EnemyMarker enemyMarker,
+        public Communicator(HumanoidTargeter origin,
+                            EnemyMarker marker,
                             List<IEnumerator> coroutines){
-            this.enemyMarker = enemyMarker;
+            this.marker = marker;
+            this.origin = origin;
             this.coroutines = coroutines;
         }
 
-        public bool SameIssuer(EnemyMarker other){
-            return this.enemyMarker.GetEnemy().Equals(other.GetEnemy()) &&
-                       this.enemyMarker.GetLocation().Equals(other.GetLocation()) &&
-                       this.enemyMarker.GetFounder().Equals(other.GetFounder());
+        public bool SameMarkerAs(EnemyMarker other){
+            return other.GetEnemy() == marker.GetEnemy() &&
+                        other.GetLocation() == marker.GetLocation();
         }
 
-        public bool SameMarker(EnemyMarker other)
-        {
-            return this.enemyMarker.GetEnemy().Equals(other.GetEnemy()) &&
-                       this.enemyMarker.GetLocation().Equals(other.GetLocation());
-        }
+
     }
 }
