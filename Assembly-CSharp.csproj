@@ -81,11 +81,12 @@
     <Compile Include="Assets\Project\Camera\FocusStrategy.cs" />
     <Compile Include="Assets\Project\Camera\GameplayCamera.cs" />
     <Compile Include="Assets\Project\Camera\IdleStrategy.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyMarker.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicationPackage.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyMarker.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyTarget.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeter.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeterCommunication2.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeterCommunication.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeterCommunicator.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AIHumanoidModel.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AnimationClipSwitcher.cs" />

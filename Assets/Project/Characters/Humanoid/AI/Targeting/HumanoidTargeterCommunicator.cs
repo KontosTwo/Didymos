@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class HumanoidTargeterCommunicator : MonoBehaviour {
 
 
@@ -42,7 +42,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
         List<IEnumerator> addMarkerCoroutines = new List<IEnumerator>();
         foreach(HumanoidTargeter targeter in instance.targeters){
             //Debug.Log(targeter.gameObject.name + " does not have origin: " + !targeter.AlreadyHasMarker(marker));
-            if(targeter != origin  && !marker.AlreadyCommunicatedAdd(targeter) /* !targeter.AlreadyHasMarker(marker) /*&& !AlreadyAddCommunicating(marker,origin)*/){
+            if(targeter != origin  && !marker.AlreadyCommunicatedAdd(targeter) /* !targeter.AlreadyHasMarker(marker) /*&& !AlreadyAddCommunicating(marker,origin)){
                 marker.CommunicateAddBy(origin);
 
                 if (origin.CanCommunicate(targeter)){
@@ -118,7 +118,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
         bool communicatedByRadio = false;
         foreach (HumanoidTargeter targeter in instance.targeters)
         {
-            if (targeter != origin && !marker.AlreadyCommunicatedDelete(targeter) /*&& targeter.AlreadyHasMarker(marker) /*&& !AlreadyDeleteCommunicating(marker)*/)
+            if (targeter != origin && !marker.AlreadyCommunicatedDelete(targeter) /*&& targeter.AlreadyHasMarker(marker) /*&& !AlreadyDeleteCommunicating(marker))
             {
                 marker.CommunicateDeleteBy(origin);
                 if (origin.CanCommunicate(targeter))
@@ -183,7 +183,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
      * If an add marker communication starts and then a delete marker
      * communication starts before it finishes, delete the add marker 
      * communication
-     */
+     
     private static void DeleteExistingAddEnemyMarker(EnemyMarker deleting){
         for (int i = 0; i < instance.addEnemyMarkerCommunicators.Count; i ++){
             var communicator = instance.addEnemyMarkerCommunicators[i];
@@ -260,7 +260,7 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
     {
         return
             instance.addEnemyMarkerCommunicators.Find(c => c.SameMarker(marker));
-    }*/
+    }
 
     private static IEnumerator GetRemoveFromCommunicatorList(float seconds,
                                                       List<Communicator> list,
@@ -290,3 +290,4 @@ public class HumanoidTargeterCommunicator : MonoBehaviour {
 
     }
 }
+*/

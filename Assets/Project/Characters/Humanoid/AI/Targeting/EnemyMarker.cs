@@ -6,20 +6,19 @@ using UnityEditor;
 public class EnemyMarker{
     private Vector3 location;
     private HumanoidModel target;
-    private Stack<HumanoidTargeter> founders;
-    private HashSet<HumanoidTargeter> alreadyCommunicatedAdd;
-    private HashSet<HumanoidTargeter> alreadyCommunicatedDelete;
+    //private Stack<HumanoidTargeter> founders;
+    //private HashSet<HumanoidTargeter> alreadyCommunicatedAdd;
+    //private HashSet<HumanoidTargeter> alreadyCommunicatedDelete;
 
     public List<HumanoidTargeter> usedBy;
 
     public EnemyMarker(HumanoidModel target,Vector3 location,HumanoidTargeter founder){
         this.location = location;
         this.target = target;
-        founders = new Stack<HumanoidTargeter>();
-        founders.Push(founder);
-        alreadyCommunicatedAdd = new HashSet<HumanoidTargeter>();
-        alreadyCommunicatedDelete = new HashSet<HumanoidTargeter>();
-
+       // founders = new Stack<HumanoidTargeter>();
+        //founders.Push(founder);
+        //alreadyCommunicatedAdd = new HashSet<HumanoidTargeter>();
+        //alreadyCommunicatedDelete = new HashSet<HumanoidTargeter>();
         usedBy = new List<HumanoidTargeter>();
     }
 
@@ -35,18 +34,19 @@ public class EnemyMarker{
     public Vector3 GetLocation()
     {
         return location; 
-
     }
+    /*
     public HumanoidTargeter GetFounder(){
         return founders.Peek();
     }
+
 
     public void SwitchToNewFounder(HumanoidTargeter newFounder){
         if(newFounder != founders.Peek()){
             founders.Push(newFounder);
         }
     }
-
+    /*
     public bool AlreadyCommunicatedAdd(HumanoidTargeter targeter){
         return alreadyCommunicatedAdd.Contains(targeter);
     }
@@ -61,5 +61,5 @@ public class EnemyMarker{
     public void CommunicateDeleteBy(HumanoidTargeter targeter)
     {
         alreadyCommunicatedDelete.Add(targeter);
-    }
+    }*/
 }

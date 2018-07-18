@@ -3,28 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CommunicationPackage  {
-    private HashSet<EnemyMarker> payload;
+public class CommunicationPackage <T> {
+    private HashSet<T> payload;
     private HumanoidTargeter issuer;
 
-    private DateTime issued;
     private HashSet<HumanoidTargeter> alreadyCommunicated;
 
-    public CommunicationPackage(HashSet<EnemyMarker> payload,
+    public CommunicationPackage(HashSet<T> payload,
                                 HumanoidTargeter origin){
-        this.payload = payload;
+        this.payload = new HashSet<T>(payload);
         issuer = origin;
-        issued = DateTime.Now;
         alreadyCommunicated = new HashSet<HumanoidTargeter>();
         alreadyCommunicated.Add(origin);
     }
 
-    public void ChangeIssuer(HumanoidTargeter newIssuer){
-        issuer = newIssuer;
-        alreadyCommunicated.Add(newIssuer);
+    public CommunicationPackage<T> ChangeIssuer(HumanoidTargeter newIssuer){
+        CommunicationPackage<T> newPackage = new CommunicationPackage<T>(
+            new HashSet<T>(this.payload),
+            newIssuer
+        );
+        newPackage.alreadyCommunicated = new HashSet<HumanoidTargeter>(
+            this.alreadyCommunicated
+        );
+        newPackage.alreadyCommunicated.Add(newIssuer);
+        return newPackage;
     }
 
-    public bool IsOutOfDate(DateTime recieverLastUpdated){
-        return DateTime.Compare(recieverLastUpdated, issued) < 0;
+    public void AddToCommunicated(HumanoidTargeter targeter){
+        alreadyCommunicated.Add(targeter);
+    }
+
+    public bool AlreadyCommunicated(HumanoidTargeter targeter){
+        return alreadyCommunicated.Contains(targeter);
+    }
+
+    public HashSet<T> GetPayload(){
+        return new HashSet<T>(payload);
+    }
+
+    public HumanoidTargeter GetIssuer(){
+        return issuer;
     }
 }

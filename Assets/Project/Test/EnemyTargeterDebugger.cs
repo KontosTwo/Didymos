@@ -41,7 +41,6 @@ public class EnemyTargeterDebugger : MonoBehaviour {
             {
                 names += targeter.gameObject.name + "\n";
             }
-            names += "Founder: " + marker.GetFounder().gameObject.name;
             Handles.Label(
                 marker.GetLocation(),
                 names
