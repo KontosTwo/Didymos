@@ -8,13 +8,13 @@ public class HumanoidTargeterCommunication : MonoBehaviour {
     private static HumanoidTargeterCommunication instance;
 
     private HashSet<HumanoidTargeter> targeters;
-    private HashSet<Communicator> communicators;
+    private List<Communicator> communicators;
 
     // Use this for initialization
     private void Awake()
     {
         targeters = new HashSet<HumanoidTargeter>();
-        communicators = new HashSet<Communicator>();
+        communicators = new List<Communicator>();
         instance = this;
     }
     void Start()
@@ -25,7 +25,7 @@ public class HumanoidTargeterCommunication : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        // Debug.Log(addEnemyMarkerCommunicators.Count);
+       // Debug.Log(communicators.Count);
     }
 
     public static void AddBlackBoardSubscriber(HumanoidTargeter blackBoard)
@@ -104,7 +104,13 @@ public class HumanoidTargeterCommunication : MonoBehaviour {
 
     public static void InterruptUpdate(HumanoidTargeter whoToInterrupt)
     {
-        
+        instance.communicators.ForEach(c =>
+        {
+            if(c.issuer == whoToInterrupt){
+                c.coroutines.ForEach(co => instance.StopCoroutine(co));
+                instance.communicators.Remove(c);
+            }
+        });
     }
 
     private static IEnumerator CreateCommunicatorCoroutine(float timeToCommunicate,

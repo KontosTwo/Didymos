@@ -17,11 +17,13 @@ public class CommunicationPackage <T> {
         alreadyCommunicated.Add(origin);
     }
 
-    public CommunicationPackage<T> ChangeIssuer(HumanoidTargeter newIssuer){
+    public CommunicationPackage<T> RecievedBy(HumanoidTargeter newIssuer,
+                                             HashSet<T> newPayload){
         CommunicationPackage<T> newPackage = new CommunicationPackage<T>(
-            new HashSet<T>(this.payload),
+            new HashSet<T>(newPayload),
             newIssuer
         );
+        Debug.Log("Inside RecievedBy of issuer " + newIssuer.gameObject.name + " " + newPayload.Count + " "  + newPackage.GetPayload().Count);
         newPackage.alreadyCommunicated = new HashSet<HumanoidTargeter>(
             this.alreadyCommunicated
         );

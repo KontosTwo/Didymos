@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.Linq;
 
 public class HumanoidTargeter : MonoBehaviour {
     [SerializeField]
@@ -38,8 +39,12 @@ public class HumanoidTargeter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(gameObject.name + ": " + hiddenEnemies.Count + " markers");
+        //Debug.Log(gameObject.name + ": " + hiddenEnemies.Count + " markers, of which " + ValidMarkers() + " is valid");
 	}
+
+    private int ValidMarkers(){
+        return hiddenEnemies.Where(m => m.valid).Count();
+    }
 
     public void SeesEnemy(HumanoidModel enemy, Vector3 location){
         /*
@@ -103,20 +108,22 @@ public class HumanoidTargeter : MonoBehaviour {
 
     public void RecieveCommunication(CommunicationPackage<CommunicatableEnemyMarker> package){
         HashSet<CommunicatableEnemyMarker> markerPayload = package.GetPayload();
+        HashSet<CommunicatableEnemyMarker> toBeRemoved = new HashSet<CommunicatableEnemyMarker>();
         foreach(CommunicatableEnemyMarker marker in markerPayload){
             if(marker.valid){
-                AddHiddenEnemy(marker.GetNewMarker());
+                if (NoMarkerTooCloseTo(marker)){
+                    AddHiddenEnemy(marker.GetNewMarker());
+                }
             }else{
-                RemoveHiddenEnemy(marker.GetNewMarker());
+                Debug.Log("removing");
+                hiddenEnemies.Add(marker);
             }
         }
 
-
-
-
-
-
-        HumanoidTargeterCommunication.Communicate(package.ChangeIssuer(this));
+        HumanoidTargeterCommunication.Communicate(package.RecievedBy(this,hiddenEnemies));
+        foreach(var remove in toBeRemoved){
+            RemoveHiddenEnemy(remove);
+        }
     }
 
     public void InterruptCommunication(){
@@ -159,7 +166,8 @@ public class HumanoidTargeter : MonoBehaviour {
         }
     }
 
-    private void AddHiddenEnemy(CommunicatableEnemyMarker marker){
+    private void AddHiddenEnemy(CommunicatableEnemyMarker marker)
+    {
         hiddenEnemies.Add(marker);
         EnemyTargeterDebugger.AddEnemyMarker(marker.enemyMarker);
         marker.enemyMarker.usedBy.Add(this);
