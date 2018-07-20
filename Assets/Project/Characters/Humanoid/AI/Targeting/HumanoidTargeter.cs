@@ -27,7 +27,6 @@ public class HumanoidTargeter : MonoBehaviour {
     private EnemyMarker currentHiddenEnemy;
     private bool hasHiddenEnemy;
     private Dictionary<HumanoidModel,EnemyTarget> viewableEnemies;
-    private DateTime lastUpdated;
 
     private void Awake()
     {
@@ -195,5 +194,9 @@ public class HumanoidTargeter : MonoBehaviour {
             Gizmos.color = Color.grey;
             Gizmos.DrawCube(target.GetLocation(), new Vector3(1, 1, 1));
         }
+    }
+
+    public void AddEnemyMarker(CommunicatableEnemyMarker newCMarker){
+        AddHiddenEnemy(newCMarker);
     }
 }

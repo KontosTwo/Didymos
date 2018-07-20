@@ -1,14 +1,13 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Utility/NewClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs" Line="110" Column="96" />
+      <File FileName="Assets/Project/Test/MarkerSetter.cs" Line="33" Column="9" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidStore.cs" Line="14" Column="31" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs" Line="199" Column="50" />
       <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/EnemyMarker.cs" Line="30" Column="36" />
-      <File FileName="Assets/Project/Test/EnemyTargeterDebugger.cs" Line="44" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/CommunicatableEnemyMarker.cs" Line="20" Column="26" />
-      <File FileName="Assets/Project/Utility/NewClass.cs" Line="5" Column="9" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/CommunicationPackage.cs" Line="25" Column="10" NotebookId="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeterCommunication.cs" Line="38" Column="9" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/CommunicationPackage.cs" Line="49" Column="41" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeterCommunication.cs" Line="120" Column="80" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

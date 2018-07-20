@@ -87,7 +87,6 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyTarget.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeter.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeterCommunication.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeterCommunicator.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AIHumanoidModel.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AnimationClipSwitcher.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidActionCoordinator.cs" />
@@ -140,6 +139,7 @@
     <Compile Include="Assets\Project\Test\DebugCubes.cs" />
     <Compile Include="Assets\Project\Test\DebugGunfire.cs" />
     <Compile Include="Assets\Project\Test\EnemyTargeterDebugger.cs" />
+    <Compile Include="Assets\Project\Test\MarkerSetter.cs" />
     <Compile Include="Assets\Project\Test\RotateAround.cs" />
     <Compile Include="Assets\Project\Test\Test.cs" />
     <Compile Include="Assets\Project\Utility\Address.cs" />
