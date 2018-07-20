@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.Linq;
-
+/*
+ * If there is a bug, chances are you didn't
+ * create a deep copy of something
+ */
 public class HumanoidTargeter : MonoBehaviour {
     [SerializeField]
     private Transform centerBottom;
@@ -39,7 +42,7 @@ public class HumanoidTargeter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log(gameObject.name + ": " + hiddenEnemies.Count + " markers, of which " + ValidMarkers() + " is valid");
+       // Debug.Log(gameObject.name + ": " + hiddenEnemies.Count + " markers, of which " + ValidMarkers() + " is valid");
 	}
 
     private int ValidMarkers(){
@@ -58,8 +61,8 @@ public class HumanoidTargeter : MonoBehaviour {
                 if (Vector3.Distance(location, marker.enemyMarker.GetLocation()) < hiddenEnemyRadius){
                     marker.valid = false;
                     HumanoidTargeterCommunication.Communicate(
-                        new CommunicationPackage<CommunicatableEnemyMarker>(
-                            hiddenEnemies,
+                        new CommunicationPackage(
+                            GetDeepCopyOfHiddenEnemies(),
                             this
                         )
                     );
@@ -86,8 +89,8 @@ public class HumanoidTargeter : MonoBehaviour {
             if (NoMarkerTooCloseTo(newCMarker)){
                 AddHiddenEnemy(newCMarker);
                 HumanoidTargeterCommunication.Communicate(
-                    new CommunicationPackage<CommunicatableEnemyMarker>(
-                        hiddenEnemies,
+                    new CommunicationPackage(
+                        GetDeepCopyOfHiddenEnemies(),
                         this
                     )
                 );
@@ -106,24 +109,20 @@ public class HumanoidTargeter : MonoBehaviour {
         return true;
     }
 
-    public void RecieveCommunication(CommunicationPackage<CommunicatableEnemyMarker> package){
+    public void RecieveCommunication(CommunicationPackage package){
+        //Debug.Log("Sent by: " + package.GetIssuer().gameObject.name + " to " + this.gameObject.name + " for package " + package.id);
         HashSet<CommunicatableEnemyMarker> markerPayload = package.GetPayload();
-        HashSet<CommunicatableEnemyMarker> toBeRemoved = new HashSet<CommunicatableEnemyMarker>();
         foreach(CommunicatableEnemyMarker marker in markerPayload){
             if(marker.valid){
                 if (NoMarkerTooCloseTo(marker)){
                     AddHiddenEnemy(marker.GetNewMarker());
                 }
             }else{
-                Debug.Log("removing");
-                hiddenEnemies.Add(marker);
+                RemoveHiddenEnemy(marker);
             }
         }
 
-        HumanoidTargeterCommunication.Communicate(package.RecievedBy(this,hiddenEnemies));
-        foreach(var remove in toBeRemoved){
-            RemoveHiddenEnemy(remove);
-        }
+        HumanoidTargeterCommunication.Communicate(package.RecievedBy(this));
     }
 
     public void InterruptCommunication(){
@@ -149,6 +148,15 @@ public class HumanoidTargeter : MonoBehaviour {
 
     public bool CanCommunicate(HumanoidTargeter other){
         return Vector3.Distance(centerBottom.position, other.centerBottom.position) < communicateRadius;
+    }
+
+    private HashSet<CommunicatableEnemyMarker> GetDeepCopyOfHiddenEnemies()
+    {
+        HashSet<CommunicatableEnemyMarker> copy = new HashSet<CommunicatableEnemyMarker>();
+        foreach(var marker in hiddenEnemies){
+            copy.Add(marker.GetNewMarker());
+        }
+        return copy;
     }
 
 

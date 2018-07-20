@@ -142,6 +142,7 @@
     <Compile Include="Assets\Project\Test\EnemyTargeterDebugger.cs" />
     <Compile Include="Assets\Project\Test\RotateAround.cs" />
     <Compile Include="Assets\Project\Test\Test.cs" />
+    <Compile Include="Assets\Project\Utility\Address.cs" />
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />
     <Compile Include="Assets\Project\Utility\FastMath.cs" />
     <Compile Include="Assets\Project\Utility\Vector3Ext.cs" />

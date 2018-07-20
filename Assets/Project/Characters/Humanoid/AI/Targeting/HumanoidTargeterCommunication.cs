@@ -33,8 +33,10 @@ public class HumanoidTargeterCommunication : MonoBehaviour {
         instance.targeters.Add(blackBoard);
     }
 
-    public static void Communicate(CommunicationPackage<CommunicatableEnemyMarker> package)
+    public static void Communicate(CommunicationPackage package)
     {
+        
+
         bool communicatedByMouth = false;
         bool communicatedByRadio = false;
         HumanoidTargeter issuer = package.GetIssuer();
@@ -46,7 +48,7 @@ public class HumanoidTargeterCommunication : MonoBehaviour {
                 if (issuer.CanCommunicate(targeter))
                 {
                     package.AddToCommunicated(targeter);
-
+//                    Debug.Log("beginning communication from " + issuer.gameObject.name + " to " + targeter.gameObject.name);
                     IEnumerator newCoroutine = CreateCommunicatorCoroutine(
                         issuer.GetTimeToCommunicateByMouth(),
                         targeter,
@@ -115,7 +117,7 @@ public class HumanoidTargeterCommunication : MonoBehaviour {
 
     private static IEnumerator CreateCommunicatorCoroutine(float timeToCommunicate,
                                                            HumanoidTargeter reciever,
-                                                           CommunicationPackage<CommunicatableEnemyMarker> package){
+                                                           CommunicationPackage package){
         yield return new WaitForSeconds(timeToCommunicate);
         reciever.RecieveCommunication(package);
     }
