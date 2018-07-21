@@ -176,12 +176,16 @@ public class HumanoidTargeter : MonoBehaviour {
     private void AddHiddenEnemy(CommunicatableEnemyMarker marker)
     {
         hiddenEnemies.Add(marker);
+        EnemyMarkerStore.AddCommunicatorSubscriber(marker);
+
         EnemyTargeterDebugger.AddEnemyMarker(marker.enemyMarker);
         marker.enemyMarker.usedBy.Add(this);
     }
 
     private void RemoveHiddenEnemy(CommunicatableEnemyMarker marker){
         hiddenEnemies.Remove(marker);
+        EnemyMarkerStore.RemoveCommunicatorSubscriber(marker);
+
         marker.enemyMarker.usedBy.Remove(this);
     }
 

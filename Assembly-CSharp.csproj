@@ -82,8 +82,10 @@
     <Compile Include="Assets\Project\Camera\GameplayCamera.cs" />
     <Compile Include="Assets\Project\Camera\IdleStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyMarker.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyTarget.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicationPackage.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyMarker.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyMarkerStore.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyTarget.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeter.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeterCommunication.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="Assets\Project\Utility\Address.cs" />
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />
     <Compile Include="Assets\Project\Utility\FastMath.cs" />
+    <Compile Include="Assets\Project\Utility\Integer.cs" />
     <Compile Include="Assets\Project\Utility\Vector3Ext.cs" />
     <None Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\Patroller.BT.txt" />
     <None Include="Assets\PandaBehaviour\Examples\01_Move\Assets\Move.BT.txt" />
