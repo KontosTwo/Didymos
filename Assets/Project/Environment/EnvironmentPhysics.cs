@@ -14,13 +14,7 @@ using UnityEngine.AI;
  * a bit beyond the camera bounds
  */
 public class EnvironmentPhysics : MonoBehaviour {
-
-
-	public Transform start;
-	public Transform target;
-	public Transform heightTool;
-	public GameObject[] debugCubes;
-
+    
 
 	private static EnvironmentPhysics instance;
 

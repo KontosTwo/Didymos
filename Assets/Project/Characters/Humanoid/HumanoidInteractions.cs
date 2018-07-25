@@ -11,19 +11,22 @@ public class HumanoidInteractions : MonoBehaviour {
     private AmyModel amyModel;
     private ChanionModel chanionModel;
     // Replace with weapon-specific soldiers
-    private List<HumanoidModel> enemiesModels;
+    private List<AIHumanoidModel> enemiesModels;
+    private List<EnemyMarker> enemyMarkers;
 
 	// Use this for initialization
 	void Start () {
         amyModel = HumanoidStore.GetAmyModel();
         chanionModel = HumanoidStore.GetChanionModel();
         enemiesModels = HumanoidStore.GetEnemiesModels();
+        enemyMarkers = EnemyMarkerStore.GetEnemyMarkers();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         SeeInteractions();
         ClosenessInteraction();
+        SeesEnemyMarker();
 	}
 
     private void SeeInteractions(){
@@ -63,5 +66,11 @@ public class HumanoidInteractions : MonoBehaviour {
 
         amyModel.EffectBenefitFromCloseness(chanionModel);
         chanionModel.EffectBenefitFromCloseness(amyModel);
+    }
+
+    private void SeesEnemyMarker(){
+        foreach(AIHumanoidModel enemy in enemiesModels){
+            enemy.EffectCheckEnemyMarkers();
+        }
     }
 }

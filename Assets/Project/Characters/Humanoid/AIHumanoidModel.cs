@@ -18,4 +18,13 @@ public class AIHumanoidModel : HumanoidModel {
         base.EffectDoesNotSeeEnemy(enemy);
         targeter.DoesNotSeeEnemy(enemy);
     }
+
+
+    public void EffectCheckEnemyMarkers()
+    {
+        HashSet<CommunicatableEnemyMarker> enemyMarkers = targeter.GetEnemyMarkers();
+        foreach(var enemyMarker in enemyMarkers){
+            
+        }
+    }
 }

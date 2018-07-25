@@ -67,6 +67,23 @@ public class HumanoidModel : MonoBehaviour{
         ) ;
     }
 
+    protected bool InfoCanSee(Vector3 location)
+    {
+        Vector3 thisVantagePoint = GetVantagePoint();
+        Vector3 otherVantagePoint = location + new Vector3(0,0.1f,0);
+        float distance = Vector3.Distance(thisVantagePoint, otherVantagePoint);
+        if (distance > sightDistance)
+        {
+            return false;
+        }
+        return direction.WithinRangeOfVision(otherVantagePoint, visionWideness)
+            && EnvironmentPhysics.LineOfSightToVantagePointExists(
+            visionSharpness,
+            thisVantagePoint,
+            otherVantagePoint
+        );
+    }
+
     public virtual void EffectOnSeeEnemy(HumanoidModel enemy){
         Vector3 thisVantagePoint = GetVantagePoint();
         Projectile thisWeapon = currentWeapon.GetProjectile();
@@ -95,6 +112,7 @@ public class HumanoidModel : MonoBehaviour{
         float distance = (centerBottom.position.x - friend.centerBottom.position.x)
             + (centerBottom.position.y - friend.centerBottom.position.y);
     }
+
 
     public void ActionStartAttack()
     {

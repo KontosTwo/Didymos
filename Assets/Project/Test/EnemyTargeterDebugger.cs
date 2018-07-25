@@ -7,26 +7,22 @@ public class EnemyTargeterDebugger : MonoBehaviour {
 
     private static EnemyTargeterDebugger instance;
 
-    private HashSet<EnemyMarker> enemyMarkers;
+    private List<EnemyMarker> enemyMarkers;
 
     private void Awake()
     {
-        enemyMarkers = new HashSet<EnemyMarker>();
         instance = this;
     }
     // Use this for initialization
     void Start () {
-		
+        enemyMarkers = EnemyMarkerStore.GetEnemyMarkers();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        enemyMarkers.RemoveWhere(m => m.usedBy.Count == 0);
 	}
 
-    public static void AddEnemyMarker(EnemyMarker marker){
-        instance.enemyMarkers.Add(marker);
-    }
 
     private void OnDrawGizmos()
     {
@@ -37,7 +33,7 @@ public class EnemyTargeterDebugger : MonoBehaviour {
             Gizmos.DrawCube(marker.GetLocation(), new Vector3(1, 1, 1));
 
             string names = "";
-            foreach (HumanoidTargeter targeter in marker.usedBy)
+            foreach (HumanoidTargeter targeter in marker.GetUsers())
             {
                 names += targeter.gameObject.name + "\n";
             }

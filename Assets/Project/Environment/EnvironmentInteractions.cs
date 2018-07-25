@@ -20,7 +20,9 @@ public class EnvironmentInteractions : MonoBehaviour {
 	void Start () {
         humanoidSubscribers.Add(HumanoidStore.GetAmyModel());
         humanoidSubscribers.Add(HumanoidStore.GetChanionModel());
-        humanoidSubscribers.AddRange(HumanoidStore.GetEnemiesModels());
+        foreach(AIHumanoidModel enemy in HumanoidStore.GetEnemiesModels()){
+            humanoidSubscribers.Add(enemy);
+        }
 	}
 	
 	// Update is called once per frame

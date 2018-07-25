@@ -24,13 +24,13 @@ public class EnemyMarkerStore : MonoBehaviour {
 
     private void Update()
     {
-        Debug.Log(GetEnemyMarkers().Count);
+       // Debug.Log(GetEnemyMarkers().Count);
     }
 
 
     public static void AddCommunicatorSubscriber(CommunicatableEnemyMarker communicator){
         Integer communicators = null;
-        EnemyMarker enemyMarker = communicator.enemyMarker;
+        EnemyMarker enemyMarker = communicator.GetEnemyMarker();
         instance.enemyMarkers.TryGetValue(enemyMarker, out communicators);
         if(communicators == null){
             instance.enemyMarkers.Add(enemyMarker, new Integer(0));
@@ -43,7 +43,7 @@ public class EnemyMarkerStore : MonoBehaviour {
     public static void RemoveCommunicatorSubscriber(CommunicatableEnemyMarker communicator)
     {
         Integer communicators = null;
-        EnemyMarker enemyMarker = communicator.enemyMarker;
+        EnemyMarker enemyMarker = communicator.GetEnemyMarker();
         instance.enemyMarkers.TryGetValue(enemyMarker, out communicators);
         if (communicators != null)
         {

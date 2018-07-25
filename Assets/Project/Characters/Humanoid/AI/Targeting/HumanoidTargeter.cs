@@ -22,6 +22,8 @@ public class HumanoidTargeter : MonoBehaviour {
     private float timeToCommunicateByRadio;
     [SerializeField]
     private float hiddenEnemyRadius;
+    [SerializeField]
+    private float checkHiddenEnemyRadius;
 
     private HashSet<CommunicatableEnemyMarker> hiddenEnemies;
     private EnemyMarker currentHiddenEnemy;
@@ -44,10 +46,6 @@ public class HumanoidTargeter : MonoBehaviour {
        // Debug.Log(gameObject.name + ": " + hiddenEnemies.Count + " markers, of which " + ValidMarkers() + " is valid");
 	}
 
-    private int ValidMarkers(){
-        return hiddenEnemies.Where(m => m.valid).Count();
-    }
-
     public void SeesEnemy(HumanoidModel enemy, Vector3 location){
         /*
          * first remove the nearest enemy marker that is in range
@@ -57,8 +55,8 @@ public class HumanoidTargeter : MonoBehaviour {
         viewableEnemies.TryGetValue(enemy, out target);
         if(target == null){
             foreach(CommunicatableEnemyMarker marker in hiddenEnemies){
-                if (Vector3.Distance(location, marker.enemyMarker.GetLocation()) < hiddenEnemyRadius){
-                    marker.valid = false;
+                if (Vector3.Distance(location, marker.GetEnemyMarker().GetLocation()) < hiddenEnemyRadius){
+                    marker.Invalidate();
                     HumanoidTargeterCommunication.Communicate(
                         new CommunicationPackage(
                             GetDeepCopyOfHiddenEnemies(),
@@ -82,7 +80,8 @@ public class HumanoidTargeter : MonoBehaviour {
             viewableEnemies.Remove(enemy);
             EnemyMarker newMarker = new EnemyMarker(enemyTarget,this);
             CommunicatableEnemyMarker newCMarker = new CommunicatableEnemyMarker(
-                newMarker
+                newMarker,
+                checkHiddenEnemyRadius
             );
             // avoid clustering enemy markers in one spot
             if (NoMarkerTooCloseTo(newCMarker)){
@@ -98,21 +97,34 @@ public class HumanoidTargeter : MonoBehaviour {
     }
 
     private bool NoMarkerTooCloseTo(CommunicatableEnemyMarker target){
-        Vector3 targetLocation = target.enemyMarker.GetLocation();
+        Vector3 targetLocation = target.GetEnemyMarker().GetLocation();
         foreach(CommunicatableEnemyMarker marker in hiddenEnemies){
-            Vector3 markerLocation = marker.enemyMarker.GetLocation();
+            Vector3 markerLocation = marker.GetEnemyMarker().GetLocation();
             if(Vector3.Distance(markerLocation,targetLocation) < hiddenEnemyRadius){
                 return false;
             }
         }
         return true;
     }
+    /*
+     * Communicator must be in hiddenEnemies
+     */
+    public void InvalidateMarker(CommunicatableEnemyMarker communicator){
+        communicator.Invalidate();
+        HumanoidTargeterCommunication.Communicate(
+            new CommunicationPackage(
+                GetDeepCopyOfHiddenEnemies(),
+                this
+            )
+        );
+        RemoveHiddenEnemy(communicator);
+    }
 
     public void RecieveCommunication(CommunicationPackage package){
         //Debug.Log("Sent by: " + package.GetIssuer().gameObject.name + " to " + this.gameObject.name + " for package " + package.id);
         HashSet<CommunicatableEnemyMarker> markerPayload = package.GetPayload();
         foreach(CommunicatableEnemyMarker marker in markerPayload){
-            if(marker.valid){
+            if(marker.IsValid()){
                 if (NoMarkerTooCloseTo(marker)){
                     AddHiddenEnemy(marker.GetNewMarker());
                 }
@@ -126,6 +138,10 @@ public class HumanoidTargeter : MonoBehaviour {
 
     public void InterruptCommunication(){
         HumanoidTargeterCommunication.InterruptUpdate(this);
+    }
+
+    public HashSet<CommunicatableEnemyMarker> GetEnemyMarkers(){
+        return hiddenEnemies;
     }
 
     public bool HasHiddenEnemy(){
@@ -161,14 +177,14 @@ public class HumanoidTargeter : MonoBehaviour {
 
     private class HiddenEnemyComparer : IEqualityComparer<CommunicatableEnemyMarker>{
         public bool Equals(CommunicatableEnemyMarker a,CommunicatableEnemyMarker b ){
-            return a.enemyMarker.GetEnemy().Equals(b.enemyMarker.GetEnemy()) &&
-                    a.enemyMarker.GetLocation().Equals(b.enemyMarker.GetLocation());
+            return a.GetEnemyMarker().GetEnemy().Equals(b.GetEnemyMarker().GetEnemy()) &&
+                    a.GetEnemyMarker().GetLocation().Equals(b.GetEnemyMarker().GetLocation());
         }
 
         public int GetHashCode(CommunicatableEnemyMarker marker){
             int hashCode = 1;
-            hashCode = 37 * hashCode + marker.enemyMarker.GetEnemy().GetHashCode();
-            hashCode = 37 * hashCode + marker.enemyMarker.GetLocation().GetHashCode();
+            hashCode = 37 * hashCode + marker.GetEnemyMarker().GetEnemy().GetHashCode();
+            hashCode = 37 * hashCode + marker.GetEnemyMarker().GetLocation().GetHashCode();
             return hashCode;
         }
     }
@@ -178,15 +194,14 @@ public class HumanoidTargeter : MonoBehaviour {
         hiddenEnemies.Add(marker);
         EnemyMarkerStore.AddCommunicatorSubscriber(marker);
 
-        EnemyTargeterDebugger.AddEnemyMarker(marker.enemyMarker);
-        marker.enemyMarker.usedBy.Add(this);
+        marker.GetEnemyMarker().AddUser(this);
     }
 
     private void RemoveHiddenEnemy(CommunicatableEnemyMarker marker){
         hiddenEnemies.Remove(marker);
         EnemyMarkerStore.RemoveCommunicatorSubscriber(marker);
 
-        marker.enemyMarker.usedBy.Remove(this);
+        marker.GetEnemyMarker().RemoveUser(this);
     }
 
     private void OnDrawGizmos()

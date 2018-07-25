@@ -6,14 +6,13 @@ using UnityEditor;
 public class EnemyMarker{
     private Vector3 location;
     private HumanoidModel target;
-    private List<CommunicatableEnemyMarker> communicators;
 
-    public List<HumanoidTargeter> usedBy;
+    private HashSet<HumanoidTargeter> usedBy;
 
     public EnemyMarker(HumanoidModel target,Vector3 location,HumanoidTargeter founder){
         this.location = location;
         this.target = target;
-        usedBy = new List<HumanoidTargeter>();
+        usedBy = new HashSet<HumanoidTargeter>();
     }
 
     public EnemyMarker(EnemyTarget target,HumanoidTargeter founder)
@@ -28,6 +27,19 @@ public class EnemyMarker{
     public Vector3 GetLocation()
     {
         return location; 
+    }
+
+    public HashSet<HumanoidTargeter> GetUsers(){
+        return usedBy;
+    }
+    public void AddUser(HumanoidTargeter targeter){
+        usedBy.Add(targeter);
+    }
+    public void RemoveUser(HumanoidTargeter targeter){
+        usedBy.Remove(targeter);
+    }
+    public bool IsUsedBy(HumanoidTargeter targeter){
+        return usedBy.Contains(targeter);
     }
 
 }

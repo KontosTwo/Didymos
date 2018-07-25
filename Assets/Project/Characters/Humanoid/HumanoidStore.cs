@@ -14,7 +14,7 @@ public class HumanoidStore : MonoBehaviour {
     private AmyModel amyModel;
     private ChanionModel chanionModel;
     // Replace with weapon-specific soldiers
-    private List<HumanoidModel> enemiesModels;
+    private List<AIHumanoidModel> enemiesModels;
 
     private static HumanoidStore instance;
 
@@ -27,10 +27,10 @@ public class HumanoidStore : MonoBehaviour {
         GameObject chanion = chanionObject.transform.GetChild(0).gameObject;
         chanionModel = chanionObject.GetComponentInChildren<ChanionModel>();
 
-        enemiesModels = new List<HumanoidModel>();
+        enemiesModels = new List<AIHumanoidModel>();
         foreach (Transform enemy in enemiesObject.transform)
         {
-            HumanoidModel model = enemy.GetComponent<HumanoidModel>();
+            AIHumanoidModel model = enemy.GetComponent<AIHumanoidModel>();
             if (model != null)
             {
                 enemiesModels.Add(model);
@@ -49,7 +49,7 @@ public class HumanoidStore : MonoBehaviour {
         return instance.chanionModel;
     }
 
-    public static List<HumanoidModel> GetEnemiesModels(){
+    public static List<AIHumanoidModel> GetEnemiesModels(){
         return instance.enemiesModels;
     }
 }

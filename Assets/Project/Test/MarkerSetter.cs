@@ -35,7 +35,8 @@ public class MarkerSetter : MonoBehaviour {
             targeters.ForEach(t =>
             {
                 CommunicatableEnemyMarker newCMarker = new CommunicatableEnemyMarker(
-                    newMarker
+                    newMarker,
+                    5
                 );
                 t.AddEnemyMarker(newCMarker);
             });
