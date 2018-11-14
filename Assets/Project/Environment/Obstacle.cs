@@ -20,6 +20,9 @@ public class Obstacle : MonoBehaviour,Projectile.IObstructable {
 	private Damage onHitByProjectile;
 	[SerializeField]
 	private bool isWalkable;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float speedModifier = 1;
     /* 
      * Obstacles such as bushes, smoke clouds, etc
      * that provide a visual obstacle, but do not factor
@@ -52,6 +55,10 @@ public class Obstacle : MonoBehaviour,Projectile.IObstructable {
 	public bool CanPhaseThrough(){
 		return canPhaseThrough;
 	}
+
+    public float GetSpeedModifier(){
+        return speedModifier;
+    }
 
 	void Start () {
 		

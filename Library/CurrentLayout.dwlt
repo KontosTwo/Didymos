@@ -40,8 +40,8 @@ MonoBehaviour:
     y: 0
     width: 511
     height: 534
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 71}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -130,10 +130,10 @@ MonoBehaviour:
     y: 30
     width: 1384
     height: 805
-  m_MinSize: {x: 679, y: 342}
-  m_MaxSize: {x: 12004, y: 8042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
-  controlID: 78
+  controlID: 60
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -154,10 +154,10 @@ MonoBehaviour:
     y: 0
     width: 1384
     height: 805
-  m_MinSize: {x: 679, y: 342}
-  m_MaxSize: {x: 12004, y: 8042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 1
-  controlID: 79
+  controlID: 61
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -179,10 +179,10 @@ MonoBehaviour:
     y: 0
     width: 1384
     height: 534
-  m_MinSize: {x: 679, y: 221}
-  m_MaxSize: {x: 12004, y: 4021}
+  m_MinSize: {x: 683, y: 221}
+  m_MaxSize: {x: 12008, y: 4021}
   vertical: 0
-  controlID: 80
+  controlID: 62
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -201,8 +201,8 @@ MonoBehaviour:
     y: 0
     width: 202
     height: 534
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_AnimEditor: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 7670
+  m_LastSelectedObjectID: -1088
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -428,25 +428,25 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 121e0000
-    m_LastClickedID: 7698
-    m_ExpandedIDs: f0fbffff00000000b21d0000bc1d0000f21d0000541e0000801e0000
+    m_SelectedIDs: c0fbffff
+    m_LastClickedID: -1088
+    m_ExpandedIDs: eafbffff00000000a21d0000a61d0000b01d0000b41d00001e1e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Marker Location
+      m_OriginalName: Marker Location
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 7560
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 9}
     m_SearchString: 
   m_ExpandedScenes:
   - Test
@@ -480,14 +480,14 @@ MonoBehaviour:
     height: 513
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 1
-  lastFramingTime: 1475.9028069972992
+  lastFramingTime: 4564.715116024017
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 72.133736, y: -0.45638883, z: 54.71209}
+    m_Target: {x: 68.19155, y: 10.271362, z: 33.425835}
     speed: 2
-    m_Value: {x: 72.133736, y: -0.45638883, z: 54.71209}
+    m_Value: {x: 68.19155, y: 10.271362, z: 33.425835}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -515,13 +515,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.42519987, y: 0.06507491, z: -0.03066585, w: -0.9022504}
+    m_Target: {x: -0.4967185, y: -0.015617446, z: 0.008949586, w: -0.86774427}
     speed: 2
-    m_Value: {x: -0.42519438, y: 0.06507408, z: -0.030665455, w: -0.9022388}
+    m_Value: {x: -0.4967102, y: -0.015617185, z: 0.008949437, w: -0.8677298}
   m_Size:
-    m_Target: 23.791712
+    m_Target: 46.695385
     speed: 2
-    m_Value: 23.791712
+    m_Value: 46.695385
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -679,20 +679,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Project/Characters/Humanoid/AI/Targeting
+    - Assets/Project/Characters/Humanoid/AI/Pathfinding
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Project/Characters/Humanoid/AI/Targeting
+  - Assets/Project/Characters/Humanoid/AI/Pathfinding
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/user/Documents/Programming/Unity/Didymos
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 364.99817}
-    m_SelectedIDs: 18170000
-    m_LastClickedID: 5912
-    m_ExpandedIDs: 00000000460c0000f60d00008611000010120000801400009a140000a8140000321500000416000046170000a2170000d0170000fa190000fe190000021a0000061b0000201b0000124000001440000016400000184000001a4000001c4000006e400000ffffff7f
+    scrollPos: {x: 0, y: 271}
+    m_SelectedIDs: 101a0000
+    m_LastClickedID: 6672
+    m_ExpandedIDs: 000000004c0c0000fc0d00008c1100001612000088140000a2140000b01400003a1500000c1600004e170000aa170000d8170000021a0000061a00000a1a0000101a0000101b00002a1b0000983f00009a3f00009c3f00009e3f0000a03f0000a23f0000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -720,7 +720,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000460c0000f60d00008611000010120000b4120000801400009a140000a8140000321500000416000046170000a2170000d0170000f8180000fa190000fe190000021a0000e81a0000061b0000201b0000124000001440000016400000184000001a4000001c400000
+    m_ExpandedIDs: 000000004c0c0000fc0d00008c1100001612000088140000a2140000b01400003a1500000c1600004e170000aa170000d8170000021a0000061a00000a1a0000101a0000101b00002a1b0000983f00009a3f00009c3f00009e3f0000a03f0000a23f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -745,8 +745,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: f61d0000
-    m_LastClickedInstanceID: 7670
+    m_SelectedInstanceIDs: 921d0000
+    m_LastClickedInstanceID: 7570
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 0a2600000c260000102600003a56000046f8ffff82eeffff72eaffff002b0000102b0000602600000a2b000042260000102700007009000096270000502d000000000000
     m_RenameOverlay:

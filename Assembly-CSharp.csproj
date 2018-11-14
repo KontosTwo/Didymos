@@ -77,7 +77,6 @@
     <Compile Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\Unit.cs" />
     <Compile Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\UnitExplosion.cs" />
     <Compile Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\WaypointPath.cs" />
-    <Compile Include="Assets\Project\AI\Pathfinding\PathfinderStrategyFactory.cs" />
     <Compile Include="Assets\Project\Camera\FocusStrategy.cs" />
     <Compile Include="Assets\Project\Camera\GameplayCamera.cs" />
     <Compile Include="Assets\Project\Camera\IdleStrategy.cs" />
@@ -89,6 +88,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathfinderStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathRequestManager.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Point.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PathfinderStrategyFactory.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Unit.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyMarker.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyTarget.cs" />
@@ -129,6 +129,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponList.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponRef.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponType.cs" />
+    <Compile Include="Assets\Project\Constants\ConversionHub.cs" />
     <Compile Include="Assets\Project\Control\Controller.cs" />
     <Compile Include="Assets\Project\Control\MouseTarget.cs" />
     <Compile Include="Assets\Project\Control\PlayerController.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />
     <Compile Include="Assets\Project\Utility\FastMath.cs" />
     <Compile Include="Assets\Project\Utility\Integer.cs" />
+    <Compile Include="Assets\Project\Utility\Vector2Ext.cs" />
     <Compile Include="Assets\Project\Utility\Vector3Ext.cs" />
     <None Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\Patroller.BT.txt" />
     <None Include="Assets\PandaBehaviour\Examples\01_Move\Assets\Move.BT.txt" />

@@ -230,6 +230,33 @@ public class EnvironmentPhysics : MonoBehaviour {
 		return height;
 	}
 
+    public static MapNode CreateMapNoteAt(float x,float z){
+        float height = 0;
+        bool heightSet = false;
+        bool walkable = true;
+        float speedModifier = 1;
+        ProcessIntersection onIntersect = (result => {
+            if(!heightSet && !result.GetObstacle().CanPhaseThrough()){
+                height = result.GetPosition().y;
+                heightSet = true;
+            }
+            if(!result.GetObstacle().IsWalkable()){
+                walkable = false;
+            }
+            speedModifier *= result.GetObstacle().GetSpeedModifier();
+        });
+        ShouldContinueRayCast continueCondition = (result => {
+            return true;
+        });
+        IncrementalRaycast(
+            new Vector3(x, instance.bottomLeftCorner.y + instance.maxDimensions.y, z),
+            new Vector3(x, instance.bottomLeftCorner.y, z),
+            onIntersect,
+            continueCondition
+        );
+        return new MapNode(height, speedModifier, walkable);
+    }
+
     public static float FindWalkableHeightAt(float x, float z){
         return FindHeightAt(x, z) + 0.01f;
     }

@@ -11,14 +11,16 @@ public class CommunicatableEnemyMarker {
     private float radius;
     private static readonly float STEPLENGTH = 1.0f;
     private static readonly float ACCEPTABLEHEIGHTDIFFERENCEBETWEENSTEPS = 1.5f;
-
+    private static readonly Projectile WHATTHEENEMYCANPASSTHROUGH = new Projectile(
+                0,
+                0.01f
+            );
     public CommunicatableEnemyMarker(EnemyMarker marker,float radius)
     {
         this.enemyMarker = marker;
         valid = true;
         this.radius = radius;
         CreateSecondaryLocations();
-        Debug.Log(System.Environment.StackTrace);
         foreach(Vector3 location in secondaryLocations){
             var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.transform.position = location;
@@ -91,16 +93,18 @@ public class CommunicatableEnemyMarker {
         Vector2 dx = direction * STEPLENGTH;
 
         int numberOfSteps = (int)(radius / STEPLENGTH);
-        for (int i = 0; i < numberOfSteps; i ++){
+        for (int i = 0; i < numberOfSteps; i++){
             secondaryLocation = center + (dx * i);
-            heightAtSecondaryLocation = 
+            heightAtSecondaryLocation =
                 EnvironmentPhysics.FindHeightAt(
                     secondaryLocation.x,
                     secondaryLocation.y
                 );
+
             if(Mathf.Abs(
                     heightAtSecondaryLocation - heightAtPreviousSecondaryLocation
-                ) > ACCEPTABLEHEIGHTDIFFERENCEBETWEENSTEPS){
+                ) > ACCEPTABLEHEIGHTDIFFERENCEBETWEENSTEPS || 
+               !EnvironmentPhysics.WalkableAt(secondaryLocation.x,secondaryLocation.y,ConversionHub.GetSoldierRadius())){
                 break;
             }
 
@@ -113,7 +117,5 @@ public class CommunicatableEnemyMarker {
             previousSecondaryLocation.y
         );
         secondaryLocations.Enqueue(secondaryLocation3);
-
-        Debug.Log(center + " " + previousSecondaryLocation);
     }
 }
