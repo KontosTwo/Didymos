@@ -92,6 +92,7 @@ public class HumanoidTargeter : MonoBehaviour {
                         this
                     )
                 );
+
             }
         }
     }

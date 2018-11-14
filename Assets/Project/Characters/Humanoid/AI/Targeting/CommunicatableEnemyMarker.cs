@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CommunicatableEnemyMarker {
     private EnemyMarker enemyMarker;
     private bool valid;
-    private List<Vector3> secondaryLocations;
+    private Queue<Vector3> secondaryLocations;
 
     private float radius;
     private static readonly float STEPLENGTH = 1.0f;
-    private static readonly float ACCEPTABLEHEIGHTDIFFERENCEBETWEENSTEPS = .5f;
+    private static readonly float ACCEPTABLEHEIGHTDIFFERENCEBETWEENSTEPS = 1.5f;
 
     public CommunicatableEnemyMarker(EnemyMarker marker,float radius)
     {
@@ -17,14 +18,23 @@ public class CommunicatableEnemyMarker {
         valid = true;
         this.radius = radius;
         CreateSecondaryLocations();
+        Debug.Log(System.Environment.StackTrace);
+        foreach(Vector3 location in secondaryLocations){
+            var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cube.transform.position = location;
+        }
+    }
+
+    private CommunicatableEnemyMarker(){
+        
     }
 
     public CommunicatableEnemyMarker GetNewMarker(){
-        CommunicatableEnemyMarker newMarker = new CommunicatableEnemyMarker(
-            this.enemyMarker,
-            this.radius
-        );
+        CommunicatableEnemyMarker newMarker = new CommunicatableEnemyMarker();
+        newMarker.radius = this.radius;
+        newMarker.enemyMarker = this.enemyMarker;
         newMarker.valid = this.valid;
+        newMarker.secondaryLocations = new Queue<Vector3>(this.secondaryLocations);
         return newMarker;
     }
 
@@ -45,19 +55,24 @@ public class CommunicatableEnemyMarker {
     }
 
     public Vector3 GetSecondaryLocation(){
-        return secondaryLocations[0];
+        return secondaryLocations.Peek();
     }
 
-    public void InvalidateSecondaryLocation(Vector3 toBeInvalidated){
-        secondaryLocations.Remove(toBeInvalidated);
+    public void InvalidateSecondaryLocation(){
+        secondaryLocations.Dequeue();
     }
 
     private void CreateSecondaryLocations(){
-        secondaryLocations = new List<Vector3>();
+        secondaryLocations = new Queue<Vector3>();
         CreateLocationInDirection(new Vector2(0, 1));
         CreateLocationInDirection(new Vector2(0, -1));
         CreateLocationInDirection(new Vector2(1, 0));
         CreateLocationInDirection(new Vector2(-1, 0));
+
+        CreateLocationInDirection(new Vector2(1, 1));
+        CreateLocationInDirection(new Vector2(-1, 1));
+        CreateLocationInDirection(new Vector2(1, -1));
+        CreateLocationInDirection(new Vector2(-1, -1));
     }
 
     private void CreateLocationInDirection(Vector2 direction){
@@ -88,6 +103,7 @@ public class CommunicatableEnemyMarker {
                 ) > ACCEPTABLEHEIGHTDIFFERENCEBETWEENSTEPS){
                 break;
             }
+
             heightAtPreviousSecondaryLocation = heightAtSecondaryLocation;
             previousSecondaryLocation = secondaryLocation;
         }
@@ -96,6 +112,8 @@ public class CommunicatableEnemyMarker {
             heightAtPreviousSecondaryLocation,
             previousSecondaryLocation.y
         );
-        secondaryLocations.Add(secondaryLocation3);
+        secondaryLocations.Enqueue(secondaryLocation3);
+
+        Debug.Log(center + " " + previousSecondaryLocation);
     }
 }
