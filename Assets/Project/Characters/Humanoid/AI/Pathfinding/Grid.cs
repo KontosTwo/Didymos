@@ -17,16 +17,17 @@ public class Grid : MonoBehaviour
 
 	private Vector2 bottomLeftCorner;
 	private Vector2 dimensions;
-    private Dictionary<Point, MapNode> sparseGrid;
+    private LinkedDictionary<Point, MapNode> sparseGrid;
 
-    private static readonly float nodeSize = 1.0f;
+    private static readonly float NODE_SIZE = 1.0f;
+    private static readonly int MAX_SPARSE_GRID_SIZE = 2000;
 
 	void Awake(){
 		Vector3 bottomLeftCorner3d = mapbounds.GetBottomLeftCorner ();
 		Vector3 dimensions3d = mapbounds.GetDimensions ();
 		bottomLeftCorner = new Vector2 (bottomLeftCorner3d.x, bottomLeftCorner3d.z);
 		dimensions = new Vector2 (dimensions3d.x, dimensions3d.z);
-        sparseGrid = new Dictionary<Point, MapNode>();
+        sparseGrid = new LinkedDictionary<Point, MapNode>();
 	}
 
 	void Start(){
@@ -38,7 +39,7 @@ public class Grid : MonoBehaviour
 	}
 
 	public Point WorldCoordToNode(Vector3 worldCoord){
-		return new Point ((int)(worldCoord.x / nodeSize - bottomLeftCorner.x), (int)(worldCoord.z / nodeSize - bottomLeftCorner.y));
+		return new Point ((int)(worldCoord.x / NODE_SIZE - bottomLeftCorner.x), (int)(worldCoord.z / NODE_SIZE - bottomLeftCorner.y));
 	}
 		
 	public Vector3 NodeToWorldCoord(Point point){
@@ -53,7 +54,6 @@ public class Grid : MonoBehaviour
         if(sparseGrid[point] == null){
             
         }
-        sparseGrid.RemoveAt()
 	}
 
 	public List<Point> GetNeighbors(Point point){
