@@ -41,18 +41,20 @@ public class Grid : MonoBehaviour
 	}
 		
 	public Vector3 NodeToWorldCoord(Point point){
-        /*return new Vector3(
-			(point.x * nodeSize  + nodeSize/2) + bottomLeftCorner.x
-			,nodes[point.x,point.y].height
-			,(point.y * nodeSize  + nodeSize/2) + bottomLeftCorner.y);*/
-        return null;
+        MapNode mapNode = GetNodeAt(point);
+        return new Vector3(
+            (point.x * NODE_SIZE  + NODE_SIZE/2) + bottomLeftCorner.x
+            ,mapNode.GetHeight()
+            ,(point.y * NODE_SIZE  + NODE_SIZE/2) + bottomLeftCorner.y);
 	}
 
 	public MapNode GetNodeAt(Point point){
         if(sparseGrid[point] == null){
-            
+            Vector3 worldCoord = NodeToWorldCoord(point);
+            MapNode newMapNode = EnvironmentPhysics.CreateMapNoteAt(worldCoord.x, worldCoord.z);
+            sparseGrid[point] = newMapNode;
         }
-        return 0;
+        return sparseGrid[point];
 	}
 
 	public List<Point> GetNeighbors(Point point){

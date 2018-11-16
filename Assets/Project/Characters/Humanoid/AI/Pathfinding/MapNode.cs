@@ -11,12 +11,12 @@ public class MapNode : Poolable<MapNode>
     private float speedModifier;
     private bool terrainIsWalkable;
 
-    /*public MapNode(float height, float speedModifier, bool walkable)
+    public MapNode(float height, float speedModifier, bool walkable)
     {
         this.height = height;
         this.speedModifier = speedModifier;
         terrainIsWalkable = walkable;
-    }*/
+    }
     static MapNode(){
         pool = new Pool<MapNode>(ESTIMATED_POOL_SIZE);
     }

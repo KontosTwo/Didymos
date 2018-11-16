@@ -254,6 +254,9 @@ public class EnvironmentPhysics : MonoBehaviour {
             onIntersect,
             continueCondition
         );
+        /*MapNode mapNode = MapNode.GetMapNode();
+        mapNode.Reinitialize(height, speedModifier, walkable);
+        return mapNode;*/
         return new MapNode(height, speedModifier, walkable);
     }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridData : MonoBehaviour {
+public class GridData {
     private Dictionary<Point, Tuple<MapNode, Point>> dict;
     private List<Tuple<MapNode, Point>> list;
 
@@ -19,7 +19,9 @@ public class GridData : MonoBehaviour {
     {
         get
         {
-            return dict[c].Item1;
+            Tuple<MapNode, Point> value = null;
+            dict.TryGetValue(c, out value);
+            return value == null ? null : value.Item1;
         }
 
         set
@@ -27,6 +29,7 @@ public class GridData : MonoBehaviour {
             if (dict.ContainsKey(c))
             {
                 list.Remove(dict[c]);
+                entryPool.Recycle(dict[c]);
             }
 
             dict[c] = entryPool.Get();
