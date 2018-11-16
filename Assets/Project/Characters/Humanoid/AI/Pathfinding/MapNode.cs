@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class MapNode : Poolable<MapNode>
 {
     private static Pool<MapNode> pool;
@@ -55,3 +55,4 @@ public class MapNode : Poolable<MapNode>
     }
 }
 
+*/

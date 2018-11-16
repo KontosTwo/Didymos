@@ -2,7 +2,7 @@
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
-
+/*
 public class GridDataTest {
     private GridData data;
     [SetUp]
@@ -18,3 +18,4 @@ public class GridDataTest {
     // A UnityTest behaves like a coroutine in PlayMode
     // and allows you to yield null to skip a frame in EditMode
 }
+*/

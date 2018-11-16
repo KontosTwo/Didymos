@@ -1,12 +1,15 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/GridData.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/Follower.cs">
     <Files>
-      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="259" Column="26" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Grid.cs" Line="46" Column="44" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/GridData.cs" Line="32" Column="44" />
+      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="260" Column="46" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Grid.cs" Line="27" Column="28" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/GridData.cs" Line="95" Column="3" />
       <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="28" Column="15" />
-      <File FileName="Assets/Project/Testing/Humanoid/AI/Pathfinding/GridDataTest.cs" Line="7" Column="1" />
+      <File FileName="Assets/Project/Testing/Humanoid/AI/Pathfinding/GridDataTest.cs" Line="21" Column="3" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/MapNode.cs" Line="58" Column="3" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderNode.cs" Line="36" Column="27" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Follower.cs" Line="27" Column="4" />
       <File FileName="Assets/Project/Utility/Pool.cs" Line="24" Column="29" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

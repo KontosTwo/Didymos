@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class GridData {
     private Dictionary<Point, Tuple<MapNode, Point>> dict;
     private List<Tuple<MapNode, Point>> list;
@@ -92,3 +92,4 @@ public class GridData {
         }
     }
 }
+*/

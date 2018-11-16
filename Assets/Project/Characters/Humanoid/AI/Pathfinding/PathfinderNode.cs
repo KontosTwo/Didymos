@@ -29,11 +29,11 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 	}
 
 	public bool isWalkable(){
-        return data.IsTerrainWalkable();
+        return data.terrainIsWalkable;
 	}
 
 	public float GetHeight(){
-        return data.GetHeight();
+        return data.height;
 	}
 
 	public int fCost
