@@ -11,13 +11,11 @@ using System;
 public class Grid : MonoBehaviour
 {
 	[SerializeField]
-	private EnvironmentPhysics environment;
-	[SerializeField]
 	private MapBound mapbounds;
 
 	private Vector2 bottomLeftCorner;
 	private Vector2 dimensions;
-    private LinkedDictionary<Point, MapNode> sparseGrid;
+    private GridData sparseGrid;
 
     private static readonly float NODE_SIZE = 1.0f;
     private static readonly int MAX_SPARSE_GRID_SIZE = 2000;
@@ -27,7 +25,7 @@ public class Grid : MonoBehaviour
 		Vector3 dimensions3d = mapbounds.GetDimensions ();
 		bottomLeftCorner = new Vector2 (bottomLeftCorner3d.x, bottomLeftCorner3d.z);
 		dimensions = new Vector2 (dimensions3d.x, dimensions3d.z);
-        sparseGrid = new LinkedDictionary<Point, MapNode>();
+        sparseGrid = new GridData(MAX_SPARSE_GRID_SIZE);
 	}
 
 	void Start(){
@@ -47,14 +45,14 @@ public class Grid : MonoBehaviour
 			(point.x * nodeSize  + nodeSize/2) + bottomLeftCorner.x
 			,nodes[point.x,point.y].height
 			,(point.y * nodeSize  + nodeSize/2) + bottomLeftCorner.y);*/
-        return new Vector3();
+        return null;
 	}
 
 	public MapNode GetNodeAt(Point point){
         if(sparseGrid[point] == null){
             
         }
-        return null;
+        return 0;
 	}
 
 	public List<Point> GetNeighbors(Point point){
@@ -103,33 +101,3 @@ public class Grid : MonoBehaviour
 }
 
 
-public class MapNode{
-    
-    private float height;
-    private float speedModifier;
-    private bool terrainIsWalkable;
-
-	public MapNode (float height,float speedModifier,bool walkable){
-		this.height = height;
-        this.speedModifier = speedModifier;
-		terrainIsWalkable = walkable;
-	}
-	
-    public void Reinitialize(float height, float speedModifier, bool walkable)
-    {
-        this.height = height;
-        this.speedModifier = speedModifier;
-        terrainIsWalkable = walkable;
-    }
-    public float GetHeight(){
-        return height;
-    }
-
-    public float GetSpeedModifier(){
-        return speedModifier;
-    }
-
-    public bool IsTerrainWalkable(){
-        return terrainIsWalkable;
-    }
-}

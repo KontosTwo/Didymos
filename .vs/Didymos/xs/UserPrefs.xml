@@ -1,9 +1,14 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Testing/Utility/LinkedDictionaryTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/MapNode.cs">
     <Files>
-      <File FileName="Assets/Project/Testing/Utility/LinkedDictionaryTest.cs" Line="17" Column="18" />
-      <File FileName="Assets/Project/Utility/LinkedDictionary.cs" Line="15" Column="6" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Grid.cs" Line="51" Column="13" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="28" Column="15" />
+      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="249" Column="25" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/MapNodePool.cs" Line="9" Column="32" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/MapNode.cs" Line="1" Column="1" />
+      <File FileName="Assets/Project/Utility/LinkedDictionary.cs" Line="25" Column="12" NotebookId="1" />
+      <File FileName="Assets/Project/Utility/Pool.cs" Line="24" Column="29" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

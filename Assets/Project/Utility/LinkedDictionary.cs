@@ -8,25 +8,34 @@ using UnityEngine;
  */
 public class LinkedDictionary<T, U>
 {
-    Dictionary<T, LinkedListNode<Tuple<U, T>>> D = new Dictionary<T, LinkedListNode<Tuple<U, T>>>();
-    LinkedList<Tuple<U, T>> LL = new LinkedList<Tuple<U, T>>();
+    private Dictionary<T, PoolableLLNode<Tuple<U, T>>> D;
+    private LinkedList<Tuple<U, T>> LL;
+
+    private Pool<PoolableLLNode<Tuple<U, T>>> nodePool;
+
+
+    public LinkedDictionary(){
+        D = new Dictionary<T, PoolableLLNode<Tuple<U, T>>>();
+        LL = new LinkedList<Tuple<U, T>>();
+        nodePool = new Pool<PoolableLLNode<Tuple<U, T>>>(20);
+    }
 
     public U this[T c]
     {
         get
         {
-            return D[c].Value.Item1;
+            return D[c].node.Value.Item1;
         }
 
         set
         {
             if (D.ContainsKey(c))
             {
-                LL.Remove(D[c]);
+                LL.Remove(D[c].node);
             }
 
-            D[c] = new LinkedListNode<Tuple<U, T>>(Tuple<U,T>.Create(value, c));
-            LL.AddLast(D[c]);
+            D[c] = new PoolableLLNode<Tuple<U, T>>(Tuple<U,T>.Create(value, c));
+            LL.AddLast(D[c].node);
         }
     }
 
@@ -63,6 +72,10 @@ public class LinkedDictionary<T, U>
         public U Item1;
         public T Item2;
 
+        public Tuple(){
+            
+        }
+
         public Tuple(U i1,T i2){
             Item1 = i1;
             Item2 = i2;
@@ -70,6 +83,18 @@ public class LinkedDictionary<T, U>
 
         public static Tuple<U,T> Create(U i1,T i2){
             return new Tuple<U,T>(i1, i2);
+        }
+    }
+
+    private class PoolableLLNode<T> : Poolable<PoolableLLNode<T>> where T: new(){
+        public LinkedListNode<T> node;
+
+        public PoolableLLNode(T data){
+            node = new LinkedListNode<T>(data);
+        }
+
+        public PoolableLLNode(){
+            node = new LinkedListNode<T>(new T());
         }
     }
 }

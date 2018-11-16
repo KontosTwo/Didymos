@@ -63,7 +63,10 @@
     <Compile Include="Assets\Project\Camera\GameplayCamera.cs" />
     <Compile Include="Assets\Project\Camera\IdleStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Grid.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\GridData.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Heap.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\MapNode.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\MapNodePool.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Path.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Pathfinder.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathfinderNode.cs" />

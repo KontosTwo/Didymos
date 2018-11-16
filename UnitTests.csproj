@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Project\Testing\Humanoid\AI\Pathfinding\GridDataTest.cs" />
     <Compile Include="Assets\Project\Testing\Utility\LinkedDictionaryTest.cs" />
     <Compile Include="Assets\Project\Testing\Utility\PoolTest.cs" />
     <Reference Include="UnityEngine.AIModule">

@@ -66,6 +66,24 @@ public class PoolTest {
 
     }
 
+    [Test]
+    public void PoolRecyclesAll()
+    {
+        var obj1 = pool.Get();
+        var obj2 = pool.Get();
+        var obj3 = pool.Get();
+        pool.Recycle(obj3);
+        pool.Recycle(obj1);
+        pool.Recycle(obj2);
+
+        var obj4 = pool.Get();
+        var obj5 = pool.Get();
+        var obj6 = pool.Get();
+
+        Assert.AreEqual(4, pool.GetSize());
+
+    }
+
     private class TestPoolableObject : Poolable<TestPoolableObject>
     {
         
