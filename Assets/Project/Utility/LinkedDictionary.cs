@@ -43,6 +43,14 @@ public class LinkedDictionary<T, U>
         return node.Value.Item1;
     }
 
+    public U PopLast()
+    {
+        var node = LL.Last;
+        LL.Remove(node);
+        D.Remove(node.Value.Item2);
+        return node.Value.Item1;
+    }
+
     public int Count
     {
         get

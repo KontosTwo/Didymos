@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio for Mac
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "Assembly-CSharp.csproj", "{825F629E-91F6-DCDD-5175-BF75F16FF618}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "Project.csproj", "{10FD5AC5-4910-C073-7B3A-55DC8A40AD85}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "Assembly-CSharp-firstpass.csproj", "{32D3AE9E-BC43-413A-FCD9-2D17676C93AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "Assembly-CSharp.csproj", "{825F629E-91F6-DCDD-5175-BF75F16FF618}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "UnitTests.csproj", "{BC1B2231-1637-FE0B-47FE-2C4889405D6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didymos", "Assembly-CSharp-Editor.csproj", "{0111A28F-562D-F610-4695-B36ABA14D731}"
 EndProject
@@ -15,14 +19,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{825F629E-91F6-DCDD-5175-BF75F16FF618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{825F629E-91F6-DCDD-5175-BF75F16FF618}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{825F629E-91F6-DCDD-5175-BF75F16FF618}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{825F629E-91F6-DCDD-5175-BF75F16FF618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10FD5AC5-4910-C073-7B3A-55DC8A40AD85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FD5AC5-4910-C073-7B3A-55DC8A40AD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FD5AC5-4910-C073-7B3A-55DC8A40AD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FD5AC5-4910-C073-7B3A-55DC8A40AD85}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32D3AE9E-BC43-413A-FCD9-2D17676C93AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32D3AE9E-BC43-413A-FCD9-2D17676C93AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32D3AE9E-BC43-413A-FCD9-2D17676C93AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32D3AE9E-BC43-413A-FCD9-2D17676C93AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{825F629E-91F6-DCDD-5175-BF75F16FF618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{825F629E-91F6-DCDD-5175-BF75F16FF618}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{825F629E-91F6-DCDD-5175-BF75F16FF618}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{825F629E-91F6-DCDD-5175-BF75F16FF618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC1B2231-1637-FE0B-47FE-2C4889405D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC1B2231-1637-FE0B-47FE-2C4889405D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC1B2231-1637-FE0B-47FE-2C4889405D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC1B2231-1637-FE0B-47FE-2C4889405D6F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0111A28F-562D-F610-4695-B36ABA14D731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0111A28F-562D-F610-4695-B36ABA14D731}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0111A28F-562D-F610-4695-B36ABA14D731}.Release|Any CPU.ActiveCfg = Release|Any CPU

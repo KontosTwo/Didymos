@@ -54,6 +54,7 @@ public class Grid : MonoBehaviour
         if(sparseGrid[point] == null){
             
         }
+        return null;
 	}
 
 	public List<Point> GetNeighbors(Point point){

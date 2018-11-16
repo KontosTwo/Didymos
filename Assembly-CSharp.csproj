@@ -77,82 +77,6 @@
     <Compile Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\Unit.cs" />
     <Compile Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\UnitExplosion.cs" />
     <Compile Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\WaypointPath.cs" />
-    <Compile Include="Assets\Project\Camera\FocusStrategy.cs" />
-    <Compile Include="Assets\Project\Camera\GameplayCamera.cs" />
-    <Compile Include="Assets\Project\Camera\IdleStrategy.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Grid.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Heap.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Path.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Pathfinder.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathfinderNode.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathfinderStrategy.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathRequestManager.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Point.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PathfinderStrategyFactory.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Unit.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyMarker.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyTarget.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicationPackage.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyMarker.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyMarkerStore.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\EnemyTarget.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeter.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\HumanoidTargeterCommunication.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AIHumanoidModel.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AnimationClipSwitcher.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidActionCoordinator.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidAILinker.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidDirection.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidInteractions.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidModel.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidScriptHandle.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidStore.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidTaskExecuter.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Amy\AmyAILinker.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Amy\AmyModel.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Amy\AmyScriptHandle.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Amy\PlayerMovementDirector.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Chanion\ChanionModel.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Rifleman\RiflemanModel.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\MovementController.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Stress\AcuteStressor.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Stress\AIStressManager.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Stress\AmyStressManager.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Stress\ChanionStressManager.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Stress\ChronicStressor.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Stress\StressManager.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Stress\StressorFactory.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Weapon\HitboxCreator.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Weapon\HitboxCreatorEMachinegun.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Weapon\HitboxCreatorProjectileInstant.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Weapon\Weapon.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponList.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponRef.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\Weapon\WeaponType.cs" />
-    <Compile Include="Assets\Project\Constants\ConversionHub.cs" />
-    <Compile Include="Assets\Project\Control\Controller.cs" />
-    <Compile Include="Assets\Project\Control\MouseTarget.cs" />
-    <Compile Include="Assets\Project\Control\PlayerController.cs" />
-    <Compile Include="Assets\Project\Debug\DebugCubes.cs" />
-    <Compile Include="Assets\Project\Debug\DebugGunfire.cs" />
-    <Compile Include="Assets\Project\Debug\EnemyTargeterDebugger.cs" />
-    <Compile Include="Assets\Project\Debug\MarkerSetter.cs" />
-    <Compile Include="Assets\Project\Debug\RotateAround.cs" />
-    <Compile Include="Assets\Project\Debug\Test.cs" />
-    <Compile Include="Assets\Project\Environment\EnvironmentInteractions.cs" />
-    <Compile Include="Assets\Project\Environment\EnvironmentPhysics.cs" />
-    <Compile Include="Assets\Project\Environment\MapBound.cs" />
-    <Compile Include="Assets\Project\Environment\Obstacle.cs" />
-    <Compile Include="Assets\Project\Environment\Projectile.cs" />
-    <Compile Include="Assets\Project\Script\Script.cs" />
-    <Compile Include="Assets\Project\Utility\Address.cs" />
-    <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />
-    <Compile Include="Assets\Project\Utility\FastMath.cs" />
-    <Compile Include="Assets\Project\Utility\Integer.cs" />
-    <Compile Include="Assets\Project\Utility\LinkedDictionary.cs" />
-    <Compile Include="Assets\Project\Utility\Pool.cs" />
-    <Compile Include="Assets\Project\Utility\Vector2Ext.cs" />
-    <Compile Include="Assets\Project\Utility\Vector3Ext.cs" />
     <None Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\Patroller.BT.txt" />
     <None Include="Assets\PandaBehaviour\Examples\01_Move\Assets\Move.BT.txt" />
     <None Include="Assets\PandaBehaviour\Examples\02_PlayTag\Assets\TagDialogue.BT.txt" />
@@ -161,10 +85,8 @@
     <None Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\Player.BT.txt" />
     <None Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\Sniper.BT.txt" />
     <None Include="Assets\PandaBehaviour\Examples\00_ChangeColor\Assets\ChangeColor.BT.txt" />
-    <None Include="Assets\Project\Environment\Terrain.shader" />
     <None Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\Hunter.BT.txt" />
     <None Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\AI.BT.lib.txt" />
-    <None Include="Assets\Project\Characters\Humanoid\HumanoidAI.txt" />
     <None Include="Assets\PandaBehaviour\Examples\02_PlayTag\Assets\Computer.BT.txt" />
     <None Include="Assets\PandaBehaviour\Examples\03_Shooter\Assets\GameController.BT.txt" />
     <None Include="Assets\PandaBehaviour\Examples\02_PlayTag\Assets\PlayTag.commented.BT.txt" />
@@ -418,6 +340,10 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{32D3AE9E-BC43-413A-FCD9-2D17676C93AC}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="Project.csproj">
+      <Project>{10FD5AC5-4910-C073-7B3A-55DC8A40AD85}</Project>
+      <Name>Project</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

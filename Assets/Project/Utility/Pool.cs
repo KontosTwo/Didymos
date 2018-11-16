@@ -38,6 +38,10 @@ public class Pool<P> where P : Poolable<P>, new()
         available = used;
     }
 
+    public int GetSize(){
+        return pool.Length;
+    }
+
     private void Resize(){
         P[] newPool = new P[(int)(pool.Length * EXP_INCREASE)];
         for (int i = 0; i < pool.Length; i ++){
@@ -53,8 +57,15 @@ public class Pool<P> where P : Poolable<P>, new()
         pool = newPool;
     }
 }
-public interface Poolable<P>
+public abstract class Poolable<P>
 {
-    P GetNext();
-    void SetNext(P next);
+    private P next;
+
+    public P GetNext(){
+        return next;
+    }
+
+    public void SetNext(P next){
+        this.next = next;
+    }
 }
