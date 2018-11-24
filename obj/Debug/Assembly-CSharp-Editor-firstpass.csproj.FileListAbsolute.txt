@@ -122,6 +122,7 @@
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/Unity.Cecil.Pdb.dll
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/Assembly-CSharp-firstpass.pdb
+/Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/Project.pdb
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/UnityEngine.dll.mdb
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/UnityEngine.xml
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/UnityEditor.dll.mdb
@@ -295,7 +296,8 @@
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/Unity.IvyParser.dll.mdb
 /Users/user/Documents/Programming/Unity/Didymos/Temp/bin/Debug/UnityEditor.iOS.Extensions.Xcode.xml
-/Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-Editor-firstpass.csprojResolveAssemblyReference.cache
+/Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-Editor-firstpass.csprojAssemblyReference.cache
 /Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-Editor-firstpass.csproj.CoreCompileInputs.cache
+/Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-Editor-firstpass.csproj.CopyComplete
 /Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-Editor-firstpass.dll
 /Users/user/Documents/Programming/Unity/Didymos/obj/Debug/Assembly-CSharp-Editor-firstpass.pdb

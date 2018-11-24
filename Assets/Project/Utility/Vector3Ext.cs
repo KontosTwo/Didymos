@@ -25,20 +25,32 @@ public static class Vector3Ext
         transform.position = new Vector3(transform.position.x, transform.position.y, z);
     }
 
-    public static void SetX(this Vector3 position, float x)
+    public static Vector3 SetX(this Vector3 position, float x)
     {
-        position.Set(x, position.y, position.z);
+        return new Vector3(x, position.y, position.z);
     }
-    public static void SetY(this Vector3 position, float y)
+    public static Vector3 SetY(this Vector3 position, float y)
     {
-        position.Set(position.x, y, position.z);
+        return new Vector3(position.x, y, position.z);
     }
-    public static void SetZ(this Vector3 position, float z)
+    public static Vector3 SetZ(this Vector3 position, float z)
     {
-        position.Set(position.x, position.y, z);
+        return new Vector3(position.x, position.y, z);
     }
     public static Vector2 To2D(this Vector3 vector){
         return new Vector2(vector.x, vector.z);
+    }
+    public static Vector3 AddX(this Vector3 position, float x)
+    {
+        return new Vector3(position.x + x, position.y, position.z);
+    }
+    public static Vector3 AddY(this Vector3 position, float y)
+    {
+        return new Vector3(position.x, position.y + y, position.z);
+    }
+    public static Vector3 AddZ(this Vector3 position, float z)
+    {
+        return new Vector3(position.x, position.y, position.z + z);
     }
 }
 

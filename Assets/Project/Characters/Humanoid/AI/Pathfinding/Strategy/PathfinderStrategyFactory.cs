@@ -2,11 +2,12 @@
 
 using UnityEngine;
 
-public class PathfinderStrategyFactory : MonoBehaviour
+public abstract class PathfinderStrategyFactory : MonoBehaviour
 {
-    private static PathfinderStrategyFactory instance;
     [SerializeField]
     private Grid grid;
+
+    private static PathfinderStrategyFactory instance;
 
     public PathfinderStrategyFactory()
     {
@@ -27,32 +28,12 @@ public class PathfinderStrategyFactory : MonoBehaviour
 
 
 
-	public static PathfinderStrategy CreateNoStrategy(){
-		return new NoStrategy();
-	}
 
-	public static PathfinderStrategy CreateScootStrategy(Vector3 targetVantage){
-		return new ScootStrategy(instance.grid,targetVantage);
-	}
+	/*public static PathfinderStrategy CreateFlankStrategy(){
+        return new FlankStrategy(instance.grid,targetVantage);
+	}*/
 
-	private class NoStrategy : PathfinderStrategy{
-        public int GetCostAt(Point start, Point end){
-			return 0;
-		}
-	}
 
-	private class ScootStrategy : PathfinderStrategy{
-        private Grid grid;
-        private Vector2 vantagePoint;
-
-        public ScootStrategy(Grid grid,Vector3 targetVantage){
-            this.grid = grid;
-		}
-
-		public int GetCostAt(Point start,Point end){
-			return 0;
-		}
-	}
 }
 
 

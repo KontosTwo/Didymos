@@ -70,10 +70,15 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Path.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Pathfinder.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathfinderNode.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathfinderStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathRequestManager.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Point.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\BeelineStrategy.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\FlankStrategy.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\NoStrategy.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PanicStrategy.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PathfinderStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PathfinderStrategyFactory.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\ScootStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyMarker.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyTarget.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicationPackage.cs" />
@@ -92,6 +97,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidScriptHandle.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidStore.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidTaskExecuter.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidVantage.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Amy\AmyAILinker.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Amy\AmyModel.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\Implementations\Amy\AmyScriptHandle.cs" />
