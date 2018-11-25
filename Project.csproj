@@ -73,6 +73,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathRequestManager.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Point.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\BeelineStrategy.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\CostCalculator.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\FlankStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\NoStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PanicStrategy.cs" />
