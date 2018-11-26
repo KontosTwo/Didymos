@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 3}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -69,7 +69,7 @@ MonoBehaviour:
     y: 0
     width: 1391
     height: 855
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &4
 MonoBehaviour:
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 492}
   m_MaxSize: {x: 12008, y: 14042}
   vertical: 0
-  controlID: 11
+  controlID: 82
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 492}
   m_MaxSize: {x: 12008, y: 14042}
   vertical: 1
-  controlID: 12
+  controlID: 83
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 221}
   m_MaxSize: {x: 12008, y: 4021}
   vertical: 0
-  controlID: 87
+  controlID: 84
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -654,9 +654,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
+    m_SelectedIDs: fe3f0000
     m_LastClickedID: 0
-    m_ExpandedIDs: f0fbffff00000000d01d00004c1e0000
+    m_ExpandedIDs: f0fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -792,10 +792,10 @@ MonoBehaviour:
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
-    m_HBaseRangeMin: -167.5
-    m_HBaseRangeMax: 167.5
-    m_VBaseRangeMin: -124
-    m_VBaseRangeMax: 124
+    m_HBaseRangeMin: -335
+    m_HBaseRangeMax: 335
+    m_VBaseRangeMin: -248
+    m_VBaseRangeMax: 248
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -814,7 +814,7 @@ MonoBehaviour:
       y: 17
       width: 670
       height: 496
-    m_Scale: {x: 2, y: 2}
+    m_Scale: {x: 1, y: 1}
     m_Translation: {x: 335, y: 248}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -822,15 +822,15 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -167.5
-      y: -124
-      width: 335
-      height: 248
+      x: -335
+      y: -248
+      width: 670
+      height: 496
     m_MinimalGUI: 1
-  m_defaultScale: 2
+  m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
-  m_LastWindowPixelSize: {x: 1340, y: 1026}
+  m_LastWindowPixelSize: {x: 670, y: 513}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000100000100
@@ -905,20 +905,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Project/Characters/Humanoid/AI/Pathfinding/Strategy
+    - Assets/Project/Characters/Humanoid/AI/Pathfinding
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Project/Characters/Humanoid/AI/Pathfinding/Strategy
+  - Assets/Project/Characters/Humanoid/AI/Pathfinding
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/user/Documents/Programming/Unity/Didymos
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 223}
-    m_SelectedIDs: b8120000
-    m_LastClickedID: 4792
-    m_ExpandedIDs: 00000000640c0000140e0000e40e0000aa11000034120000a6140000c0140000ce140000581500002c160000c8170000f617000078190000261a00002a1a0000301a0000f61a0000141b0000321b00004c1b0000cc3f0000ce3f0000d03f0000d23f0000d43f0000d63f0000d83f0000ffffff7f
+    scrollPos: {x: 0, y: 207}
+    m_SelectedIDs: 321a0000
+    m_LastClickedID: 6706
+    m_ExpandedIDs: 00000000660c0000160e0000e60e0000ac11000036120000a8140000c2140000d01400005a1500002e160000ca170000f81700007a190000281a00002c1a0000321a0000f81a0000161b0000341b00004e1b0000ce3f0000d03f0000d23f0000d43f0000d63f0000d83f0000da3f0000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -946,7 +946,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000640c0000140e0000e40e0000aa11000034120000a6140000c0140000ce140000581500002c160000c8170000f617000078190000261a00002a1a0000301a0000f61a0000141b0000321b00004c1b0000cc3f0000ce3f0000d03f0000d23f0000d43f0000d63f0000d83f0000
+    m_ExpandedIDs: 00000000660c0000160e0000e60e0000ac11000036120000a8140000c2140000d01400005a1500002e160000ca170000f81700007a190000281a00002c1a0000321a0000f81a0000161b0000341b00004e1b0000ce3f0000d03f0000d23f0000d43f0000d63f0000d83f0000da3f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

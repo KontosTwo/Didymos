@@ -37,13 +37,19 @@ public class HumanoidModel : MonoBehaviour{
     private StressManager baseStressManager;
     private StandingState standingState;
     private float vantageHeight;
+    private HumanoidVantage vantageData;
 
 
 	public virtual void Awake(){
         standingState = StandingState.STAND;
         vantageHeight = standingHeight;
         direction.Face(centerBottom.position + new Vector3(0, 0, -1));
-	}
+        vantageData = new HumanoidVantage(
+            standingHeight,
+            kneelingHeight,
+            layingHeight
+        );
+    }
 	// Use this for initialization
 	public virtual void Start () {
 	}
@@ -112,7 +118,6 @@ public class HumanoidModel : MonoBehaviour{
         float distance = (centerBottom.position.x - friend.centerBottom.position.x)
             + (centerBottom.position.y - friend.centerBottom.position.y);
     }
-
 
     public void ActionStartAttack()
     {
@@ -197,7 +202,11 @@ public class HumanoidModel : MonoBehaviour{
     {
         return centerBottom.position;
     }
-
+    public HumanoidVantage InfoGetVantageData(){
+        vantageData.SetWeapon(currentWeapon);
+        vantageData.SetLocation(centerBottom.position);
+        return vantageData;
+    }
 
     protected void SwitchToWeapon(WeaponType weapon)
     {

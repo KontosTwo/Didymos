@@ -70,6 +70,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Path.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Pathfinder.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathfinderNode.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathNode.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathRequestManager.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Point.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\BeelineStrategy.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Assets\Project\Environment\MapBound.cs" />
     <Compile Include="Assets\Project\Environment\Obstacle.cs" />
     <Compile Include="Assets\Project\Environment\Projectile.cs" />
+    <Compile Include="Assets\Project\Environment\TerrainDisparity.cs" />
     <Compile Include="Assets\Project\Script\Script.cs" />
     <Compile Include="Assets\Project\Utility\Address.cs" />
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />

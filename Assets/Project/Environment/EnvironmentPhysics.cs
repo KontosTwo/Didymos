@@ -13,7 +13,7 @@ using UnityEngine.AI;
  * One good limiting factor is the camera current position; only let the vector extend
  * a bit beyond the camera bounds
  */
-public class EnvironmentPhysics : MonoBehaviour {
+public partial class EnvironmentPhysics : MonoBehaviour {
     
 
 	private static EnvironmentPhysics instance;
@@ -165,11 +165,6 @@ public class EnvironmentPhysics : MonoBehaviour {
 		IncrementalRaycast (start, target, onIntersect,continueCondition);
 		projectile.ResetStrength ();
         Debug.DrawLine(start, lastImpact, color: Color.white, duration: .2f);
-	}
-
-	public struct TerrainDisparity{
-		public float visibleToObserver;
-		public float visibleToTarget;
 	}
 
 	public static TerrainDisparity CalculateTerrainDisparityBetween(Projectile heuristicOfObserver,Projectile heuristicOfTarget,Vector3 observerVantage,Vector3 targetVantage){

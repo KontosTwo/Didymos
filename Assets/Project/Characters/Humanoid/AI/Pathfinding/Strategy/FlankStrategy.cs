@@ -20,8 +20,6 @@ public class FlankStrategy : MonoBehaviour, PathfinderStrategy
 
     [SerializeField]
     private float coverDisparityPenalty = 1f;
-    [SerializeField]
-    private float negligibleCoverThreshold = 0.1f;
 
     private Grid grid;
     private HumanoidVantage strategizer;
@@ -60,11 +58,11 @@ public class FlankStrategy : MonoBehaviour, PathfinderStrategy
         float totalCoverDisparity = CostCalculator.CalculateTotalCoverDisparity(
             strategizer,
             enemies,
-            endVector,
-            coverDisparityPenalty,
-            negligibleCoverThreshold
+            endVector
         );
 
-        return (int)(heightPenalty + totalCoverDisparity);
+        float totalCoverDisparityPenalty = totalCoverDisparity * coverDisparityPenalty;
+
+        return (int)(heightPenalty + totalCoverDisparityPenalty);
     }
 }

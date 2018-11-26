@@ -7,12 +7,14 @@ public class EnemyMarker{
     private Vector3 location;
     private HumanoidModel target;
 
+    private HumanoidVantage enemyVantage;
     private HashSet<HumanoidTargeter> usedBy;
 
     public EnemyMarker(HumanoidModel target,Vector3 location,HumanoidTargeter founder){
         this.location = location;
         this.target = target;
         usedBy = new HashSet<HumanoidTargeter>();
+        enemyVantage = target.InfoGetVantageData();
     }
 
     public EnemyMarker(EnemyTarget target,HumanoidTargeter founder)
@@ -27,6 +29,9 @@ public class EnemyMarker{
     public Vector3 GetLocation()
     {
         return location; 
+    }
+    public HumanoidVantage GetVantage(){
+        return enemyVantage;
     }
 
     public HashSet<HumanoidTargeter> GetUsers(){
