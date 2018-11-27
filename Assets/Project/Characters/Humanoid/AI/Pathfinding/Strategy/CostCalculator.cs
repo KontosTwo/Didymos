@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CostCalculator {
@@ -56,6 +58,8 @@ public class CostCalculator {
         Vector3 kneelingAtEnd = location.AddY(strategizer.GetKneelingHeight());
         Vector3 layingAtEnd = location.AddY(strategizer.GetLayingHeight());
 
+
+
         foreach (HumanoidVantage enemyVantage in enemyVantages)
         {
             Projectile enemyWeaponThreat = enemyVantage.GetWeaponThreat();
@@ -96,7 +100,7 @@ public class CostCalculator {
                 lowerWeapon = stratWeaponThreat;
             }
 
-            TerrainDisparity topToTop = 
+            TerrainDisparity topToTopDisp =
                 EnvironmentPhysics.CalculateTerrainDisparityBetween(
                     higherWeapon,
                     lowerWeapon,
@@ -104,9 +108,11 @@ public class CostCalculator {
                     lowerStanding
                 );
 
-            if(!topToTop.IsNegligible()){
-                /* Use multithreading here */
+            if(!topToTopDisp.IsNegligible()){
+
             }
         }
+
+        return 0;
     }
 }

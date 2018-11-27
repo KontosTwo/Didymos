@@ -97,7 +97,7 @@ public class HumanoidModel : MonoBehaviour{
         Vector3 enemyVantagePoint = enemy.GetVantagePoint();
         Projectile enemyWeapon = enemy.currentWeapon.GetProjectile();
 
-        EnvironmentPhysics.TerrainDisparity terrainDisparity = EnvironmentPhysics.CalculateTerrainDisparityBetween(
+        TerrainDisparity terrainDisparity = EnvironmentPhysics.CalculateTerrainDisparityBetween(
             thisWeapon, enemyWeapon, thisVantagePoint,enemyVantagePoint
         );
 

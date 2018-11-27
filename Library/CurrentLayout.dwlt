@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 3}
-  m_MinSize: {x: 950, y: 542}
+  m_MinSize: {x: 950, y: 392}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -69,7 +69,7 @@ MonoBehaviour:
     y: 0
     width: 1391
     height: 855
-  m_MinSize: {x: 950, y: 542}
+  m_MinSize: {x: 950, y: 392}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &4
 MonoBehaviour:
@@ -131,10 +131,10 @@ MonoBehaviour:
     y: 30
     width: 1391
     height: 805
-  m_MinSize: {x: 683, y: 492}
-  m_MaxSize: {x: 12008, y: 14042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
-  controlID: 82
+  controlID: 69
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -155,10 +155,10 @@ MonoBehaviour:
     y: 0
     width: 1391
     height: 805
-  m_MinSize: {x: 683, y: 492}
-  m_MaxSize: {x: 12008, y: 14042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 1
-  controlID: 83
+  controlID: 70
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 221}
   m_MaxSize: {x: 12008, y: 4021}
   vertical: 0
-  controlID: 84
+  controlID: 71
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -253,16 +253,16 @@ MonoBehaviour:
     y: 534
     width: 1391
     height: 271
-  m_MinSize: {x: 230, y: 271}
-  m_MaxSize: {x: 10000, y: 10021}
-  m_ActualView: {fileID: 19}
+  m_MinSize: {x: 100, y: 121}
+  m_MaxSize: {x: 4000, y: 4021}
+  m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 19}
   - {fileID: 20}
   - {fileID: 13}
   - {fileID: 14}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -337,126 +337,6 @@ MonoBehaviour:
       ignoredOrSkipped: 0
       description: 
       isSuite: 1
-    - id: '[/Users/user/Documents/Programming/Unity/Didymos/Library/ScriptAssemblies/UnitTests.dll][suite]'
-      name: UnitTests.dll
-      fullName: /Users/user/Documents/Programming/Unity/Didymos/Library/ScriptAssemblies/UnitTests.dll
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-    - id: '[UnitTests][LinkedDictionaryTest][suite]'
-      name: LinkedDictionaryTest
-      fullName: LinkedDictionaryTest
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-    - id: '[UnitTests][LinkedDictionaryTest.DictPreservesOrder]'
-      name: DictPreservesOrder
-      fullName: LinkedDictionaryTest.DictPreservesOrder
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest][suite]'
-      name: PoolTest
-      fullName: PoolTest
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-    - id: '[UnitTests][PoolTest.PoolExhausts]'
-      name: PoolExhausts
-      fullName: PoolTest.PoolExhausts
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolRecycles]'
-      name: PoolRecycles
-      fullName: PoolTest.PoolRecycles
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolRecyclesAll]'
-      name: PoolRecyclesAll
-      fullName: PoolTest.PoolRecyclesAll
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolRecyclesFirst]'
-      name: PoolRecyclesFirst
-      fullName: PoolTest.PoolRecyclesFirst
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolRecyclesLast]'
-      name: PoolRecyclesLast
-      fullName: PoolTest.PoolRecyclesLast
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolResizes]'
-      name: PoolResizes
-      fullName: PoolTest.PoolResizes
-      resultStatus: 0
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
     m_ResultText: PoolExhausts (0.000s)
     m_ResultStacktrace: 
     m_TestListState:
@@ -654,9 +534,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: fe3f0000
-    m_LastClickedID: 0
-    m_ExpandedIDs: f0fbffff00000000
+    m_SelectedIDs: b21c0000
+    m_LastClickedID: 7346
+    m_ExpandedIDs: 72d7ffff10daffffe6fbffff00000000661c0000921c0000961c0000d01c0000e61c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -745,9 +625,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: -0.44786596, y: -0.008043617, z: 0.0040387623, w: -0.8940566}
   m_Size:
-    m_Target: 205.31639
+    m_Target: 173.0931
     speed: 2
-    m_Value: 205.31639
+    m_Value: 173.0931
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -905,20 +785,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Project/Characters/Humanoid/AI/Pathfinding
+    - Assets/Project/Characters/Humanoid/AI/Pathfinding/Strategy
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Project/Characters/Humanoid/AI/Pathfinding
+  - Assets/Project/Characters/Humanoid/AI/Pathfinding/Strategy
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/user/Documents/Programming/Unity/Didymos
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 207}
-    m_SelectedIDs: 321a0000
-    m_LastClickedID: 6706
-    m_ExpandedIDs: 00000000660c0000160e0000e60e0000ac11000036120000a8140000c2140000d01400005a1500002e160000ca170000f81700007a190000281a00002c1a0000321a0000f81a0000161b0000341b00004e1b0000ce3f0000d03f0000d23f0000d43f0000d63f0000d83f0000da3f0000ffffff7f
+    scrollPos: {x: 0, y: 151}
+    m_SelectedIDs: dc120000
+    m_LastClickedID: 4828
+    m_ExpandedIDs: 00000000880c0000380e0000080f0000ce11000058120000ca140000e4140000f21400007c15000050160000ec1700001a1800009c1900004a1a00004e1a0000541a00001a1b0000381b0000561b0000701b00004e3e0000503e0000523e0000543e0000563e0000583e00005a3e0000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -946,7 +826,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000660c0000160e0000e60e0000ac11000036120000a8140000c2140000d01400005a1500002e160000ca170000f81700007a190000281a00002c1a0000321a0000f81a0000161b0000341b00004e1b0000ce3f0000d03f0000d23f0000d43f0000d63f0000d83f0000da3f0000
+    m_ExpandedIDs: 00000000880c0000380e0000080f0000ce11000058120000ca140000e4140000f21400007c15000050160000ec1700001a1800009c1900004a1a00004e1a0000541a00001a1b0000381b0000561b0000701b00004e3e0000503e0000523e0000543e0000563e0000583e00005a3e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -973,7 +853,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 0a2600000c260000102600003a56000046f8ffff82eeffff72eaffff002b0000102b0000602600000a2b000042260000102700007009000096270000502d000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Environment;
-using System.Collections;
-
+using System.Threading.Tasks;
 using UnityEngine.AI;
+using Unity.Jobs;
+
 /*
  * To do: shorten projectil length. Even though a projectile has a start
  * and an end, the projectile can still extend beyond its endpoint. I must
@@ -167,14 +168,19 @@ public partial class EnvironmentPhysics : MonoBehaviour {
         Debug.DrawLine(start, lastImpact, color: Color.white, duration: .2f);
 	}
 
-	public static TerrainDisparity CalculateTerrainDisparityBetween(Projectile heuristicOfObserver,Projectile heuristicOfTarget,Vector3 observerVantage,Vector3 targetVantage){
-		TerrainDisparity result = new TerrainDisparity ();
-		result.visibleToObserver = CalculateVisiblePortion (heuristicOfObserver,observerVantage,targetVantage);
+    public static TerrainDisparity CalculateTerrainDisparityBetween(Projectile heuristicOfObserver, Projectile heuristicOfTarget, Vector3 observerVantage, Vector3 targetVantage)
+    {
+        TerrainDisparity result = new TerrainDisparity();
+        result.visibleToObserver = CalculateVisiblePortion (heuristicOfObserver,observerVantage,targetVantage);
 		result.visibleToTarget = CalculateVisiblePortion (heuristicOfTarget,targetVantage,observerVantage);
 		return result;
 	}
 
-	private static float CalculateVisiblePortion (Projectile heuristic, Vector3 observerVantage, Vector3 targetVantage){
+
+
+    private static float CalculateVisiblePortion (Projectile heuristic,
+                                                  Vector3 observerVantage, 
+                                                  Vector3 targetVantage){
 		float targetHeightAboveGround = targetVantage.y - FindHeightAt (targetVantage.x,targetVantage.z);
 		float heightAdjustment = targetHeightAboveGround / 2;
 		Vector3 rayTarget = targetVantage - new Vector3(0,heightAdjustment,0);
