@@ -12,6 +12,15 @@ public struct TerrainDisparity
         return Math.Abs(visibleToTarget) < 0.1f
                    && Math.Abs(visibleToObserver) < 0.1f;
     }
+
+    public float ObserverDisparity(){
+        return visibleToObserver - visibleToTarget;
+    }
+
+    public float TargetDisparity()
+    {
+        return visibleToTarget - visibleToObserver;
+    }
 }
 
 

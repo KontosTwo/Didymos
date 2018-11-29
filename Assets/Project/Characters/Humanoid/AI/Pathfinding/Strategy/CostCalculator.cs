@@ -67,52 +67,131 @@ public class CostCalculator {
             Vector3 enemyKneeling = enemyVantage.GetKneelingVantage();
             Vector3 enemyLaying = enemyVantage.GetLayingVantage();
 
-            Projectile higherWeapon;
-            Projectile lowerWeapon;
-
-            Vector3 higherStanding;
-            Vector3 higherKneeling;
-            Vector3 higherLaying;
-
-            Vector3 lowerStanding;
-            Vector3 lowerKneeling;
-            Vector3 lowerLaying;
-
-            if(strategizer.HigherThan(enemyVantage)){
-                higherStanding = standingAtEnd;
-                higherKneeling = kneelingAtEnd;
-                higherLaying = layingAtEnd;
-                higherWeapon = stratWeaponThreat;
-
-                lowerStanding = enemyStanding;
-                lowerKneeling = enemyKneeling;
-                lowerLaying = enemyLaying;
-                lowerWeapon = enemyWeaponThreat;
-            }else{
-                higherStanding = enemyStanding;
-                higherKneeling = enemyKneeling;
-                higherLaying = enemyLaying;
-                higherWeapon = enemyWeaponThreat;
-
-                lowerStanding = standingAtEnd;
-                lowerKneeling = kneelingAtEnd;
-                lowerLaying = layingAtEnd;
-                lowerWeapon = stratWeaponThreat;
-            }
+            float worstDisparity = int.MaxValue;
 
             TerrainDisparity topToTopDisp =
                 EnvironmentPhysics.CalculateTerrainDisparityBetween(
-                    higherWeapon,
-                    lowerWeapon,
-                    higherStanding,
-                    lowerStanding
+                    stratWeaponThreat,
+                    enemyWeaponThreat,
+                    standingAtEnd,
+                    enemyStanding
                 );
 
             if(!topToTopDisp.IsNegligible()){
+                worstDisparity = topToTopDisp.ObserverDisparity();
 
+                TerrainDisparity topToMidDisp =
+                    EnvironmentPhysics.CalculateTerrainDisparityBetween(
+                        stratWeaponThreat,
+                        enemyWeaponThreat,
+                        standingAtEnd,
+                        enemyKneeling
+                    );
+
+                if (!topToMidDisp.IsNegligible()
+                        && topToMidDisp.ObserverDisparity() < worstDisparity){
+                    worstDisparity = topToMidDisp.ObserverDisparity();
+
+                    TerrainDisparity topToBotDisp =
+                        EnvironmentPhysics.CalculateTerrainDisparityBetween(
+                            stratWeaponThreat,
+                            enemyWeaponThreat,
+                            standingAtEnd,
+                            enemyLaying
+                        );
+
+                    if (!topToBotDisp.IsNegligible()
+                        && topToBotDisp.ObserverDisparity() < worstDisparity){
+                        worstDisparity = topToBotDisp.ObserverDisparity();
+                    }
+                }
+            }
+            else{
+                continue;
+            }
+
+            TerrainDisparity midToTopDisp =
+                EnvironmentPhysics.CalculateTerrainDisparityBetween(
+                    stratWeaponThreat,
+                    enemyWeaponThreat,
+                    kneelingAtEnd,
+                    enemyStanding
+                );
+
+            if (!midToTopDisp.IsNegligible() && 
+                midToTopDisp.ObserverDisparity() < worstDisparity){
+                worstDisparity = midToTopDisp.ObserverDisparity();
+
+                TerrainDisparity midToMidDisp =
+                    EnvironmentPhysics.CalculateTerrainDisparityBetween(
+                        stratWeaponThreat,
+                        enemyWeaponThreat,
+                        kneelingAtEnd,
+                        enemyKneeling
+                    );
+
+                if (!midToMidDisp.IsNegligible()
+                        && midToMidDisp.ObserverDisparity() < worstDisparity){
+                    worstDisparity = midToMidDisp.ObserverDisparity();
+
+                    TerrainDisparity midToBotDisp =
+                        EnvironmentPhysics.CalculateTerrainDisparityBetween(
+                            stratWeaponThreat,
+                            enemyWeaponThreat,
+                            kneelingAtEnd,
+                            enemyLaying
+                        );
+
+                    if (!midToBotDisp.IsNegligible()
+                        && midToBotDisp.ObserverDisparity() < worstDisparity){
+                        worstDisparity = midToBotDisp.ObserverDisparity();
+                    }
+                }
+            }
+            else{
+                continue;
+            }
+
+            TerrainDisparity botToTopDisp =
+                EnvironmentPhysics.CalculateTerrainDisparityBetween(
+                    stratWeaponThreat,
+                    enemyWeaponThreat,
+                    layingAtEnd,
+                    enemyStanding
+                );
+
+            if (!botToTopDisp.IsNegligible() &&
+                botToTopDisp.ObserverDisparity() < worstDisparity){
+                worstDisparity = botToTopDisp.ObserverDisparity();
+
+                TerrainDisparity botToMidDisp =
+                    EnvironmentPhysics.CalculateTerrainDisparityBetween(
+                        stratWeaponThreat,
+                        enemyWeaponThreat,
+                        layingAtEnd,
+                        enemyKneeling
+                    );
+
+                if (!botToMidDisp.IsNegligible()
+                        && botToMidDisp.ObserverDisparity() < worstDisparity){
+                    worstDisparity = botToMidDisp.ObserverDisparity();
+
+                    TerrainDisparity botToBotDisp =
+                        EnvironmentPhysics.CalculateTerrainDisparityBetween(
+                            stratWeaponThreat,
+                            enemyWeaponThreat,
+                            layingAtEnd,
+                            enemyLaying
+                        );
+
+                    if (!botToBotDisp.IsNegligible()
+                        && botToBotDisp.ObserverDisparity() < worstDisparity){
+                        worstDisparity = botToBotDisp.ObserverDisparity();
+                    }
+                }
             }
         }
-
-        return 0;
+        // the lower the disparity, the higher the penalty
+        return -totalDisparity;
     }
 }
