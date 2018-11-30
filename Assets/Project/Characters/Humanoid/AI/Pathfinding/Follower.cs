@@ -6,6 +6,9 @@ public class Follower : MonoBehaviour {
 	const float minPathUpdateTime = .1f;
 	const float pathUpdateMoveThreshold = .5f;
 
+    public PathfinderStrategy strategy;
+    public int maxLength;
+
 	public Transform target;
 	public float speed = 20;
 	public float turnSpeed = 3;
@@ -32,7 +35,15 @@ public class Follower : MonoBehaviour {
 		if (Time.timeSinceLevelLoad < .3f) {
 			yield return new WaitForSeconds (.3f);
 		}
-		PathRequestManager.RequestPath (new PathRequest(transform.position, target.position, OnPathFound));
+		PathRequestManager.RequestPath (
+            new PathRequest(
+                transform.position, 
+                target.position, 
+                OnPathFound,
+                strategy,
+                maxLength
+            )
+        );
 
 		float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
 		Vector3 targetPosOld = target.position;
@@ -40,7 +51,15 @@ public class Follower : MonoBehaviour {
 		while (true) {
 			yield return new WaitForSeconds (minPathUpdateTime);
 			if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
-				PathRequestManager.RequestPath (new PathRequest(transform.position, target.position, OnPathFound));
+				PathRequestManager.RequestPath (
+                    new PathRequest(
+                        transform.position, 
+                        target.position, 
+                        OnPathFound,
+                        strategy,
+                        maxLength
+                    )
+                );
 				targetPosOld = target.position;
 			}
 		}

@@ -15,7 +15,8 @@ public class CommunicatableEnemyMarker {
                 0,
                 0.01f
             );
-    public CommunicatableEnemyMarker(EnemyMarker marker,float radius)
+    public CommunicatableEnemyMarker(EnemyMarker marker,
+                                     float radius)
     {
         this.enemyMarker = marker;
         valid = true;

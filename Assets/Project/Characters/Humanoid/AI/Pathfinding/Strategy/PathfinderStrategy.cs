@@ -1,7 +1,9 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
 
-public interface PathfinderStrategy
-{
-    int GetAdditionalCostAt(Point start, Point end);
+[Serializable]
+public abstract class PathfinderStrategy : MonoBehaviour, PathfinderStrategy {
+    public abstract int GetAdditionalCostAt(Vector3 start, Vector3 end);
 }
-

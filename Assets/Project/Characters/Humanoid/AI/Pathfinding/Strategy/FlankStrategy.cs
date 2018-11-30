@@ -3,65 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class FlankStrategy : MonoBehaviour, PathfinderStrategy
+public class FlankStrategy : PathfinderStrategy
 {
     [SerializeField]
-    private float goingUpPenalty = 1f;
+    private HumanoidModel strategizer;
     [SerializeField]
-    private float goingDownPenalty = 1f;
-    [SerializeField]
-    private float climbUpPenalty = 1f;
-    [SerializeField]
-    private float climbDownPenalty = 1f;
-    [SerializeField]
-    private float climbUpThreshold = 1f;
-    [SerializeField]
-    private float climbDownThreshold = 1f;
+    private HumanoidTargeter targeter;
 
     [SerializeField]
-    private float coverDisparityPenalty = 1f;
-
-    private Grid grid;
-    private HumanoidVantage strategizer;
-    private List<HumanoidVantage> enemies;
+    private HeightPenaltyAttributes heightData;
+    [SerializeField]
+    private CoverDisparityPenaltyAttributes coverDisparityData;
 
 
-
-    public FlankStrategy(Grid grid,
-                         HumanoidVantage s,
-                         List<HumanoidVantage> e)
+    private void Awake()
     {
-        this.grid = grid;
-        this.strategizer = s;
-        this.enemies = e;
+
     }
+
+    private void Start()
+    {
+
+    }
+
     /*
      * Need to cache the result of this
-     * Also wrap chunks of the logic in static functions
      */
-    public int GetAdditionalCostAt(Point start, Point end)
+    public override int GetAdditionalCostAt(Vector3 start, Vector3 end)
     {
-        Vector3 startVector = grid.NodeToWorldCoord(start);
-        Vector3 endVector = grid.NodeToWorldCoord(end);
+        var enemyMarkers = targeter.GetEnemyMarkers();
+        var enemyVantages = new List<HumanoidVantage>();
 
-        float heightDifference = endVector.y - startVector.y;
-        float heightPenalty = CostCalculator.CalculateHeightPenalty(
+        foreach(CommunicatableEnemyMarker enemy in enemyMarkers){
+            enemyVantages.Add(enemy.GetEnemyMarker().GetVantage());
+        }
+
+        float heightDifference = end.y - start.y;
+        float heightPenalty = CostCalculatorHelper.CalculateHeightPenalty(
             heightDifference,
-            goingUpPenalty,
-            climbUpThreshold,
-            climbUpThreshold,
-            goingDownPenalty,
-            climbDownPenalty,
-            climbDownThreshold
+            heightData.goingUpPenalty,
+            heightData.climbUpThreshold,
+            heightData.climbUpThreshold,
+            heightData.goingDownPenalty,
+            heightData.climbDownPenalty,
+            heightData.climbDownThreshold
         );
 
-        float totalCoverDisparity = CostCalculator.CalculateTotalCoverDisparity(
-            strategizer,
-            enemies,
-            endVector
+        float totalCoverDisparity = CostCalculatorHelper.CalculateTotalCoverDisparity(
+            strategizer.InfoGetVantageData(),
+            enemyVantages,
+            end
         );
 
-        float totalCoverDisparityPenalty = totalCoverDisparity * coverDisparityPenalty;
+        float totalCoverDisparityPenalty = totalCoverDisparity * coverDisparityData.coverDisparityPenalty;
 
         return (int)(heightPenalty + totalCoverDisparityPenalty);
     }

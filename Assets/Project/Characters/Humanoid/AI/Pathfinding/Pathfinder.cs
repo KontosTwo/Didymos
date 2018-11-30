@@ -27,6 +27,8 @@ public class Pathfinder : MonoBehaviour
 		PathfinderNode startNode = new PathfinderNode (startPoint,grid.GetNodeAt(startPoint));
 		PathfinderNode targetNode = new PathfinderNode (endPoint,grid.GetNodeAt(endPoint));
 
+        PathfinderStrategy strategy = request.strategy;
+        int maxLength = request.maxLength;
 
 		if (startNode.isWalkable() && targetNode.isWalkable())
 		{

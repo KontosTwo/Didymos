@@ -203,9 +203,15 @@ public class HumanoidModel : MonoBehaviour{
         return centerBottom.position;
     }
     public HumanoidVantage InfoGetVantageData(){
+        /*
+         *  Use object pooling and return new vantage data
+         */
         vantageData.SetWeapon(currentWeapon);
         vantageData.SetLocation(centerBottom.position);
         return vantageData;
+    }
+    public Weapon InfoGetWeapon(){
+        return currentWeapon;
     }
 
     protected void SwitchToWeapon(WeaponType weapon)

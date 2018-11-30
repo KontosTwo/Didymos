@@ -64,11 +64,19 @@ public struct PathRequest {
 	public Vector3 pathStart;
 	public Vector3 pathEnd;
 	public Action<Vector3[], bool> callback;
+    public PathfinderStrategy strategy;
+    public int maxLength;
 
-	public PathRequest(Vector3 _start, Vector3 _end, Action<Vector3[], bool> _callback) {
+	public PathRequest(Vector3 _start, 
+                       Vector3 _end, 
+                       Action<Vector3[], bool> _callback,
+                       PathfinderStrategy _strategy,
+                       int _maxLength) {
 		pathStart = _start;
 		pathEnd = _end;
 		callback = _callback;
+        strategy = _strategy;
+        maxLength = _maxLength;
 	}
 
 }

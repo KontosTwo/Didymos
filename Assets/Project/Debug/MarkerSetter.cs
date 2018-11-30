@@ -12,6 +12,7 @@ public class MarkerSetter : MonoBehaviour {
     [SerializeField]
     private List<Transform> enemyMarkerLocations;
 
+
     private void Awake()
     {
         

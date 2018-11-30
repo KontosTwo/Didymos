@@ -73,11 +73,14 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\PathRequestManager.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Point.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\BeelineStrategy.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\CostCalculator.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\CostCalculatorHelper.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\CoverDisparityPenaltyAttributes.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\FlankStrategy.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\HeightPenaltyAttributes.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\NoStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PanicStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PathfinderStrategy.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PathfinderStrategy_1.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\PathfinderStrategyFactory.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Strategy\ScootStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyMarker.cs" />
