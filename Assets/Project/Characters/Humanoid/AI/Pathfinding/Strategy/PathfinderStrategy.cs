@@ -4,6 +4,6 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public abstract class PathfinderStrategy : MonoBehaviour, PathfinderStrategy {
+public abstract class PathfinderStrategy : MonoBehaviour, ICostCalculator{
     public abstract int GetAdditionalCostAt(Vector3 start, Vector3 end);
 }

@@ -1,28 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-
+using System.Collections.Generic;
 
 public class PathfinderNode : IHeapItem<PathfinderNode>
 {
 	private Point location;
 	private MapNode data;
 
-	public int movementPenalty;
 
 	public int gCost;
 	public int hCost;
-    public int sCost;
-	public PathfinderNode parent;
+    public int strategyCost;
+	private PathfinderNode parent;
 	int heapIndex;
 
-	public PathfinderNode(Point gridLocation,MapNode data)
+	public PathfinderNode(Point gridLocation,
+                          MapNode data)
 	{
-		movementPenalty = 0;
 		location = gridLocation;
 		this.data = data;
-        sCost = 0;
+        strategyCost = 0;
 	}
+    /*
+     *  Use Pooling here!!!
+     */
+    public PathfinderNode CreateNeighbour(Point location){
+        PathfinderNode neighbour = new PathfinderNode(
+            location, data
+        );
+        return neighbour;
+    }
 
 	public Point GetGridCoord(){
 		return location;
@@ -36,13 +43,44 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         return data.height;
 	}
 
+    public void SetParent(PathfinderNode p){
+        this.parent = p;
+    }
+
+    public List<PathfinderNode> TraceParents(PathfinderNode startNode){
+        List<PathfinderNode> path = new List<PathfinderNode>();
+        PathfinderNode currentNode = this;
+
+        while (currentNode != startNode)
+        {
+            path.Add(currentNode);
+            currentNode = currentNode.parent;
+        }
+        path.Add(startNode);
+
+        return path;
+    }
+
+
 	public int fCost
 	{
 		get
 		{
-			return gCost + hCost + sCost;
+			return gCost + hCost + strategyCost;
 		}
 	}
+
+    public bool WithInRangeOfStart(int manhattanGridDist){
+        Debug.Log(DistanceCost);
+        return DistanceCost < manhattanGridDist;
+    }
+
+    public int DistanceCost{
+        get
+        {
+            return gCost + hCost;
+        }
+    }
 
 	public int HeapIndex
 	{
@@ -64,10 +102,5 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 			compare = hCost.CompareTo(nodeToCompare.hCost);
 		}
 		return -compare;
-	}
-
-	public bool walkableTo(PathfinderNode other)
-	{
-		return true;
 	}
 }

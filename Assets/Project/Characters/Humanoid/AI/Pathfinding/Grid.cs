@@ -44,13 +44,13 @@ public class Grid : MonoBehaviour
             for (int j = 0; j < nodes.GetLength(1); j++)
             {
                 Vector3 worldLocation = NodeToWorldCoord(new Point(i, j));
-
-                float height = EnvironmentPhysics.FindHeightAt(worldLocation.x, worldLocation.z);
-                bool walkable = EnvironmentPhysics.WalkableAt(worldLocation.x, worldLocation.z, nodeSize / 2);
-
-                nodes[i, j] = new MapNode(height, walkable);
+                nodes[i, j] = EnvironmentPhysics.CreateMapNoteAt(worldLocation.x, worldLocation.z);
             }
         }
+    }
+
+    public int DistanceToNodeDistance(float distance){
+        return (int)(distance / nodeSize);
     }
 
     void Update()

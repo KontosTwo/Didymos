@@ -21,17 +21,20 @@ public class Pathfinder : MonoBehaviour
 	{
 		Vector3[] waypoints = new Vector3[0];
 		bool pathSuccess = false;
-		Point startPoint = grid.WorldCoordToNode (request.pathStart);
+        float maxLength = request.maxLength;
+        /* multiple by 10 to account for the factor of 10 in GetDistance()*/
+        int maxPathLength = grid.DistanceToNodeDistance(maxLength) * 10;
+        Point startPoint = grid.WorldCoordToNode (request.pathStart);
 		Point endPoint = grid.WorldCoordToNode (request.pathEnd);
 
+        Debug.Log(maxPathLength);
 		PathfinderNode startNode = new PathfinderNode (startPoint,grid.GetNodeAt(startPoint));
 		PathfinderNode targetNode = new PathfinderNode (endPoint,grid.GetNodeAt(endPoint));
 
-        PathfinderStrategy strategy = request.strategy;
-        int maxLength = request.maxLength;
 
-		if (startNode.isWalkable() && targetNode.isWalkable())
-		{
+        PathfinderStrategy strategy = request.strategy;
+
+		if (startNode.isWalkable() && targetNode.isWalkable()){
 			Heap<PathfinderNode> openSet = new Heap<PathfinderNode>(MAXPATHHEAPSIZE);
 			HashSet<PathfinderNode> closedSet = new HashSet<PathfinderNode>();
 			Dictionary<Point,PathfinderNode> activeNodes = new Dictionary<Point,PathfinderNode> ();
@@ -39,40 +42,39 @@ public class Pathfinder : MonoBehaviour
 			openSet.Add(startNode);
 			activeNodes.Add (startNode.GetGridCoord(),startNode);
 			activeNodes.Add (targetNode.GetGridCoord(),targetNode);
-			while (openSet.Count > 0)
-			{
+			while (openSet.Count > 0){
 				PathfinderNode currentNode = openSet.RemoveFirst();
+                Vector3 currentNodeLocation = grid.NodeToWorldCoord(currentNode.GetGridCoord());
 
 				closedSet.Add(currentNode);
 
-				if (currentNode == targetNode)
-				{
+				if (currentNode == targetNode){
 					pathSuccess = true;
 					break;
 				}
 
 				List<PathfinderNode> neighbors = GetNeighbors (currentNode, activeNodes);
-				for(int i = 0; i < neighbors.Count; i ++)
-				{
+				for(int i = 0; i < neighbors.Count; i ++){
 					PathfinderNode neighbour = neighbors[i];
-					if (!neighbour.isWalkable() || closedSet.Contains(neighbour))
-					{
+                    Vector3 neighbourLocation= grid.NodeToWorldCoord(neighbour.GetGridCoord());
+
+                    if (!neighbour.isWalkable() 
+                        || closedSet.Contains(neighbour)){
 						continue;
 					}
 
-					int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour) + neighbour.movementPenalty;
-					if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
-					{
+                    int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
+                    if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)){
 						neighbour.gCost = newMovementCostToNeighbour;
 						neighbour.hCost = GetDistance(neighbour, targetNode);
-						neighbour.parent = currentNode;
+                        //neighbour.strategyCost = strategy.GetAdditionalCostAt(currentNodeLocation,neighbourLocation);
+                        neighbour.SetParent(currentNode);
 
-						if (!openSet.Contains(neighbour))
-						{
+						if (!openSet.Contains(neighbour) 
+                            && neighbour.WithInRangeOfStart(maxPathLength)){
 							openSet.Add(neighbour);
 						}
-						else
-						{
+						else{
 							openSet.UpdateItem(neighbour);
 						}
 					}
@@ -97,7 +99,7 @@ public class Pathfinder : MonoBehaviour
 			if(currentNode != null){
 				neighbors.Add (currentNode);
 			}else{
-				currentNode = new PathfinderNode (currentPoint, grid.GetNodeAt (currentPoint));
+                currentNode = node.CreateNeighbour(currentPoint);
 				activeNodes.Add (currentPoint, currentNode);
 				neighbors.Add (currentNode);
 			}
@@ -107,15 +109,7 @@ public class Pathfinder : MonoBehaviour
 
 	private Vector3[] RetracePath(PathfinderNode startNode, PathfinderNode endNode)
 	{
-		List<PathfinderNode> path = new List<PathfinderNode>();
-		PathfinderNode currentNode = endNode;
-
-		while (currentNode != startNode)
-		{
-			path.Add(currentNode);
-			currentNode = currentNode.parent;
-		}
-		path.Add(startNode);
+        List<PathfinderNode> path = endNode.TraceParents(startNode);
 
 		Vector3[] waypoints = SimplifyPath(path);
 		Array.Reverse(waypoints);
