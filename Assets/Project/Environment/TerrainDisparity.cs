@@ -7,10 +7,16 @@ public struct TerrainDisparity
 
     public float visibleToObserver;
     public float visibleToTarget;
+    private bool observerCompletelyExposed;
+    private bool enemyCompletelyExposed;
 
-    public bool IsNegligible(){
-        return Math.Abs(visibleToTarget) < 0.1f
-                   && Math.Abs(visibleToObserver) < 0.1f;
+    public bool BothHidden(){
+        return TargetNegligible()
+            && ObserverNegligible();
+    }
+
+    public bool BothExposed(){
+        return !BothHidden();
     }
 
     public float ObserverDisparity(){
@@ -20,6 +26,14 @@ public struct TerrainDisparity
     public float TargetDisparity()
     {
         return visibleToTarget - visibleToObserver;
+    }
+
+    private bool ObserverNegligible(){
+        return Math.Abs(visibleToObserver) < 0.1f;
+    }
+
+    private bool TargetNegligible(){
+        return Math.Abs(visibleToTarget) < 0.1f;
     }
 }
 

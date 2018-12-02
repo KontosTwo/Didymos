@@ -1,0 +1,50 @@
+FixedUpdate where appropriate
+Recast, keep layers in mind to reduce raycasts (https://unity3d.com/learn/tutorials/topics/physics/physics-best-practices)
+Use producer-consumer pattern when appropriate
+Watch out when the laying height is negative! Make sure center bottom is above ground!!!
+//////////////////////////////////
+
+/********
+URGENT: Building upon raycast the physics engine is no longer feasible. Instead, for
+frequently used physics operations, use the style of “raycasting” in the Java prototype of this game. Calculate map nodes on the go, caching them in a LRU 
+Point->Mapnode cache. Use those map nodes for sight, cover disparity, bullets. 
+Keep using incrementalraycast to find visual and physical heights
+The advantage? I can now MULTITHREAD it since instead of relying on Unity API Raycast, it’s just a bunch of float/int calculations. Use the job system for this. When multithreading, quit the thread early if a map node is not found and has to be calculated using Unity API.
+To prevent the very start of the game from being laggy, calculate the starting area’s map nodes
+In this case, each GameObject representing an obstacle should have an “opacity”, since the entire map will be divvied into cubes each of which will “dilute” the virtual raycast’s strength. The Unity API raycast should find every single obstacle’s height and the virtual raycast algorithm should take each of these obstacle’s height into account
+*********/
+
+Change terrain disparity. The logic for CostCalculatorHelper erroneously thinks that if both the observer and target are exposed then no further recasting is necessary
+
+ Test strategies. Redo the physics engine if takes too long
+
+Group up humanoid’s fields into serializable classes
+
+Put pathfinding strategies into one class and have it serializable and Humanoid’s field
+
+DestinationStrategy is now a thing
+
+limit pathfinding to a box. Getneighbours can only return stuff inside the box. Make the box wide to accommodate tricky paths
+
+Spread flanking pathfinding and disparity checks across multiple frames
+
+make some classes structs in pathfinder
+
+pathfinder computes a “grid” of additional costs and caches it. Multiple pathfinding
+will reuse those results. One cache of cover disparities, and one of movement costs
+
+clean up pathfinder
+
+
+optimize pathfinder full of pooling
+
+Replace stress system with enum types, each representing a type of stress. Examples include HeavyFire, LightFire, Postgrenade, InsideSmokescreen. AI behavior depends on which stressors are present. Some logic will be used to “upgrade” stressors that are upgrades of one another (LightFire -> HeavyFire)
+
+Object Pool needs to be working (Search “Unity editor crashes generics”
+Heap needs pools!
+
+Cover disparity stress only when AI checks periodically, or during special behavior routines. 
+
+Have a weapon list of GameObject -> Script -> Serializable Weapon. Instantiate each weapon at runtime using Instantiate. Make sure to release the weapon
+
+MAKE THAT MODEL

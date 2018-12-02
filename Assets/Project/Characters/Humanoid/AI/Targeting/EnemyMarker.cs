@@ -15,6 +15,7 @@ public class EnemyMarker{
         this.target = target;
         usedBy = new HashSet<HumanoidTargeter>();
         enemyVantage = target.InfoGetVantageData();
+        enemyVantage.SetLocation(location);
     }
 
     public EnemyMarker(EnemyTarget target,HumanoidTargeter founder)

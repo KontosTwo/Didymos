@@ -145,6 +145,17 @@ public class HumanoidTargeter : MonoBehaviour {
         return hiddenEnemies;
     }
 
+    public List<HumanoidVantage> GetAllKnownVantages(){
+        List<HumanoidVantage> allVantages = new List<HumanoidVantage>();
+        foreach(CommunicatableEnemyMarker marker in hiddenEnemies){
+            allVantages.Add(marker.GetEnemyMarker().GetVantage());
+        }
+        foreach(HumanoidModel seenEnemy in viewableEnemies.Keys){
+            allVantages.Add(seenEnemy.InfoGetVantageData());
+        }
+        return allVantages;
+    }
+
     public bool HasHiddenEnemy(){
         return hasHiddenEnemy;
     }

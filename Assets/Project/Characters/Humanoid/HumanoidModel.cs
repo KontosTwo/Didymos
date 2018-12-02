@@ -39,18 +39,13 @@ public class HumanoidModel : MonoBehaviour{
     private StressManager baseStressManager;
     private StandingState standingState;
     private float vantageHeight;
-    private HumanoidVantage vantageData;
 
 
 	public virtual void Awake(){
         standingState = StandingState.STAND;
         vantageHeight = standingHeight;
         direction.Face(centerBottom.position + new Vector3(0, 0, -1));
-        vantageData = new HumanoidVantage(
-            standingHeight,
-            kneelingHeight,
-            layingHeight
-        );
+       
     }
 	// Use this for initialization
 	public virtual void Start () {
@@ -208,6 +203,11 @@ public class HumanoidModel : MonoBehaviour{
         /*
          *  Use object pooling and return new vantage data
          */
+        HumanoidVantage vantageData = new HumanoidVantage(
+            standingHeight,
+            kneelingHeight,
+            layingHeight
+        );
         vantageData.SetWeapon(currentWeapon);
         vantageData.SetLocation(centerBottom.position);
         return vantageData;

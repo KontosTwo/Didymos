@@ -31,12 +31,7 @@ public class FlankStrategy : PathfinderStrategy
      */
     public override int GetAdditionalCostAt(Vector3 start, Vector3 end)
     {
-        var enemyMarkers = targeter.GetEnemyMarkers();
-        var enemyVantages = new List<HumanoidVantage>();
-
-        foreach(CommunicatableEnemyMarker enemy in enemyMarkers){
-            enemyVantages.Add(enemy.GetEnemyMarker().GetVantage());
-        }
+        var enemyVantages = targeter.GetAllKnownVantages();
 
         float heightDifference = end.y - start.y;
         float heightPenalty = CostCalculatorHelper.CalculateHeightPenalty(
@@ -56,7 +51,8 @@ public class FlankStrategy : PathfinderStrategy
         );
 
         float totalCoverDisparityPenalty = totalCoverDisparity * coverDisparityData.coverDisparityPenalty;
+        Debug.Log("Cover: " + totalCoverDisparityPenalty);
 
-        return (int)(heightPenalty + totalCoverDisparityPenalty);
+        return (int)(0 + totalCoverDisparityPenalty);
     }
 }

@@ -30,11 +30,11 @@ public class CostCalculatorHelper {
         {
             if (heightDiff < climbDownThreshold)
             {
-                heightPenalty = heightDiff * climbDownPenalty;
+                heightPenalty = -heightDiff * climbDownPenalty;
             }
             else
             {
-                heightPenalty = heightDiff * goDownPenalty;
+                heightPenalty = -heightDiff * goDownPenalty;
             }
         }
         return heightPenalty;
@@ -76,8 +76,9 @@ public class CostCalculatorHelper {
                     standingAtEnd,
                     enemyStanding
                 );
-
-            if(!topToTopDisp.IsNegligible()){
+            Debug.Log("Strat: " + standingAtEnd + " " + kneelingAtEnd + " " + layingAtEnd);
+            Debug.Log("Enemy: " + enemyStanding + " " + enemyKneeling + " " + enemyLaying);
+            if (!topToTopDisp.BothHidden()){
                 worstDisparity = topToTopDisp.ObserverDisparity();
 
                 TerrainDisparity topToMidDisp =
@@ -88,7 +89,7 @@ public class CostCalculatorHelper {
                         enemyKneeling
                     );
 
-                if (!topToMidDisp.IsNegligible()
+                if (!topToMidDisp.BothHidden()
                         && topToMidDisp.ObserverDisparity() < worstDisparity){
                     worstDisparity = topToMidDisp.ObserverDisparity();
 
@@ -100,7 +101,7 @@ public class CostCalculatorHelper {
                             enemyLaying
                         );
 
-                    if (!topToBotDisp.IsNegligible()
+                    if (!topToBotDisp.BothHidden()
                         && topToBotDisp.ObserverDisparity() < worstDisparity){
                         worstDisparity = topToBotDisp.ObserverDisparity();
                     }
@@ -118,7 +119,7 @@ public class CostCalculatorHelper {
                     enemyStanding
                 );
 
-            if (!midToTopDisp.IsNegligible() && 
+            if (!midToTopDisp.BothHidden() && 
                 midToTopDisp.ObserverDisparity() < worstDisparity){
                 worstDisparity = midToTopDisp.ObserverDisparity();
 
@@ -130,7 +131,7 @@ public class CostCalculatorHelper {
                         enemyKneeling
                     );
 
-                if (!midToMidDisp.IsNegligible()
+                if (!midToMidDisp.BothHidden()
                         && midToMidDisp.ObserverDisparity() < worstDisparity){
                     worstDisparity = midToMidDisp.ObserverDisparity();
 
@@ -142,7 +143,7 @@ public class CostCalculatorHelper {
                             enemyLaying
                         );
 
-                    if (!midToBotDisp.IsNegligible()
+                    if (!midToBotDisp.BothHidden()
                         && midToBotDisp.ObserverDisparity() < worstDisparity){
                         worstDisparity = midToBotDisp.ObserverDisparity();
                     }
@@ -160,7 +161,7 @@ public class CostCalculatorHelper {
                     enemyStanding
                 );
 
-            if (!botToTopDisp.IsNegligible() &&
+            if (!botToTopDisp.BothHidden() &&
                 botToTopDisp.ObserverDisparity() < worstDisparity){
                 worstDisparity = botToTopDisp.ObserverDisparity();
 
@@ -172,7 +173,7 @@ public class CostCalculatorHelper {
                         enemyKneeling
                     );
 
-                if (!botToMidDisp.IsNegligible()
+                if (!botToMidDisp.BothHidden()
                         && botToMidDisp.ObserverDisparity() < worstDisparity){
                     worstDisparity = botToMidDisp.ObserverDisparity();
 
@@ -184,7 +185,7 @@ public class CostCalculatorHelper {
                             enemyLaying
                         );
 
-                    if (!botToBotDisp.IsNegligible()
+                    if (!botToBotDisp.BothHidden()
                         && botToBotDisp.ObserverDisparity() < worstDisparity){
                         worstDisparity = botToBotDisp.ObserverDisparity();
                     }

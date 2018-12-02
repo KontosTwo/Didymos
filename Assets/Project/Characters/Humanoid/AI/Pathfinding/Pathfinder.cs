@@ -63,7 +63,7 @@ public class Pathfinder : MonoBehaviour
                     if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)){
 						neighbour.gCost = newMovementCostToNeighbour;
 						neighbour.hCost = GetDistance(neighbour, targetNode);
-                        //neighbour.strategyCost = strategy.GetAdditionalCostAt(currentNodeLocation,neighbourLocation);
+                        neighbour.strategyCost = strategy.GetAdditionalCostAt(currentNodeLocation,neighbourLocation);
                         neighbour.SetParent(currentNode);
 
 						if (!openSet.Contains(neighbour) 

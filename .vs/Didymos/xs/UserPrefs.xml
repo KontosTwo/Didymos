@@ -1,11 +1,11 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Environment/TerrainDisparity.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Strategy/FlankStrategy.cs" Line="21" Column="9" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidPathfindingStrategies.cs" Line="11" Column="30" />
-      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="17" Column="65" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="98" Column="42" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderNode.cs" Line="27" Column="57" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Strategy/FlankStrategy.cs" Line="54" Column="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Strategy/CostCalculatorHelper.cs" Line="64" Column="10" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="250" Column="35" />
+      <File FileName="Assets/Project/Environment/TerrainDisparity.cs" Line="11" Column="41" />
+      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="184" Column="29" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

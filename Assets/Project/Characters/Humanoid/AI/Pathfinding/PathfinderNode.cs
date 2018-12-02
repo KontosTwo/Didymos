@@ -63,7 +63,6 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 	}
 
     public bool WithInRangeOfStart(int manhattanGridDist){
-        Debug.Log(DistanceCost);
         return DistanceCost < manhattanGridDist;
     }
 
