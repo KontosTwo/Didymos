@@ -27,10 +27,8 @@ public class Pathfinder : MonoBehaviour
         Point startPoint = grid.WorldCoordToNode (request.pathStart);
 		Point endPoint = grid.WorldCoordToNode (request.pathEnd);
 
-        Debug.Log(maxPathLength);
 		PathfinderNode startNode = new PathfinderNode (startPoint,grid.GetNodeAt(startPoint));
 		PathfinderNode targetNode = new PathfinderNode (endPoint,grid.GetNodeAt(endPoint));
-
 
         PathfinderStrategy strategy = request.strategy;
 
@@ -38,7 +36,6 @@ public class Pathfinder : MonoBehaviour
 			Heap<PathfinderNode> openSet = new Heap<PathfinderNode>(MAXPATHHEAPSIZE);
 			HashSet<PathfinderNode> closedSet = new HashSet<PathfinderNode>();
 			Dictionary<Point,PathfinderNode> activeNodes = new Dictionary<Point,PathfinderNode> ();
-
 			openSet.Add(startNode);
 			activeNodes.Add (startNode.GetGridCoord(),startNode);
 			activeNodes.Add (targetNode.GetGridCoord(),targetNode);
@@ -57,7 +54,6 @@ public class Pathfinder : MonoBehaviour
 				for(int i = 0; i < neighbors.Count; i ++){
 					PathfinderNode neighbour = neighbors[i];
                     Vector3 neighbourLocation= grid.NodeToWorldCoord(neighbour.GetGridCoord());
-
                     if (!neighbour.isWalkable() 
                         || closedSet.Contains(neighbour)){
 						continue;
@@ -99,7 +95,9 @@ public class Pathfinder : MonoBehaviour
 			if(currentNode != null){
 				neighbors.Add (currentNode);
 			}else{
-                currentNode = node.CreateNeighbour(currentPoint);
+                currentNode = new PathfinderNode(
+                    currentPoint,grid.GetNodeAt(currentPoint)
+                );
 				activeNodes.Add (currentPoint, currentNode);
 				neighbors.Add (currentNode);
 			}

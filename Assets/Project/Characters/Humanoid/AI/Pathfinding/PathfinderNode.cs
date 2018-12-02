@@ -21,15 +21,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 		this.data = data;
         strategyCost = 0;
 	}
-    /*
-     *  Use Pooling here!!!
-     */
-    public PathfinderNode CreateNeighbour(Point location){
-        PathfinderNode neighbour = new PathfinderNode(
-            location, data
-        );
-        return neighbour;
-    }
+
 
 	public Point GetGridCoord(){
 		return location;

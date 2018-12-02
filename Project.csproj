@@ -98,6 +98,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidDirection.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidInteractions.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidModel.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\HumanoidPathfindingStrategies.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidScriptHandle.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidStore.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\HumanoidTaskExecuter.cs" />

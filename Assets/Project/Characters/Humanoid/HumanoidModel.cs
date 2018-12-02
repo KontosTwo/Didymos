@@ -13,6 +13,8 @@ public class HumanoidModel : MonoBehaviour{
     private MovementController movement;
     [SerializeField]
     private HumanoidDirection direction;
+    [SerializeField]
+    private HumanoidPathfindingStrategies pathfindingStrategies;
 
     [SerializeField]
     private Transform releasePoint;

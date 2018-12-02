@@ -1,13 +1,11 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/Follower.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="25" Column="68" />
       <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Strategy/FlankStrategy.cs" Line="21" Column="9" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderNode.cs" Line="52" Column="25" />
-      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="260" Column="26" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Grid.cs" Line="53" Column="43" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathRequestManager.cs" Line="69" Column="5" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Follower.cs" Line="10" Column="28" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidPathfindingStrategies.cs" Line="11" Column="30" />
+      <File FileName="Assets/Project/Characters/Humanoid/HumanoidModel.cs" Line="17" Column="65" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="98" Column="42" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderNode.cs" Line="27" Column="57" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
