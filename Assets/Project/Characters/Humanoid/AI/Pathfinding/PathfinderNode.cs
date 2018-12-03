@@ -59,7 +59,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     }
 
 
-    public int fCost
+    public int FCost
     {
         get
         {
@@ -80,6 +80,13 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         }
     }
 
+    private int ComparerCost{
+        get{
+            return strategyCost;
+        }
+
+    }
+
     public int HeapIndex
     {
         get
@@ -94,11 +101,12 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 
     public int CompareTo(PathfinderNode nodeToCompare)
     {
-        int compare = strategyCost.CompareTo(nodeToCompare.strategyCost);
+        int compare = ComparerCost.CompareTo(nodeToCompare.ComparerCost);
         if (compare == 0)
         {
-            compare = gCost.CompareTo(nodeToCompare.gCost);
+            compare = (gCost).CompareTo(nodeToCompare.gCost);
         }
+
         return -compare;
     }
 }

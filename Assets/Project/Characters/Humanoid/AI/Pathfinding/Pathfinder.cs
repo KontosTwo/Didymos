@@ -33,7 +33,7 @@ public class Pathfinder : MonoBehaviour
         PathfinderStrategy strategy = request.strategy;
 
 		if (startNode.isWalkable() && targetNode.isWalkable()){
-			Heap<PathfinderNode> openSet = new Heap<PathfinderNode>(MAXPATHHEAPSIZE);
+			PathfindingHeap<PathfinderNode> openSet = new PathfindingHeap<PathfinderNode>(MAXPATHHEAPSIZE);
 			HashSet<PathfinderNode> closedSet = new HashSet<PathfinderNode>();
 			Dictionary<Point,PathfinderNode> activeNodes = new Dictionary<Point,PathfinderNode> ();
 			openSet.Add(startNode);
@@ -51,32 +51,27 @@ public class Pathfinder : MonoBehaviour
 				}
 
 				List<PathfinderNode> neighbors = GetNeighbors (currentNode, activeNodes);
-                for (int i = 0; i < neighbors.Count; i++)
-                {
+                for (int i = 0; i < neighbors.Count; i++){
                     PathfinderNode neighbour = neighbors[i];
                     Vector3 neighbourLocation = grid.NodeToWorldCoord(neighbour.GetGridCoord());
                     if (!neighbour.isWalkable()
-                        || closedSet.Contains(neighbour))
-                    {
+                        || closedSet.Contains(neighbour)){
                         continue;
                     }
 
                     int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
-                    if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
-                    {
+                    if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)){
                         neighbour.gCost = newMovementCostToNeighbour;
                         neighbour.hCost = GetDistance(neighbour, targetNode);
                         neighbour.strategyCost = strategy.GetAdditionalCostAt(currentNodeLocation, neighbourLocation);
                         neighbour.SetParent(currentNode);
 
                         if (!openSet.Contains(neighbour)
-                            && neighbour.WithInRangeOfStart(maxPathLength))
-                        {
+                            && neighbour.WithInRangeOfStart(maxPathLength)){
                             openSet.Add(neighbour);
-                            DrawGizmo.AddGizmo(Color.blue, "" + newMovementCostToNeighbour, neighbourLocation);
+                            DrawGizmo.AddGizmo(Color.blue, "" + neighbour.gCost, neighbourLocation);
                         }
-                        else
-                        {
+                        else{
                             openSet.UpdateItem(neighbour);
                         }
                     }

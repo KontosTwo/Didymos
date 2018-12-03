@@ -16,11 +16,9 @@ In this case, each GameObject representing an obstacle should have an “opacity
 When stopping a coroutine that uses pooled objects at one point, keep track of which objects it has used up to that point. Pass in a list of pool able objects, and add stuff to that list each time. Upon premature or successful shutdown of coroutine, empty that list of pooled objects
 //////////////////////////////////
 
+Have a special case for pathfinder. When the algorithm reaches an area of nodes where the enemy will be completely hidden, or have non-negligible disparity, switch the heap sorting algorithm to now include strategy cost, hcost, and gcost. Use strategy pattern where the strategy will be injected into PathfindingHeap and the heap resorted
 
 
-revert back to a parent-based way of calculating path length, not by its hcost
-
- Test strategies. Redo the physics engine if takes too long
 
 Group up humanoid’s fields into serializable classes
 

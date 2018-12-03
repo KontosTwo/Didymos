@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfindingStrategy/CostCalculatorHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfindingHeap.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfindingStrategy/CostCalculatorHelper.cs" Line="87" Column="63" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="70" Column="27" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Grid.cs" Line="9" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderNode.cs" Line="93" Column="51" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/CostStrategy/FlankStrategy.cs" Line="19" Column="25" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="70" Column="77" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfindingHeap.cs" Line="63" Column="46" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderNode.cs" Line="102" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
