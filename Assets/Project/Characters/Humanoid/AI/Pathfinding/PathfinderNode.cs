@@ -76,7 +76,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     {
         get
         {
-            return gCost + hCost;
+            return gCost;
         }
     }
 

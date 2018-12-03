@@ -73,6 +73,7 @@ public class Pathfinder : MonoBehaviour
                             && neighbour.WithInRangeOfStart(maxPathLength))
                         {
                             openSet.Add(neighbour);
+                            DrawGizmo.AddGizmo(Color.blue, "" + newMovementCostToNeighbour, neighbourLocation);
                         }
                         else
                         {
