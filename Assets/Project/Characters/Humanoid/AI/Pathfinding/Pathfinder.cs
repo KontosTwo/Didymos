@@ -51,31 +51,36 @@ public class Pathfinder : MonoBehaviour
 				}
 
 				List<PathfinderNode> neighbors = GetNeighbors (currentNode, activeNodes);
-				for(int i = 0; i < neighbors.Count; i ++){
-					PathfinderNode neighbour = neighbors[i];
-                    Vector3 neighbourLocation= grid.NodeToWorldCoord(neighbour.GetGridCoord());
-                    if (!neighbour.isWalkable() 
-                        || closedSet.Contains(neighbour)){
-						continue;
-					}
+                for (int i = 0; i < neighbors.Count; i++)
+                {
+                    PathfinderNode neighbour = neighbors[i];
+                    Vector3 neighbourLocation = grid.NodeToWorldCoord(neighbour.GetGridCoord());
+                    if (!neighbour.isWalkable()
+                        || closedSet.Contains(neighbour))
+                    {
+                        continue;
+                    }
 
                     int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
-                    if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)){
-						neighbour.gCost = newMovementCostToNeighbour;
-						neighbour.hCost = GetDistance(neighbour, targetNode);
-                        neighbour.strategyCost = strategy.GetAdditionalCostAt(currentNodeLocation,neighbourLocation);
+                    if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
+                    {
+                        neighbour.gCost = newMovementCostToNeighbour;
+                        neighbour.hCost = GetDistance(neighbour, targetNode);
+                        neighbour.strategyCost = strategy.GetAdditionalCostAt(currentNodeLocation, neighbourLocation);
                         neighbour.SetParent(currentNode);
 
-						if (!openSet.Contains(neighbour) 
-                            && neighbour.WithInRangeOfStart(maxPathLength)){
-							openSet.Add(neighbour);
-						}
-						else{
-							openSet.UpdateItem(neighbour);
-						}
-					}
-				}
-			}
+                        if (!openSet.Contains(neighbour)
+                            && neighbour.WithInRangeOfStart(maxPathLength))
+                        {
+                            openSet.Add(neighbour);
+                        }
+                        else
+                        {
+                            openSet.UpdateItem(neighbour);
+                        }
+                    }
+                }
+            }
 		}
 		if (pathSuccess)
 		{

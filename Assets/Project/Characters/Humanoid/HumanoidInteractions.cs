@@ -23,13 +23,14 @@ public class HumanoidInteractions : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         SeeInteractions();
         ClosenessInteraction();
         SeesEnemyMarker();
 	}
 
     private void SeeInteractions(){
+        for (int i = 0; i < 300; i ++)
         foreach(HumanoidModel enemy in enemiesModels){
             if(enemy.InfoCanSee(amyModel)){
                 enemy.EffectOnSeeEnemy(amyModel);

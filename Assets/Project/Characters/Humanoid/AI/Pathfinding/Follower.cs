@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Diagnostics;
 
 public class Follower : MonoBehaviour {
 
@@ -15,16 +16,21 @@ public class Follower : MonoBehaviour {
 	public float turnDst = 5;
 	public float stoppingDst = 10;
 
+    private Stopwatch watch;
+
 	Path path;
 
 	void Start() {
+        watch = new Stopwatch();
 		StartCoroutine (UpdatePath ());
 	}
 
 	public void OnPathFound(Vector3[] waypoints, bool pathSuccessful) {
 		if (pathSuccessful) {
 			path = new Path(waypoints	, stoppingDst);
-
+            watch.Stop();
+            UnityEngine.Debug.Log("Elapsed in ms: " + watch.ElapsedMilliseconds);
+            watch = new Stopwatch();
 			//StopCoroutine(FollowPath());
 			//StartCoroutine(FollowPath());
 		}
@@ -61,6 +67,7 @@ public class Follower : MonoBehaviour {
                     )
                 );
 				targetPosOld = target.position;
+                watch.Start();
 			}
 		}
 	}

@@ -7,13 +7,6 @@ using System.Reflection;
 using Environment;
 using System;
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEngine;
-using System.Reflection;
-using Environment;
-using System;
 
 
 public class Grid : MonoBehaviour
@@ -135,9 +128,32 @@ public class Grid : MonoBehaviour
         }
         return neighbors;
     }
+    /*
+     * Optimize by using HashSet?
+     */
+    public List<Point> GetNeighbors(Point point, int radius){
+        List<Point> ret = new List<Point>();
+        int originX = point.x;
+        int originY = point.y;
+        int minY = Mathf.Clamp(originY - radius, 0, nodes.GetLength(0) - 1);
+        int maxY = Mathf.Clamp(originY + radius, 0, nodes.GetLength(0) - 1);
+        int minX = Mathf.Clamp(originX - radius, 0, nodes.GetLength(1) - 1);
+        int maxX = Mathf.Clamp(originX + radius, 0, nodes.GetLength(1) - 1);
+
+        for (int y = minY; y < maxY; y++)
+        {
+            for (int x = minX; x < maxX; x++)
+            {
+                if (x != originX && y != originY){
+                    ret.Add(new Point(x, y));
+                }
+            }
+        }
+        return ret;
+    }
     private bool InBound(Point p)
     {
-        return p.x >= 0 && p.x < dimensions.x && p.y >= 0 && p.y < dimensions.y;
+        return p.x >= 0 && p.x < nodes.GetLength(0) - 1 && p.y >= 0 && p.y < nodes.GetLength(1);
     }
 
 

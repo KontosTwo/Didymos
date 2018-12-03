@@ -1,9 +1,8 @@
 FixedUpdate where appropriate
 Recast, keep layers in mind to reduce raycasts (https://unity3d.com/learn/tutorials/topics/physics/physics-best-practices)
-Use producer-consumer pattern when appropriate
+Use producer-consumer pattern with coroutines when appropriate
 Watch out when the laying height is negative! Make sure center bottom is above ground!!!
-//////////////////////////////////
-
+Group obstacles by region
 /********
 URGENT: Building upon raycast the physics engine is no longer feasible. Instead, for
 frequently used physics operations, use the style of “raycasting” in the Java prototype of this game. Calculate map nodes on the go, caching them in a LRU 
@@ -14,13 +13,20 @@ To prevent the very start of the game from being laggy, calculate the starting a
 In this case, each GameObject representing an obstacle should have an “opacity”, since the entire map will be divvied into cubes each of which will “dilute” the virtual raycast’s strength. The Unity API raycast should find every single obstacle’s height and the virtual raycast algorithm should take each of these obstacle’s height into account
 *********/
 
-Change terrain disparity. The logic for CostCalculatorHelper erroneously thinks that if both the observer and target are exposed then no further recasting is necessary
+When stopping a coroutine that uses pooled objects at one point, keep track of which objects it has used up to that point. Pass in a list of pool able objects, and add stuff to that list each time. Upon premature or successful shutdown of coroutine, empty that list of pooled objects
+//////////////////////////////////
+
+
+
+revert back to a parent-based way of calculating path length, not by its hcost
 
  Test strategies. Redo the physics engine if takes too long
 
 Group up humanoid’s fields into serializable classes
 
 Put pathfinding strategies into one class and have it serializable and Humanoid’s field
+
+Map node should be calculated using a box the size of a node capturing anything that intersects with it. 
 
 DestinationStrategy is now a thing
 
@@ -35,6 +41,7 @@ will reuse those results. One cache of cover disparities, and one of movement co
 
 clean up pathfinder
 
+use asynchronous coroutines to spread heavy calculations across frames
 
 optimize pathfinder full of pooling
 
@@ -48,3 +55,5 @@ Cover disparity stress only when AI checks periodically, or during special behav
 Have a weapon list of GameObject -> Script -> Serializable Weapon. Instantiate each weapon at runtime using Instantiate. Make sure to release the weapon
 
 MAKE THAT MODEL
+
+balance pathfinding and make sure that flanking strategy makes sense

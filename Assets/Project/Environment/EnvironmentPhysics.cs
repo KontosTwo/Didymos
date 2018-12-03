@@ -171,14 +171,22 @@ public partial class EnvironmentPhysics : MonoBehaviour {
     public static TerrainDisparity CalculateTerrainDisparityBetween(Projectile heuristicOfObserver, Projectile heuristicOfTarget, Vector3 observerVantage, Vector3 targetVantage)
     {
         TerrainDisparity result = new TerrainDisparity();
-        result.visibleToObserver = CalculateVisiblePortion (heuristicOfObserver,observerVantage,targetVantage);
-		result.visibleToTarget = CalculateVisiblePortion (heuristicOfTarget,targetVantage,observerVantage);
+        VisiblePortionResult observerResult = CalculateVisiblePortion(heuristicOfObserver, observerVantage, targetVantage);
+        VisiblePortionResult targetResult = CalculateVisiblePortion(heuristicOfTarget, targetVantage, observerVantage);
+
+        result.visibleToObserver = observerResult.visible;
+        result.targetHeight = observerResult.heightOfTarget;
+        result.visibleToTarget = targetResult.visible;
+        result.observerHeight = targetResult.heightOfTarget;
 		return result;
 	}
 
+    public struct VisiblePortionResult{
+        public float visible;
+        public float heightOfTarget;
+    }
 
-
-    private static float CalculateVisiblePortion (Projectile heuristic,
+    private static VisiblePortionResult CalculateVisiblePortion (Projectile heuristic,
                                                   Vector3 observerVantage, 
                                                   Vector3 targetVantage){
 		float targetHeightAboveGround = targetVantage.y - FindHeightAt (targetVantage.x,targetVantage.z);
@@ -196,7 +204,10 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 			}
 		}
         //Debug.DrawLine(observerVantage, rayTarget);
-		return targetVantage.y - rayTarget.y;
+        VisiblePortionResult result = new VisiblePortionResult();
+        result.visible = targetVantage.y - rayTarget.y;
+        result.heightOfTarget = targetHeightAboveGround;
+        return result;
 	}
 
 	public static bool ProjectileCanPassThrough(Projectile projectile,Vector3 start, Vector3 target){
