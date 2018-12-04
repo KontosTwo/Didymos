@@ -5,16 +5,14 @@ using System.Collections.Generic;
 using System;
 using System.Threading;
 
-public class PathRequestManager : MonoBehaviour {
+public class PathRequestManager : MonoBehaviour{
 
 	Queue<PathResult> results = new Queue<PathResult>();
 
 	static PathRequestManager instance;
-	Pathfinder pathfinding;
 
 	void Awake() {
 		instance = this;
-		pathfinding = GetComponent<Pathfinder>();
 	}
 
 	void Update() {
@@ -31,7 +29,7 @@ public class PathRequestManager : MonoBehaviour {
 
 	public static void RequestPath(PathRequest request) {
 		ThreadStart threadStart = delegate {
-			instance.pathfinding.FindPath (request, instance.FinishedProcessingPath);
+			Pathfinder.FindPathFlanking (request, instance.FinishedProcessingPath);
 		};
 		threadStart.Invoke ();
 	}

@@ -6,30 +6,55 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 {
     private Point location;
     private MapNode data;
+    private IComparer<PathfinderNode> comparer;
+    private INodeDistanceClamper clamper;
 
-
-    public int gCost;
-    public int hCost;
-    public int strategyCost;
+    private int gCost;
+    private int hCost;
+    private int strategyCost;
     private PathfinderNode parent;
-    int heapIndex;
+    private int heapIndex;
 
-    public PathfinderNode(Point gridLocation,
-                          MapNode data)
-    {
+    private PathfinderNode(Point gridLocation,
+                           MapNode data,
+                           IComparer<PathfinderNode> comparer,
+                           INodeDistanceClamper clamper){
         location = gridLocation;
         this.data = data;
-        strategyCost = 0;
+        this.comparer = comparer;
+        this.clamper = clamper;
+    }
+
+    public static PathfinderNode CreateFavorStrategyCostNode(
+        Point location,
+        MapNode data
+    ){
+        return new PathfinderNode(
+            location,
+            data,
+            new FavorStrategyCost(),
+            new RestrictByGCost()
+        );
+    }
+
+    public static PathfinderNode CreateEndpointNode(
+        Point location,
+        MapNode data
+    ){
+        return new PathfinderNode(
+            location,
+            data,
+            new FavorClosenessToTarget(),
+            new RestrictByGCost()
+        );
     }
 
 
-    public Point GetGridCoord()
-    {
+    public Point GetGridCoord(){
         return location;
     }
 
-    public bool isWalkable()
-    {
+    public bool IsWalkable(){
         return data.terrainIsWalkable;
     }
 
@@ -37,18 +62,34 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         return data.IsCoverNode();
     }
 
-    public float GetHeight()
-    {
+    public float GetHeight(){
         return data.height;
     }
 
-    public void SetParent(PathfinderNode p)
-    {
+    public int GetGCost(){
+        return gCost;
+    }
+    public int GetHCost(){
+        return hCost;
+    }
+    public int GetStrategyCost(){
+        return strategyCost;
+    }
+    public void SetGCost(int gCost){
+        this.gCost = gCost;
+    }
+    public void SetHCost(int hCost){
+        this.hCost = hCost;
+    }
+    public void SetStrategyCost(int strategyCost){
+        this.strategyCost = strategyCost;
+    }
+
+    public void SetParent(PathfinderNode p){
         this.parent = p;
     }
 
-    public List<PathfinderNode> TraceParents(PathfinderNode startNode)
-    {
+    public List<PathfinderNode> TraceParents(PathfinderNode startNode){
         List<PathfinderNode> path = new List<PathfinderNode>();
         PathfinderNode currentNode = this;
 
@@ -67,26 +108,21 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     {
         get
         {
-            return gCost + hCost + strategyCost;
+            return gCost + hCost;
         }
     }
 
     public bool WithInRangeOfStart(int manhattanGridDist)
     {
-        return DistanceCost < manhattanGridDist;
-    }
-
-    public int DistanceCost
-    {
-        get
-        {
-            return  gCost;
-        }
+        return clamper.WithinRangeOfStart(
+            this,
+            manhattanGridDist
+        );
     }
 
     private int ComparerCost{
         get{
-            return strategyCost*hCost;
+            return strategyCost;
         }
 
     }
@@ -103,28 +139,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         }
     }
 
-    public int CompareTo(PathfinderNode nodeToCompare)
-    {
-        bool thisIsCover = IsCover();
-        bool otherIsCover = nodeToCompare.IsCover();
-        int compare = 0;
-        if ((thisIsCover && otherIsCover) || (!thisIsCover && !otherIsCover)){
-            compare = ComparerCost.CompareTo(nodeToCompare.ComparerCost);
-            if (compare == 0)
-            {
-                compare = (hCost).CompareTo(nodeToCompare.hCost);
-            }
-        }
-        else if(thisIsCover){
-            compare =  -1;
-        }else if(otherIsCover){
-
-            compare =  1;
-        }
-
-
-
-
-        return -compare;
+    public int CompareTo(PathfinderNode nodeToCompare){
+        return comparer.Compare(this, nodeToCompare);
     }
 }

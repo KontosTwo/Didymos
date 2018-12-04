@@ -26,6 +26,8 @@ Group up humanoid’s fields into serializable classes
 
 Put pathfinding strategies into one class and have it serializable and Humanoid’s field
 
+use same pathfinding build up for destination as actual pathfinding
+
 need a visual terrain disparity. Current one is physical
 
 Map node should be calculated using a box the size of a node capturing anything that intersects with it. 

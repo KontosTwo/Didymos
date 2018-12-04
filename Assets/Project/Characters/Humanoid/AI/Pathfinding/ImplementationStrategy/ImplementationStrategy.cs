@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ImplementationStrategy : MonoBehaviour {
+public abstract class ImplementationStrategy : IImplementPathfinder {
+    public abstract void ProcessNode(
+        PathfinderNode currentNode,
+        PathfindingHeap<PathfinderNode> openSet,
+        HashSet<PathfinderNode> closedSet,
+        Dictionary<Point, PathfinderNode> activeNodes,
+        CostStrategy costStrategy,
+        Grid grid,
+        int maxPathLength,
+        PathfinderNode targetNode
+    );
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

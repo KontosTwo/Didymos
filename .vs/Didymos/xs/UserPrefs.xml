@@ -1,9 +1,11 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderNode.cs" Line="66" Column="21" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="49" Column="36" NotebookId="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/MapNode.cs" Line="21" Column="5" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderHelper.cs" Line="165" Column="11" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/FavorNoStrategyCost.cs" Line="22" Column="34" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/IImplementPathfinder.cs" Line="5" Column="40" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/ImplementationStrategy.cs" Line="5" Column="70" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="14" Column="51" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
