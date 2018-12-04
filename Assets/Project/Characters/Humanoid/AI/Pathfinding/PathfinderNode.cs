@@ -33,6 +33,10 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         return data.terrainIsWalkable;
     }
 
+    public bool IsCover(){
+        return data.IsCoverNode();
+    }
+
     public float GetHeight()
     {
         return data.height;
@@ -76,13 +80,13 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     {
         get
         {
-            return gCost;
+            return  gCost;
         }
     }
 
     private int ComparerCost{
         get{
-            return strategyCost;
+            return strategyCost*hCost;
         }
 
     }
@@ -101,11 +105,25 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 
     public int CompareTo(PathfinderNode nodeToCompare)
     {
-        int compare = ComparerCost.CompareTo(nodeToCompare.ComparerCost);
-        if (compare == 0)
-        {
-            compare = (gCost).CompareTo(nodeToCompare.gCost);
+        bool thisIsCover = IsCover();
+        bool otherIsCover = nodeToCompare.IsCover();
+        int compare = 0;
+        if ((thisIsCover && otherIsCover) || (!thisIsCover && !otherIsCover)){
+            compare = ComparerCost.CompareTo(nodeToCompare.ComparerCost);
+            if (compare == 0)
+            {
+                compare = (hCost).CompareTo(nodeToCompare.hCost);
+            }
         }
+        else if(thisIsCover){
+            compare =  -1;
+        }else if(otherIsCover){
+
+            compare =  1;
+        }
+
+
+
 
         return -compare;
     }

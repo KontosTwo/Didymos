@@ -21,8 +21,7 @@ public class Grid : MonoBehaviour
     private Vector2 bottomLeftCorner;
     private Vector2 dimensions;
 
-    void Awake()
-    {
+    void Awake(){
         Vector3 bottomLeftCorner3d = mapbounds.GetBottomLeftCorner();
         Vector3 dimensions3d = mapbounds.GetDimensions();
         bottomLeftCorner = new Vector2(bottomLeftCorner3d.x, bottomLeftCorner3d.z);
@@ -30,14 +29,30 @@ public class Grid : MonoBehaviour
         nodes = new MapNode[(int)(dimensions.x / nodeSize), (int)(dimensions.y / nodeSize)];
     }
 
-    void Start()
-    {
-        for (int i = 0; i < nodes.GetLength(0); i++)
-        {
-            for (int j = 0; j < nodes.GetLength(1); j++)
-            {
-                Vector3 worldLocation = NodeToWorldCoord(new Point(i, j));
-                nodes[i, j] = EnvironmentPhysics.CreateMapNoteAt(worldLocation.x, worldLocation.z);
+    void Start(){
+        for (int i = 0; i < nodes.GetLength(0); i++){
+            for (int j = 0; j < nodes.GetLength(1); j++){
+                Vector2 worldLocation = NodeTo2DWorldCoord(new Point(i, j));
+                nodes[i, j] = EnvironmentPhysics.CreateMapNoteAt(worldLocation.x, worldLocation.y);
+            }
+        }
+
+        for (int i = 0; i < nodes.GetLength(0); i++){
+            for (int j = 0; j < nodes.GetLength(1); j++){
+                CheckAndSetIfCoverNode(new Point(i, j));
+            }
+        }
+    }
+
+    private void CheckAndSetIfCoverNode(Point coord){
+        List<Point> neighbours = GetNeighbors(coord);
+        MapNode node = nodes[coord.x, coord.y];
+        foreach (Point p in neighbours){
+            if (node.LowerThan(nodes[p.x, p.y])){
+                node.MarkAsCoverNode();
+                DrawGizmo.AddGizmo(Color.gray, "Cover", NodeToWorldCoord(coord));
+
+                break;
             }
         }
     }
@@ -156,19 +171,15 @@ public class Grid : MonoBehaviour
         return p.x >= 0 && p.x < nodes.GetLength(0) - 1 && p.y >= 0 && p.y < nodes.GetLength(1);
     }
 
+    private Vector2 NodeTo2DWorldCoord(Point point){
+        return new Vector2(
+            (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
+            , (point.y * nodeSize + nodeSize / 2) + bottomLeftCorner.y);
+    }
+
 
     // change to class once size exceeds 16 bytes
 
 }
 
 
-public struct MapNode
-{
-    public MapNode(float height, bool walkable)
-    {
-        this.height = height;
-        terrainIsWalkable = walkable;
-    }
-    public readonly float height;
-    public readonly bool terrainIsWalkable;
-}

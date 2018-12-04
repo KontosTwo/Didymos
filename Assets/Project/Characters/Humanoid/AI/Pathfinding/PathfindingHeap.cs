@@ -33,9 +33,6 @@ public class PathfindingHeap<T> where T : IHeapItem<T> {
 		return firstItem;
 	}
 
-    public void Resort(){
-        Array.Sort<T>(items);
-    }
 
 	public void UpdateItem(T item) {
 		SortUp(item);

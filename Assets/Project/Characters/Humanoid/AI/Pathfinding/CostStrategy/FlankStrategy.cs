@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class FlankStrategy : PathfinderStrategy
+public class FlankStrategy : CostStrategy
 {
     [SerializeField]
     private HumanoidModel strategizer;

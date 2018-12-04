@@ -84,9 +84,13 @@ public class CostCalculatorHelper {
             }else if(topToTopDisp.BothCompletelyExposed()){
                 worstDisparity = exposedPenalty;
             }else{
-                worstDisparity = (topToTopDisp.TargetDisparity() 
-                                             * coverDisparityPenalty)
-                                             + exposedPenalty;
+                /*
+                 * Clamp because any exposed part of the 
+                 * enemy is bad. No "negative" bonuses. 
+                 */
+                worstDisparity = Mathf.Clamp((topToTopDisp.TargetDisparity() 
+                                              * coverDisparityPenalty) + exposedPenalty,0,int.MaxValue)
+                                             ;
             }
             totalDisparity += worstDisparity;
 

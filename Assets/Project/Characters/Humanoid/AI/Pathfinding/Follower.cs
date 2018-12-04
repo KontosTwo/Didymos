@@ -7,7 +7,7 @@ public class Follower : MonoBehaviour {
 	const float minPathUpdateTime = .1f;
 	const float pathUpdateMoveThreshold = .5f;
 
-    public PathfinderStrategy strategy;
+    public CostStrategy strategy;
     public float maxLength;
 
 	public Transform target;

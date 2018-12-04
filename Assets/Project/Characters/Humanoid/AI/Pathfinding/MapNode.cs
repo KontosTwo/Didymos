@@ -1,58 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-/*
-public class MapNode : Poolable<MapNode>
+﻿using System;
+public class MapNode
 {
-    private static Pool<MapNode> pool;
-    private static int ESTIMATED_POOL_SIZE = 400;
+    public readonly float height;
+    public readonly bool terrainIsWalkable;
+    private bool isCoverNode;
 
-    private float height;
-    private float speedModifier;
-    private bool terrainIsWalkable;
+    private static readonly float NEGLIGIBLE_COVER_THRESHOLD = 0.9f;
 
-    public MapNode(float height, float speedModifier, bool walkable)
+    public MapNode(float height, bool walkable)
     {
         this.height = height;
-        this.speedModifier = speedModifier;
         terrainIsWalkable = walkable;
-    }
-    static MapNode(){
-        pool = new Pool<MapNode>(ESTIMATED_POOL_SIZE);
+        isCoverNode = false;
     }
 
-    public MapNode(){
-        
-    }
-
-    public static MapNode GetMapNode(){
-        return pool.Get();
-    }
-
-    public static void RecycleMapNode(MapNode node){
-        pool.Recycle(node);
-    }
-
-    public void Reinitialize(float height, float speedModifier, bool walkable)
+    public void MarkAsCoverNode()
     {
-        this.height = height;
-        this.speedModifier = speedModifier;
-        terrainIsWalkable = walkable;
-    }
-    public float GetHeight()
-    {
-        return height;
+        isCoverNode = true;
     }
 
-    public float GetSpeedModifier()
-    {
-        return speedModifier;
+    public bool LowerThan(MapNode other){
+        return other.height - this.height > NEGLIGIBLE_COVER_THRESHOLD;
     }
 
-    public bool IsTerrainWalkable()
-    {
-        return terrainIsWalkable;
+    public bool IsCoverNode(){
+        return isCoverNode;
     }
+
 }
-
-*/

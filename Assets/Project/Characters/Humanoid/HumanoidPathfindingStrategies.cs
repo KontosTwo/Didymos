@@ -5,9 +5,9 @@ using System;
 [Serializable]
 public class HumanoidPathfindingStrategies {
     [SerializeField]
-    private PathfinderStrategy flankStrategy;
+    private CostStrategy flankStrategy;
 
-    public PathfinderStrategy GetFlankStrategy(){
+    public CostStrategy GetFlankStrategy(){
         return flankStrategy;
     }
 }

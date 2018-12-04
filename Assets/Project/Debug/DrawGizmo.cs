@@ -52,7 +52,7 @@ public class DrawGizmo : MonoBehaviour {
 
         foreach (DebugGizmo gizmo in gizmos){
             Gizmos.color = gizmo.color;
-            //Gizmos.DrawCube(gizmo.location, new Vector3(.3f, .3f, .3f));
+            Gizmos.DrawCube(gizmo.location, new Vector3(.3f, .3f, .3f));
             Handles.Label(gizmo.location, gizmo.text);
         }
     }

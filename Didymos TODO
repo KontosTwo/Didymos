@@ -11,6 +11,8 @@ Keep using incrementalraycast to find visual and physical heights
 The advantage? I can now MULTITHREAD it since instead of relying on Unity API Raycast, it’s just a bunch of float/int calculations. Use the job system for this. When multithreading, quit the thread early if a map node is not found and has to be calculated using Unity API.
 To prevent the very start of the game from being laggy, calculate the starting area’s map nodes
 In this case, each GameObject representing an obstacle should have an “opacity”, since the entire map will be divvied into cubes each of which will “dilute” the virtual raycast’s strength. The Unity API raycast should find every single obstacle’s height and the virtual raycast algorithm should take each of these obstacle’s height into account
+
+slim obstacles are not detected by CreateMapNode
 *********/
 
 When stopping a coroutine that uses pooled objects at one point, keep track of which objects it has used up to that point. Pass in a list of pool able objects, and add stuff to that list each time. Upon premature or successful shutdown of coroutine, empty that list of pooled objects
@@ -18,11 +20,13 @@ When stopping a coroutine that uses pooled objects at one point, keep track of w
 
 Have a special case for pathfinder. When the algorithm reaches an area of nodes where the enemy will be completely hidden, or have non-negligible disparity, switch the heap sorting algorithm to now include strategy cost, hcost, and gcost. Use strategy pattern where the strategy will be injected into PathfindingHeap and the heap resorted
 
-
+Node paging and recalculation: calculate the edges of obstacles or any height differences as “cover nodes” pathfinder is optimized to find those. Also switch pathfinding strategies (not cost strategies necessarily) for different situations
 
 Group up humanoid’s fields into serializable classes
 
 Put pathfinding strategies into one class and have it serializable and Humanoid’s field
+
+need a visual terrain disparity. Current one is physical
 
 Map node should be calculated using a box the size of a node capturing anything that intersects with it. 
 
@@ -33,6 +37,8 @@ limit pathfinding to a box. Getneighbours can only return stuff inside the box. 
 Spread flanking pathfinding and disparity checks across multiple frames
 
 make some classes structs in pathfinder
+
+when implementing virtual noding, make sure to calculate adjacent map nodes when calculating if it’s a cover node
 
 pathfinder computes a “grid” of additional costs and caches it. Multiple pathfinding
 will reuse those results. One cache of cover disparities, and one of movement costs
