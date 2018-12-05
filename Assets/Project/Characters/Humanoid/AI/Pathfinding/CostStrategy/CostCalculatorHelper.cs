@@ -12,28 +12,21 @@ public class CostCalculatorHelper {
                                              float climbUpThreshold,
                                              float goDownPenalty,
                                              float climbDownPenalty,
-                                             float climbDownThreshold)
-    {
+                                             float climbDownThreshold){
         float heightPenalty = 0;
-        if (heightDiff > 0)
-        {
-            if (heightDiff > climbUpThreshold)
-            {
+        if (heightDiff > 0){
+            if (heightDiff > climbUpThreshold){
                 heightPenalty = heightDiff * climbUpPenalty;
             }
-            else
-            {
+            else{
                 heightPenalty = heightDiff * goUpPenalty;
             }
         }
-        else
-        {
-            if (heightDiff < climbDownThreshold)
-            {
+        else{
+            if (heightDiff < climbDownThreshold){
                 heightPenalty = -heightDiff * climbDownPenalty;
             }
-            else
-            {
+            else{
                 heightPenalty = -heightDiff * goDownPenalty;
             }
         }
@@ -81,17 +74,22 @@ public class CostCalculatorHelper {
 
             if(topToTopDisp.BothHidden()){
                 worstDisparity = 0;
-            }else if(topToTopDisp.BothCompletelyExposed()){
+            }
+            else if(topToTopDisp.BothCompletelyExposed()){
                 worstDisparity = exposedPenalty;
-            }else{
+            }
+            else
+            {
                 /*
                  * Clamp because any exposed part of the 
                  * enemy is bad. No "negative" bonuses. 
                  */
                 worstDisparity = Mathf.Clamp((topToTopDisp.TargetDisparity() 
-                                              * coverDisparityPenalty) + exposedPenalty,0,int.MaxValue)
+                                              * coverDisparityPenalty),-exposedPenalty,int.MaxValue)
+                                       + exposedPenalty
                                              ;
             }
+
             totalDisparity += worstDisparity;
 
         }

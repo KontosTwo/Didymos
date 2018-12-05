@@ -41,5 +41,8 @@ public class PathRequestManager : MonoBehaviour{
 	}
 
 
+    public static int counter = 0;
 
 }
+
+

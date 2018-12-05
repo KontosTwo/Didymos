@@ -50,7 +50,6 @@ public class Grid : MonoBehaviour
         foreach (Point p in neighbours){
             if (node.LowerThan(nodes[p.x, p.y])){
                 node.MarkAsCoverNode();
-                DrawGizmo.AddGizmo(Color.gray, "Cover", NodeToWorldCoord(coord));
 
                 break;
             }

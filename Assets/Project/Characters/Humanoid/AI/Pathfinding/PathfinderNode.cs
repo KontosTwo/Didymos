@@ -15,7 +15,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     private PathfinderNode parent;
     private int heapIndex;
 
-    private PathfinderNode(Point gridLocation,
+    public PathfinderNode(Point gridLocation,
                            MapNode data,
                            IComparer<PathfinderNode> comparer,
                            INodeDistanceClamper clamper){
@@ -23,42 +23,6 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         this.data = data;
         this.comparer = comparer;
         this.clamper = clamper;
-    }
-
-    public static PathfinderNode CreateFavorStrategyCostNode(
-        Point location,
-        MapNode data
-    ){
-        return new PathfinderNode(
-            location,
-            data,
-            new FavorStrategyCost(),
-            new RestrictByGCost()
-        );
-    }
-
-    public static PathfinderNode CreateFavorDistanceToTargetNode(
-        Point location,
-        MapNode data
-    ){
-        return new PathfinderNode(
-            location,
-            data,
-            new FavorClosenessToTarget(),
-            new RestrictByGCost()
-        );
-    }
-
-    public static PathfinderNode CreateEndpointNode(
-        Point location,
-        MapNode data
-    ){
-        return new PathfinderNode(
-            location,
-            data,
-            new FavorClosenessToTarget(),
-            new RestrictByGCost()
-        );
     }
 
 

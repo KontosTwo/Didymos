@@ -5,27 +5,30 @@ using static PathfinderHelper;
 
 public class FlankingImplementation : ImplementationStrategy{
 
-    private NodeCreator currentNodeCreator;
+    private PathfinderNodeCreator currentNodeCreator;
     private CostStrategy currentCostStrategy;
 
-    private NodeCreator nonCoverNodeCreator;
+    private FavorDistanceToFociCreator nonCoverNodeCreator;
     private CostStrategy nonCoverCostStrategy;
-    private NodeCreator coverNodeCreator;
+    private FavorCoverAndStrategyCostCreator coverNodeCreator;
     private CostStrategy coverCostStrategy;
 
+    private bool inCover;
+    private bool notInCover;
 
+    private bool nonCoverCostStrategyInitialized;
 
-    public FlankingImplementation(NodeCreator nonCoverNodeCreator,
-                                  CostStrategy nonCoverCostStrategy,
-                                  NodeCreator coverNodeCreator,
-                                  CostStrategy coverCostStrategy){
-        this.nonCoverNodeCreator = nonCoverNodeCreator;
+    public FlankingImplementation(
+        CostStrategy nonCoverCostStrategy,
+        CostStrategy coverCostStrategy
+    ){
+        this.nonCoverNodeCreator = new FavorDistanceToFociCreator();
         this.nonCoverCostStrategy = nonCoverCostStrategy;
-        this.coverNodeCreator = coverNodeCreator;
+        this.coverNodeCreator = new FavorCoverAndStrategyCostCreator();
         this.coverCostStrategy = coverCostStrategy;
 
-        currentNodeCreator = nonCoverNodeCreator;
-        currentCostStrategy = nonCoverCostStrategy;
+        nonCoverCostStrategyInitialized = false;
+
     }
 
     public override void ProcessNode(
@@ -37,6 +40,13 @@ public class FlankingImplementation : ImplementationStrategy{
         Grid grid,
         int maxPathLength
     ){
+        if(!nonCoverCostStrategyInitialized){
+            nonCoverCostStrategyInitialized = true;
+            SwitchToNonCover(currentNode);
+        }
+
+
+
         Vector3 currentLocation = grid.NodeToWorldCoord(currentNode.GetGridCoord());
 
         List<PathfinderNode> neighbors = PathfinderHelper.GetNeighbors(
@@ -63,13 +73,60 @@ public class FlankingImplementation : ImplementationStrategy{
                 if (!openSet.Contains(neighbour)
                     && neighbour.WithInRangeOfStart(maxPathLength)
                 ){
+                    if(CanSwitchToCover(currentNode,neighbour)){
+                        SwitchToCover();
+                        DrawGizmo.AddGizmo(Color.blue, "Switching to cover: " + PathRequestManager.counter, neighbourLocation + new Vector3(0, 10f, 0));
+
+                    }
+                    else if(CanSwitchToNonCover(currentNode,neighbour)){
+                        SwitchToNonCover(currentNode);
+                        DrawGizmo.AddGizmo(Color.red, "switching out of cover: " + PathRequestManager.counter, neighbourLocation + new Vector3(0,10f, 0));
+
+                    }
+
+
                     openSet.Add(neighbour);
-                    DrawGizmo.AddGizmo(Color.blue, "" + neighbour.GetGCost(), neighbourLocation);
+                    //DrawGizmo.AddGizmo(Color.gray, "" + neighbour.GetStrategyCost(), neighbourLocation);
                 }
                 else{
                     openSet.UpdateItem(neighbour);
                 }
             }
         }
+    }
+
+    private bool CanSwitchToCover(PathfinderNode currentNode,
+                                  PathfinderNode neighbor){
+        if(notInCover){
+            return neighbor.GetStrategyCost() < currentNode.GetStrategyCost() &&
+                           neighbor.IsCover();
+        }
+        return false;
+    }
+
+    private bool CanSwitchToNonCover(PathfinderNode currentNode,
+                                  PathfinderNode neighbor){
+        if (inCover){
+            return neighbor.GetStrategyCost() > currentNode.GetStrategyCost() &&
+                           neighbor.IsCover();
+        }
+        return false;
+    }
+
+    private void SwitchToCover(){
+        currentNodeCreator = coverNodeCreator;
+        currentCostStrategy = coverCostStrategy;
+        inCover = true;
+        notInCover = false;
+
+    }
+
+    private void SwitchToNonCover(PathfinderNode currentNode){
+        nonCoverNodeCreator.SetFoci(currentNode.GetGridCoord());
+        currentNodeCreator = nonCoverNodeCreator;
+        currentCostStrategy = nonCoverCostStrategy;
+        inCover = false;
+        notInCover = true;
+
     }
 }

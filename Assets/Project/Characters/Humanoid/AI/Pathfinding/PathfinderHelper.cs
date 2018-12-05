@@ -19,30 +19,41 @@ public class PathfinderHelper :MonoBehaviour{
         MapNode node
     );
 
+    public delegate PathfinderNode FociNodeCreator(
+        Point point,
+        Point foci,
+        MapNode node
+    );
+
 
     public static PathResult FindPath(
-        PathRequest request,
-        NodeCreator endPointsCreator,
-        ImplementationStrategy implementationStrategy
+        PathRequest request
 
     ){
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
         float maxLength = request.maxLength;
+        ImplementationStrategy implementationStrategy = request.aStarImpl;
         /* multiple by 10 to account for the factor of 10 in GetDistance()*/
         int maxPathLength = instance.grid.DistanceToNodeDistance(maxLength) * 10;
         Point startPoint = instance.grid.WorldCoordToNode(request.pathStart);
         Point endPoint = instance.grid.WorldCoordToNode(request.pathEnd);
 
-        PathfinderNode startNode = 
-            endPointsCreator(
-                startPoint, instance.grid.GetNodeAt(startPoint)
+        PathfinderNode startNode =
+            new PathfinderNode(
+                startPoint,
+                instance.grid.GetNodeAt(startPoint),
+                new FavorClosenessToOrigin(),
+                new RestrictByGCost()
             );
-        PathfinderNode targetNode = 
-            endPointsCreator(
-                endPoint, instance.grid.GetNodeAt(endPoint)
+        PathfinderNode targetNode =
+            new PathfinderNode(
+                endPoint,
+                instance.grid.GetNodeAt(endPoint),
+                new FavorClosenessToTarget(),
+                new RestrictByHCost()
             );
-            
+
         if (startNode.IsWalkable() && targetNode.IsWalkable()){
             PathfindingHeap<PathfinderNode> openSet = 
                 new PathfindingHeap<PathfinderNode>(MAXPATHHEAPSIZE);
@@ -54,6 +65,7 @@ public class PathfinderHelper :MonoBehaviour{
             activeNodes.Add(startNode.GetGridCoord(), startNode);
             activeNodes.Add(targetNode.GetGridCoord(), targetNode);
             while (openSet.Count > 0){
+                PathRequestManager.counter++;
                 PathfinderNode currentNode = openSet.RemoveFirst();
 
                 closedSet.Add(currentNode);
@@ -97,7 +109,7 @@ public class PathfinderHelper :MonoBehaviour{
         PathfinderNode node, 
         Dictionary<Point, 
         PathfinderNode> activeNodes,
-        NodeCreator nodeCreator
+        PathfinderNodeCreator nodeCreator
     ){
         List<PathfinderNode> neighbors = new List<PathfinderNode>();
         List<Point> neighborPoints = instance.grid.GetNeighbors(node.GetGridCoord());
@@ -109,7 +121,7 @@ public class PathfinderHelper :MonoBehaviour{
                 neighbors.Add(currentNode);
             }
             else{
-                currentNode = nodeCreator(
+                currentNode = nodeCreator.CreateNode(
                     currentPoint, instance.grid.GetNodeAt(currentPoint)
                 );
                 activeNodes.Add(currentPoint, currentNode);
@@ -160,10 +172,18 @@ public class PathfinderHelper :MonoBehaviour{
         return waypoints.ToArray();
     }
 
-    public static int GetDistance(PathfinderNode nodeA, PathfinderNode nodeB)
-    {
+    public static int GetDistance(PathfinderNode nodeA, PathfinderNode nodeB){
         Point a = nodeA.GetGridCoord();
         Point b = nodeB.GetGridCoord();
+
+        int dstX = Mathf.Abs(a.x - b.x);
+        int dstY = Mathf.Abs(a.y - b.y);
+
+        if (dstX > dstY)
+            return (int)(14 * dstY + 10 * (dstX - dstY));
+        return (int)(14 * dstX + 10 * (dstY - dstX));
+    }
+    public static int GetDistance(Point a, Point b){
 
         int dstX = Mathf.Abs(a.x - b.x);
         int dstY = Mathf.Abs(a.y - b.y);

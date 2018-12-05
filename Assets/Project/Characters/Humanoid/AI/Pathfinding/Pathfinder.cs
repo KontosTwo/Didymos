@@ -10,9 +10,7 @@ public static class Pathfinder{
 	{
         callback(
             PathfinderHelper.FindPath(
-                request,
-                PathfinderNode.CreateEndpointNode,
-                request.aStarImpl
+                request
             )
         );
 	}

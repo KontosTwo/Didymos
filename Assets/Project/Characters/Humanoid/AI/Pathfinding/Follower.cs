@@ -49,7 +49,7 @@ public class Follower : MonoBehaviour {
                 target.position, 
                 OnPathFound,
                 maxLength,
-                ImplementationStrategyFactory.CreateFlankingImplementation(
+                new FlankingImplementation(
                     nonCoverStrategy,
                     coverStrategy
                 )
@@ -68,7 +68,7 @@ public class Follower : MonoBehaviour {
                         target.position,
                         OnPathFound,
                         maxLength,
-                        ImplementationStrategyFactory.CreateFlankingImplementation(
+                        new FlankingImplementation(
                             nonCoverStrategy,
                             coverStrategy
                         )
