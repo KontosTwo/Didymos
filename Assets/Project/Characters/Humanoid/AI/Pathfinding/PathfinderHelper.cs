@@ -42,9 +42,7 @@ public class PathfinderHelper :MonoBehaviour{
             endPointsCreator(
                 endPoint, instance.grid.GetNodeAt(endPoint)
             );
-
-        CostStrategy strategy = request.strategy;
-
+            
         if (startNode.IsWalkable() && targetNode.IsWalkable()){
             PathfindingHeap<PathfinderNode> openSet = 
                 new PathfindingHeap<PathfinderNode>(MAXPATHHEAPSIZE);
@@ -67,13 +65,12 @@ public class PathfinderHelper :MonoBehaviour{
 
                 implementationStrategy.ProcessNode(
                     currentNode,
+                    targetNode,
                     openSet,
                     closedSet,
                     activeNodes,
-                    strategy,
                     instance.grid,
-                    maxPathLength,
-                    targetNode
+                    maxPathLength
                 );
             }
         }

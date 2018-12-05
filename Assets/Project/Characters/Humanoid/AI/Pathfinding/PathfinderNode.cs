@@ -37,6 +37,18 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         );
     }
 
+    public static PathfinderNode CreateFavorDistanceToTargetNode(
+        Point location,
+        MapNode data
+    ){
+        return new PathfinderNode(
+            location,
+            data,
+            new FavorClosenessToTarget(),
+            new RestrictByGCost()
+        );
+    }
+
     public static PathfinderNode CreateEndpointNode(
         Point location,
         MapNode data

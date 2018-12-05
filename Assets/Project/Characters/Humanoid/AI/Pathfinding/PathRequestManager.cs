@@ -29,7 +29,7 @@ public class PathRequestManager : MonoBehaviour{
 
 	public static void RequestPath(PathRequest request) {
 		ThreadStart threadStart = delegate {
-			Pathfinder.FindPathFlanking (request, instance.FinishedProcessingPath);
+			Pathfinder.FindPath (request, instance.FinishedProcessingPath);
 		};
 		threadStart.Invoke ();
 	}
@@ -43,39 +43,3 @@ public class PathRequestManager : MonoBehaviour{
 
 
 }
-
-public struct PathResult {
-	public Vector3[] path;
-	public bool success;
-	public Action<Vector3[], bool> callback;
-
-	public PathResult (Vector3[] path, bool success, Action<Vector3[], bool> callback)
-	{
-		this.path = path;
-		this.success = success;
-		this.callback = callback;
-	}
-
-}
-
-public struct PathRequest {
-	public Vector3 pathStart;
-	public Vector3 pathEnd;
-	public Action<Vector3[], bool> callback;
-    public CostStrategy strategy;
-    public float maxLength;
-
-	public PathRequest(Vector3 _start, 
-                       Vector3 _end, 
-                       Action<Vector3[], bool> _callback,
-                       CostStrategy _strategy,
-                       float _maxLength) {
-		pathStart = _start;
-		pathEnd = _end;
-		callback = _callback;
-        strategy = _strategy;
-        maxLength = _maxLength;
-	}
-
-}
-	

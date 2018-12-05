@@ -1,11 +1,12 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderHelper.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderHelper.cs" Line="165" Column="11" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/FavorNoStrategyCost.cs" Line="22" Column="34" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/IImplementPathfinder.cs" Line="5" Column="40" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/ImplementationStrategy.cs" Line="5" Column="70" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="14" Column="51" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderNode.cs" Line="40" Column="65" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/FlankingImplementation.cs" Line="28" Column="52" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/ImplementationStrategy.cs" Line="12" Column="19" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/ImplementationStrategyFactory.cs" Line="10" Column="59" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathResult.cs" Line="2" Column="19" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderHelper.cs" Line="45" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

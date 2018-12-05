@@ -7,7 +7,9 @@ public class Follower : MonoBehaviour {
 	const float minPathUpdateTime = .1f;
 	const float pathUpdateMoveThreshold = .5f;
 
-    public CostStrategy strategy;
+    public CostStrategy nonCoverStrategy;
+    public CostStrategy coverStrategy;
+
     public float maxLength;
 
 	public Transform target;
@@ -46,8 +48,11 @@ public class Follower : MonoBehaviour {
                 transform.position, 
                 target.position, 
                 OnPathFound,
-                strategy,
-                maxLength
+                maxLength,
+                ImplementationStrategyFactory.CreateFlankingImplementation(
+                    nonCoverStrategy,
+                    coverStrategy
+                )
             )
         );
 
@@ -59,11 +64,14 @@ public class Follower : MonoBehaviour {
 			if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
 				PathRequestManager.RequestPath (
                     new PathRequest(
-                        transform.position, 
-                        target.position, 
+                        transform.position,
+                        target.position,
                         OnPathFound,
-                        strategy,
-                        maxLength
+                        maxLength,
+                        ImplementationStrategyFactory.CreateFlankingImplementation(
+                            nonCoverStrategy,
+                            coverStrategy
+                        )
                     )
                 );
 				targetPosOld = target.position;
