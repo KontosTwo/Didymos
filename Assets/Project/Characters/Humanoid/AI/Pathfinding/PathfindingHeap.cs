@@ -38,6 +38,12 @@ public class PathfindingHeap<T> where T : IHeapItem<T> {
 		SortUp(item);
 	}
 
+    public void Resort(IComparer<T> comparer){
+        for (int i = 0; i < currentItemCount; i ++){
+            SortUp(items[i], comparer);
+        }
+    }
+
 	public int Count {
 		get {
 			return currentItemCount;
@@ -48,7 +54,17 @@ public class PathfindingHeap<T> where T : IHeapItem<T> {
 		return Equals(items[item.HeapIndex], item);
 	}
 
-	void SortDown(T item) {
+    public void Clear(){
+        Array.Clear(items, 0, items.Length );
+        currentItemCount = 0;
+    }
+
+    public void LeaveOne(){
+        Array.Clear(items, 1, items.Length - 1);
+        currentItemCount = 1;
+    }
+
+    void SortDown(T item) {
 		while (true) {
 			int childIndexLeft = item.HeapIndex * 2 + 1;
 			int childIndexRight = item.HeapIndex * 2 + 2;
@@ -93,6 +109,22 @@ public class PathfindingHeap<T> where T : IHeapItem<T> {
 			parentIndex = (item.HeapIndex-1)/2;
 		}
 	}
+
+    void SortUp(T item,IComparer<T> comparer){
+        int parentIndex = (item.HeapIndex - 1) / 2;
+
+        while (true){
+            T parentItem = items[parentIndex];
+            if (comparer.Compare(item,parentItem) > 0){
+                Swap(item, parentItem);
+            }
+            else{
+                break;
+            }
+
+            parentIndex = (item.HeapIndex - 1) / 2;
+        }
+    }
 	
 	void Swap(T itemA, T itemB) {
 		items[itemA.HeapIndex] = itemB;

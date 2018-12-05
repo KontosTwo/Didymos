@@ -28,6 +28,7 @@ public class PathRequestManager : MonoBehaviour{
 	}
 
 	public static void RequestPath(PathRequest request) {
+        DrawGizmo.ClearGizmo();
 		ThreadStart threadStart = delegate {
 			Pathfinder.FindPath (request, instance.FinishedProcessingPath);
 		};

@@ -65,6 +65,10 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         this.parent = p;
     }
 
+    public IComparer<PathfinderNode> GetComparer(){
+        return comparer;
+    }
+
     public List<PathfinderNode> TraceParents(PathfinderNode startNode){
         List<PathfinderNode> path = new List<PathfinderNode>();
         PathfinderNode currentNode = this;

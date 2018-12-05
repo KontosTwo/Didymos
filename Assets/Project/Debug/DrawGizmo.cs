@@ -34,6 +34,10 @@ public class DrawGizmo : MonoBehaviour {
         );
     }
 
+	public static void ClearGizmo(){
+		instance.gizmos.Clear();
+	}
+
     private class DebugGizmo{
         public Color color;
         public string text;

@@ -5,6 +5,7 @@ using UnityEngine;
 public interface IImplementPathfinder {
     void ProcessNode(
         PathfinderNode currentNode,
+        PathfinderNode startNode,
         PathfinderNode targetNode,
         PathfindingHeap<PathfinderNode> openSet,
         HashSet<PathfinderNode> closedSet,

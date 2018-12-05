@@ -1,15 +1,10 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/NodeStrategy/Comparer/FavorCoverAndStrategyCost.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/FlankingImplementation.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderNode.cs" Line="25" Column="32" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderHelper.cs" Line="68" Column="17" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Pathfinder.cs" Line="14" Column="14" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/FlankingImplementation.cs" Line="119" Column="24" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathRequestManager.cs" Line="44" Column="35" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/NodeStrategy/Comparer/FavorClosenessToLocation.cs" Line="15" Column="6" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/NodeStrategy/Comparer/FavorClosenessToOrigin.cs" Line="1" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/NodeStrategy/Comparer/FavorClosenessToTarget.cs" Line="1" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/NodeStrategy/Comparer/FavorCoverAndStrategyCost.cs" Line="21" Column="27" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/FlankingImplementation.cs" Line="35" Column="35" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/IImplementPathfinder.cs" Line="8" Column="34" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy/ImplementationStrategy.cs" Line="8" Column="34" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathfinderHelper.cs" Line="77" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

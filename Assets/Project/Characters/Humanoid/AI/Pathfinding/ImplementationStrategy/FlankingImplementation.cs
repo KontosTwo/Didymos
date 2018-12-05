@@ -33,6 +33,7 @@ public class FlankingImplementation : ImplementationStrategy{
 
     public override void ProcessNode(
         PathfinderNode currentNode,
+        PathfinderNode startNode,
         PathfinderNode targetNode,
         PathfindingHeap<PathfinderNode> openSet, 
         HashSet<PathfinderNode> closedSet, 
@@ -62,6 +63,11 @@ public class FlankingImplementation : ImplementationStrategy{
                 continue;
             }
 
+
+
+
+
+
             int newMovementCostToNeighbour = 
                 currentNode.GetGCost() + PathfinderHelper.GetDistance(currentNode, neighbour);
             if (newMovementCostToNeighbour < neighbour.GetGCost() || !openSet.Contains(neighbour)){
@@ -69,26 +75,41 @@ public class FlankingImplementation : ImplementationStrategy{
                 neighbour.SetHCost(GetDistance(neighbour, targetNode));
                 neighbour.SetStrategyCost(currentCostStrategy.GetAdditionalCostAt(currentLocation, neighbourLocation));
                 neighbour.SetParent(currentNode);
-
                 if (!openSet.Contains(neighbour)
                     && neighbour.WithInRangeOfStart(maxPathLength)
                 ){
                     if(CanSwitchToCover(currentNode,neighbour)){
                         SwitchToCover();
-                        DrawGizmo.AddGizmo(Color.blue, "Switching to cover: " + PathRequestManager.counter, neighbourLocation + new Vector3(0, 10f, 0));
 
+                        openSet.Clear();
+                        activeNodes.Clear();
+
+                       // openSet.Add(startNode);
+                       // activeNodes.Add(startNode.GetGridCoord(), startNode);
+                        activeNodes.Add(targetNode.GetGridCoord(), targetNode);
+                        DrawGizmo.AddGizmo(Color.blue, "Switching to cover: " + PathRequestManager.counter, neighbourLocation + new Vector3(0, 10f, 0));
                     }
                     else if(CanSwitchToNonCover(currentNode,neighbour)){
                         SwitchToNonCover(currentNode);
+
+                        openSet.Clear();
+                        activeNodes.Clear();
+
+                        //openSet.Add(startNode);
+                        //activeNodes.Add(startNode.GetGridCoord(), startNode);
+                        activeNodes.Add(targetNode.GetGridCoord(), targetNode);
+
                         DrawGizmo.AddGizmo(Color.red, "switching out of cover: " + PathRequestManager.counter, neighbourLocation + new Vector3(0,10f, 0));
 
+                        DrawGizmo.AddGizmo(Color.green, "Foci: " + PathRequestManager.counter, currentLocation + new Vector3(0, 15f, 0));
                     }
 
 
                     openSet.Add(neighbour);
-                    //DrawGizmo.AddGizmo(Color.gray, "" + neighbour.GetStrategyCost(), neighbourLocation);
+                    DrawGizmo.AddGizmo(Color.gray, "" + neighbour.GetStrategyCost(), neighbourLocation);
                 }
                 else{
+
                     openSet.UpdateItem(neighbour);
                 }
             }
@@ -108,7 +129,7 @@ public class FlankingImplementation : ImplementationStrategy{
                                   PathfinderNode neighbor){
         if (inCover){
             return neighbor.GetStrategyCost() > currentNode.GetStrategyCost() &&
-                           neighbor.IsCover();
+                           !neighbor.IsCover();
         }
         return false;
     }

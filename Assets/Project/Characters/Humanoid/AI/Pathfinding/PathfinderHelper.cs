@@ -77,6 +77,7 @@ public class PathfinderHelper :MonoBehaviour{
 
                 implementationStrategy.ProcessNode(
                     currentNode,
+                    startNode,
                     targetNode,
                     openSet,
                     closedSet,
