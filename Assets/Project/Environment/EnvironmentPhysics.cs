@@ -269,7 +269,7 @@ public partial class EnvironmentPhysics : MonoBehaviour {
         /*MapNode mapNode = MapNode.GetMapNode();
         mapNode.Reinitialize(height, speedModifier, walkable);
         return mapNode;*/
-        return new MapNode(height, walkable);
+        return new MapNode(new Vector3(x,height,z),height, walkable);
     }
 
     public static float FindWalkableHeightAt(float x, float z){

@@ -9,13 +9,13 @@ public struct PathRequest
     public Vector3 pathEnd;
     public Action<Vector3[], bool> callback;
     public float maxLength;
-    public ImplementationStrategy aStarImpl;
+    public PathfinderImplementationStrategy aStarImpl;
 
     public PathRequest(Vector3 _start,
                        Vector3 _end,
                        Action<Vector3[], bool> _callback,
                        float _maxLength,
-                       ImplementationStrategy aStarImpl)
+                       PathfinderImplementationStrategy aStarImpl)
     {
         pathStart = _start;
         pathEnd = _end;

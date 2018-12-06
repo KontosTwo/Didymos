@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 3}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 392}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -69,7 +69,7 @@ MonoBehaviour:
     y: 0
     width: 1391
     height: 855
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 392}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &4
 MonoBehaviour:
@@ -131,10 +131,10 @@ MonoBehaviour:
     y: 30
     width: 1391
     height: 805
-  m_MinSize: {x: 681, y: 342}
-  m_MaxSize: {x: 12006, y: 8042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
-  controlID: 60
+  controlID: 85
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -155,10 +155,10 @@ MonoBehaviour:
     y: 0
     width: 1391
     height: 805
-  m_MinSize: {x: 681, y: 342}
-  m_MaxSize: {x: 12006, y: 8042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 1
-  controlID: 61
+  controlID: 86
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -180,10 +180,10 @@ MonoBehaviour:
     y: 0
     width: 1391
     height: 534
-  m_MinSize: {x: 681, y: 221}
-  m_MaxSize: {x: 12006, y: 4021}
+  m_MinSize: {x: 683, y: 221}
+  m_MaxSize: {x: 12008, y: 4021}
   vertical: 0
-  controlID: 62
+  controlID: 87
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -202,8 +202,8 @@ MonoBehaviour:
     y: 0
     width: 203
     height: 534
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -227,8 +227,8 @@ MonoBehaviour:
     y: 0
     width: 674
     height: 534
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -337,138 +337,6 @@ MonoBehaviour:
       ignoredOrSkipped: 0
       description: 
       isSuite: 1
-    - id: '[/Users/user/Documents/Programming/Unity/Didymos/Library/ScriptAssemblies/UnitTests.dll][suite]'
-      name: UnitTests.dll
-      fullName: /Users/user/Documents/Programming/Unity/Didymos/Library/ScriptAssemblies/UnitTests.dll
-      resultStatus: 1
-      duration: 0.3432461
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-    - id: '[UnitTests][LinkedDictionaryTest][suite]'
-      name: LinkedDictionaryTest
-      fullName: LinkedDictionaryTest
-      resultStatus: 1
-      duration: 0.0652152
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-    - id: '[UnitTests][LinkedDictionaryTest.DictPreservesOrder]'
-      name: DictPreservesOrder
-      fullName: LinkedDictionaryTest.DictPreservesOrder
-      resultStatus: 1
-      duration: 0.0461355
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest][suite]'
-      name: PoolTest
-      fullName: PoolTest
-      resultStatus: 1
-      duration: 0.2438423
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-    - id: '[UnitTests][PoolTest.PoolExhausts]'
-      name: PoolExhausts
-      fullName: PoolTest.PoolExhausts
-      resultStatus: 1
-      duration: 0.0316081
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolRecycles]'
-      name: PoolRecycles
-      fullName: PoolTest.PoolRecycles
-      resultStatus: 1
-      duration: 0.0177966
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolRecyclesAll]'
-      name: PoolRecyclesAll
-      fullName: PoolTest.PoolRecyclesAll
-      resultStatus: 1
-      duration: 0.0145618
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolRecyclesFirst]'
-      name: PoolRecyclesFirst
-      fullName: PoolTest.PoolRecyclesFirst
-      resultStatus: 1
-      duration: 0.0135449
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolRecyclesLast]'
-      name: PoolRecyclesLast
-      fullName: PoolTest.PoolRecyclesLast
-      resultStatus: 1
-      duration: 0.0170428
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolRecyclesMultipleTrials]'
-      name: PoolRecyclesMultipleTrials
-      fullName: PoolTest.PoolRecyclesMultipleTrials
-      resultStatus: 1
-      duration: 0.014948
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-    - id: '[UnitTests][PoolTest.PoolResizes]'
-      name: PoolResizes
-      fullName: PoolTest.PoolResizes
-      resultStatus: 1
-      duration: 0.0131656
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
     m_ResultText: Didymos (0.000s)
     m_ResultStacktrace: 
     m_TestListState:
@@ -528,7 +396,7 @@ MonoBehaviour:
   m_AnimEditor: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 7770
+  m_LastSelectedObjectID: 7692
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -666,9 +534,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 781e0000
-    m_LastClickedID: 7800
-    m_ExpandedIDs: f0fbffff000000001a1e0000261e0000561e00009c1e0000b21e0000
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: e6fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -723,9 +591,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 60.173042, y: -3.824606, z: 62.10192}
+    m_Target: {x: 53.16636, y: -1.6441402, z: 38.076874}
     speed: 2
-    m_Value: {x: 60.173042, y: -3.824606, z: 62.10192}
+    m_Value: {x: 53.16636, y: -1.6441402, z: 38.076874}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -753,17 +621,17 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+    m_Target: {x: -0.57755256, y: 0.381434, z: -0.34856182, w: -0.632021}
     speed: 2
-    m_Value: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+    m_Value: {x: -0.57755256, y: 0.381434, z: -0.34856182, w: -0.632021}
   m_Size:
-    m_Target: 67.132416
+    m_Target: 31.135654
     speed: 2
-    m_Value: 67.132416
+    m_Value: 31.135654
   m_Ortho:
-    m_Target: 0
+    m_Target: 1
     speed: 2
-    m_Value: 0
+    m_Value: 1
   m_ShowGlobalGrid: 1
   m_LastSceneViewRotation: {x: -0.5249208, y: -0.47454545, z: 0.48317313, w: -0.5155662}
   m_LastSceneViewOrtho: 1
@@ -804,10 +672,10 @@ MonoBehaviour:
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
-    m_HBaseRangeMin: -167.5
-    m_HBaseRangeMax: 167.5
-    m_VBaseRangeMin: -124
-    m_VBaseRangeMax: 124
+    m_HBaseRangeMin: -335
+    m_HBaseRangeMax: 335
+    m_VBaseRangeMin: -248
+    m_VBaseRangeMax: 248
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -826,7 +694,7 @@ MonoBehaviour:
       y: 17
       width: 670
       height: 496
-    m_Scale: {x: 2, y: 2}
+    m_Scale: {x: 1, y: 1}
     m_Translation: {x: 335, y: 248}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -834,15 +702,15 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -167.5
-      y: -124
-      width: 335
-      height: 248
+      x: -335
+      y: -248
+      width: 670
+      height: 496
     m_MinimalGUI: 1
-  m_defaultScale: 2
+  m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
-  m_LastWindowPixelSize: {x: 1340, y: 1026}
+  m_LastWindowPixelSize: {x: 670, y: 513}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000100000100
@@ -917,20 +785,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy
+    - Assets/Project/Characters/Humanoid/AI
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Project/Characters/Humanoid/AI/Pathfinding/ImplementationStrategy
+  - Assets/Project/Characters/Humanoid/AI/Destination
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/user/Documents/Programming/Unity/Didymos
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 135}
-    m_SelectedIDs: be150000
-    m_LastClickedID: 5566
-    m_ExpandedIDs: 000000009a0c00004a0e00001a0f0000a6110000e21100006c120000e0140000fa140000081500008c15000092150000c61500006c1600000a18000038180000ba190000681a00006c1a0000721a0000381b0000561b0000741b00008e1b0000224000002440000026400000284000002a4000002c4000002e400000
+    m_SelectedIDs: ba130000
+    m_LastClickedID: 5050
+    m_ExpandedIDs: 00000000ba0c00006a0e00003a0f0000c6110000021200008c120000001500001a15000028150000ac150000b2150000e61500008c1600002a18000058180000da190000881a00008c1a0000921a0000581b0000761b0000941b0000ae1b00009c3e00009e3e0000a03e0000a23e0000a43e0000a63e0000a83e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -958,7 +826,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000009a0c00004a0e00001a0f0000a6110000e21100006c120000e0140000fa140000081500008c15000092150000c61500006c1600000a18000038180000ba190000681a00006c1a0000721a0000381b0000561b0000741b00008e1b0000224000002440000026400000284000002a4000002c4000002e400000
+    m_ExpandedIDs: 00000000ba0c00006a0e00003a0f0000c6110000021200008c120000001500001a15000028150000ac150000b2150000e61500008c1600002a18000058180000da190000881a00008c1a0000921a0000581b0000761b0000941b0000ae1b00009c3e00009e3e0000a03e0000a23e0000a43e0000a63e0000a83e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -983,9 +851,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: d4420000
-    m_LastClickedInstanceID: 17108
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs: 2c1e0000
+    m_LastClickedInstanceID: 7724
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 0a2600000c260000102600003a56000046f8ffff82eeffff72eaffff002b0000102b0000602600000a2b000042260000102700007009000096270000502d000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

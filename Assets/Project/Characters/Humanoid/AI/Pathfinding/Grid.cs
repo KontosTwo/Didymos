@@ -9,17 +9,18 @@ using System;
 
 
 
-public class Grid : MonoBehaviour
-{
-    private MapNode[,] nodes;
+public class Grid : MonoBehaviour{
 
     [SerializeField]
     private MapBound mapbounds;
-
     [SerializeField]
     private float nodeSize;
+
+    private MapNode[,] nodes;
     private Vector2 bottomLeftCorner;
     private Vector2 dimensions;
+
+    private static Grid instance;
 
     void Awake(){
         Vector3 bottomLeftCorner3d = mapbounds.GetBottomLeftCorner();
@@ -27,6 +28,7 @@ public class Grid : MonoBehaviour
         bottomLeftCorner = new Vector2(bottomLeftCorner3d.x, bottomLeftCorner3d.z);
         dimensions = new Vector2(dimensions3d.x, dimensions3d.z);
         nodes = new MapNode[(int)(dimensions.x / nodeSize), (int)(dimensions.y / nodeSize)];
+        instance = this;
     }
 
     void Start(){
@@ -88,7 +90,7 @@ public class Grid : MonoBehaviour
     {
         return new Vector3(
             (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
-            , nodes[point.x, point.y].height
+            , nodes[point.x, point.y].GetHeight()
             , (point.y * nodeSize + nodeSize / 2) + bottomLeftCorner.y);
     }
 

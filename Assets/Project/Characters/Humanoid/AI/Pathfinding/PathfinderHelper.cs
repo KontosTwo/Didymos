@@ -33,7 +33,7 @@ public class PathfinderHelper :MonoBehaviour{
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
         float maxLength = request.maxLength;
-        ImplementationStrategy implementationStrategy = request.aStarImpl;
+        PathfinderImplementationStrategy implementationStrategy = request.aStarImpl;
         /* multiple by 10 to account for the factor of 10 in GetDistance()*/
         int maxPathLength = instance.grid.DistanceToNodeDistance(maxLength) * 10;
         Point startPoint = instance.grid.WorldCoordToNode(request.pathStart);

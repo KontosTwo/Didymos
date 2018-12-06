@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PathfinderHelper;
 
-public class FlankingImplementation : ImplementationStrategy{
+public class FlankingImplementation : PathfinderImplementationStrategy{
 
     private PathfinderNodeCreator currentNodeCreator;
-    private CostStrategy currentCostStrategy;
+    private PathfinderCostStrategy currentCostStrategy;
 
     private FavorDistanceToFociCreator nonCoverNodeCreator;
-    private CostStrategy nonCoverCostStrategy;
+    private PathfinderCostStrategy nonCoverCostStrategy;
     private FavorCoverAndStrategyCostCreator coverNodeCreator;
-    private CostStrategy coverCostStrategy;
+    private PathfinderCostStrategy coverCostStrategy;
 
     private bool inCover;
     private bool notInCover;
@@ -19,8 +19,8 @@ public class FlankingImplementation : ImplementationStrategy{
     private bool nonCoverCostStrategyInitialized;
 
     public FlankingImplementation(
-        CostStrategy nonCoverCostStrategy,
-        CostStrategy coverCostStrategy
+        PathfinderCostStrategy nonCoverCostStrategy,
+        PathfinderCostStrategy coverCostStrategy
     ){
         this.nonCoverNodeCreator = new FavorDistanceToFociCreator();
         this.nonCoverCostStrategy = nonCoverCostStrategy;

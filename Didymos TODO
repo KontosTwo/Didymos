@@ -18,7 +18,9 @@ slim obstacles are not detected by CreateMapNode
 When stopping a coroutine that uses pooled objects at one point, keep track of which objects it has used up to that point. Pass in a list of pool able objects, and add stuff to that list each time. Upon premature or successful shutdown of coroutine, empty that list of pooled objects
 //////////////////////////////////
 
-Have a special case for pathfinder. When the algorithm reaches an area of nodes where the enemy will be completely hidden, or have non-negligible disparity, switch the heap sorting algorithm to now include strategy cost, hcost, and gcost. Use strategy pattern where the strategy will be injected into PathfindingHeap and the heap resorted
+Just balance Pathfinder logic with BT logic lol
+
+Make PAthrequestmanager generic to handle different types
 
 Node paging and recalculation: calculate the edges of obstacles or any height differences as “cover nodes” pathfinder is optimized to find those. Also switch pathfinding strategies (not cost strategies necessarily) for different situations
 
