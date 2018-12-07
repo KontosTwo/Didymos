@@ -25,6 +25,7 @@ public class HumanoidTargeter : MonoBehaviour {
     [SerializeField]
     private float checkHiddenEnemyRadius;
 
+
     private HashSet<CommunicatableEnemyMarker> hiddenEnemies;
     private EnemyMarker currentHiddenEnemy;
     private bool hasHiddenEnemy;
@@ -177,8 +178,20 @@ public class HumanoidTargeter : MonoBehaviour {
         return Vector3.Distance(centerBottom.position, other.centerBottom.position) < communicateRadius;
     }
 
-    private HashSet<CommunicatableEnemyMarker> GetDeepCopyOfHiddenEnemies()
-    {
+    public List<Vector2> GetEnemyBounds(){
+        List<Vector3> enemyLocations = new List<Vector3>();
+        enemyLocations.AddRange(hiddenEnemies.Select(enemy => enemy.GetEnemyMarker().GetLocation()));
+        enemyLocations.AddRange(viewableEnemies.Keys.Select(enemy => enemy.InfoGetCenterBottom()));
+        List<Vector2> enemyLocations2D = enemyLocations.Select(location => new Vector2(location.x, location.z)).ToList();
+        List<Vector2> enemyBounds = ConvexHull.MakeHull(enemyLocations2D);
+        return enemyBounds;
+    }
+
+    private void RecalculateEnemyBounds(){
+
+    }
+
+    private HashSet<CommunicatableEnemyMarker> GetDeepCopyOfHiddenEnemies(){
         HashSet<CommunicatableEnemyMarker> copy = new HashSet<CommunicatableEnemyMarker>();
         foreach(var marker in hiddenEnemies){
             copy.Add(marker.GetNewMarker());

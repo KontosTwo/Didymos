@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+/*
+ *  Source
+ *  https://github.com/SebLague/Pathfinding
+ */
 public class PathfinderHelper :MonoBehaviour{
     [SerializeField]
     private Grid grid;

@@ -73,7 +73,12 @@ public class FlankingImplementation : PathfinderImplementationStrategy{
             if (newMovementCostToNeighbour < neighbour.GetGCost() || !openSet.Contains(neighbour)){
                 neighbour.SetGCost(newMovementCostToNeighbour);
                 neighbour.SetHCost(GetDistance(neighbour, targetNode));
-                neighbour.SetStrategyCost(currentCostStrategy.GetAdditionalCostAt(currentLocation, neighbourLocation));
+                neighbour.SetStrategyCost(
+                    currentCostStrategy.GetAdditionalCostAt(
+                        currentLocation, 
+                        neighbourLocation
+                    ).GetCoverDisparityPenalty()
+                );
                 neighbour.SetParent(currentNode);
                 if (!openSet.Contains(neighbour)
                     && neighbour.WithInRangeOfStart(maxPathLength)

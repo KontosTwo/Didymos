@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
+using System.Linq;
+
 public class DestinationFinderHelper : MonoBehaviour{
     [SerializeField]
     private Grid grid;
@@ -11,17 +14,37 @@ public class DestinationFinderHelper : MonoBehaviour{
         instance = this;
     }
 
-    public static SortedDictionary<int,MapNode> FindDestinationCandidates(
-        IImplementDestinationFinder implementation,
+    public static List<MapNode> FindDestinationCandidates(
+        Vector3 start,
+        IFindCandidates candidateFinder,
         IDestinationFilterer filterer,
-        IDestinationCostCalculator costCalculator
+        IDestinationCostCalculator costCalculator,
+        IDestinationSorter sorter
     ){
-        return implementation.FindDestinationCandidates(
-            instance.grid,
-            filterer,
-            costCalculator
-        );
+        List<MapNode> candidates =
+            candidateFinder.FindDestinationCandidates(
+                start,
+                instance.grid
+            );
+
+        List<MapNode> itemsToRemove = candidates.Where(c => !filterer.KeepDestination(c)).ToList();
+        foreach (var itemToRemove in itemsToRemove){
+            candidates.Remove(itemToRemove);
+        }
+
+        SortedDictionary<CostResult, MapNode> sortedCandidates =
+            new SortedDictionary<CostResult, MapNode>(
+                sorter
+            );
+
+        candidates.ForEach(c =>{
+            sortedCandidates.Add(costCalculator.GetAdditionalCostAt(c.GetLocation()),c);
+        });
+
+        return sortedCandidates.Values.ToList();
     }
+
+
 
 }
 

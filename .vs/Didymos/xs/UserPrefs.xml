@@ -1,17 +1,11 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/ImplementationStrategy/FlankEnemyImplementation.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/Filtering/FilterForUnoccupiedCover.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/CostStrategy/Destination/FlankDestinationStrategy.cs" Line="20" Column="47" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/CostStrategy/Pathfinder/FlankPathfinderStrategy.cs" Line="26" Column="9" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/DestinationFinderHelper.cs" Line="23" Column="11" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/Filtering/IDestinationFilterer.cs" Line="4" Column="30" />
-      <File FileName="Assets/Project/Environment/MapNode.cs" Line="20" Column="28" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/Sorting/SortByCost.cs" Line="4" Column="45" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/Sorting/IDestinationSorter.cs" Line="4" Column="36" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/PathRequestManager.cs" Line="24" Column="11" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/ImplementationStrategy/IImplementDestinationFinder.cs" Line="7" Column="9" NotebookId="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/ImplementationStrategy/DestinationImplementationStrategy.cs" Line="6" Column="19" NotebookId="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/ImplementationStrategy/FlankEnemyImplementation.cs" Line="15" Column="1" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/DestinationFinderHelper.cs" Line="20" Column="39" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/CandidateStrategy/FindCandidatesForFlank.cs" Line="45" Column="61" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs" Line="187" Column="28" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/Filtering/FilterForUnoccupiedCover.cs" Line="37" Column="41" />
+      <File FileName="Assets/Project/Utility/ConvexHull.cs" Line="45" Column="28" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

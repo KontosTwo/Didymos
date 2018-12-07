@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class SortByCost : IDestinationSorter{
-
-    int IComparer<int>.Compare(int x, int y)
+public class SortByCost : SorterStrategy
+{
+    public override int Compare(CostResult x, CostResult y)
     {
-        return -(x - y);
+        return -(x.GetCoverDisparityPenalty() - y.GetCoverDisparityPenalty());
     }
 }
 

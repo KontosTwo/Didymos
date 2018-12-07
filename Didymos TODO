@@ -13,10 +13,14 @@ To prevent the very start of the game from being laggy, calculate the starting a
 In this case, each GameObject representing an obstacle should have an “opacity”, since the entire map will be divvied into cubes each of which will “dilute” the virtual raycast’s strength. The Unity API raycast should find every single obstacle’s height and the virtual raycast algorithm should take each of these obstacle’s height into account
 
 slim obstacles are not detected by CreateMapNode
+
+Cite your work
 *********/
 
 When stopping a coroutine that uses pooled objects at one point, keep track of which objects it has used up to that point. Pass in a list of pool able objects, and add stuff to that list each time. Upon premature or successful shutdown of coroutine, empty that list of pooled objects
 //////////////////////////////////
+
+Create a ConvexPolygonClass to handle edge cases and distance finding
 
 Just balance Pathfinder logic with BT logic lol
 
