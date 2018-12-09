@@ -177,7 +177,7 @@
     <Compile Include="Assets\Project\Script\Script.cs" />
     <Compile Include="Assets\Project\Utility\Address.cs" />
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />
-    <Compile Include="Assets\Project\Utility\ConvexHull.cs" />
+    <Compile Include="Assets\Project\Utility\ConvexPolygon.cs" />
     <Compile Include="Assets\Project\Utility\FastMath.cs" />
     <Compile Include="Assets\Project\Utility\Integer.cs" />
     <Compile Include="Assets\Project\Utility\LinkedDictionary.cs" />

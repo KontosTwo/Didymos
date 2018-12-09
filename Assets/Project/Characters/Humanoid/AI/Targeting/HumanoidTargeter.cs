@@ -178,12 +178,12 @@ public class HumanoidTargeter : MonoBehaviour {
         return Vector3.Distance(centerBottom.position, other.centerBottom.position) < communicateRadius;
     }
 
-    public List<Vector2> GetEnemyBounds(){
+    public ConvexPolygon GetEnemyBounds(){
         List<Vector3> enemyLocations = new List<Vector3>();
         enemyLocations.AddRange(hiddenEnemies.Select(enemy => enemy.GetEnemyMarker().GetLocation()));
         enemyLocations.AddRange(viewableEnemies.Keys.Select(enemy => enemy.InfoGetCenterBottom()));
         List<Vector2> enemyLocations2D = enemyLocations.Select(location => new Vector2(location.x, location.z)).ToList();
-        List<Vector2> enemyBounds = ConvexHull.MakeHull(enemyLocations2D);
+        ConvexPolygon enemyBounds = new ConvexPolygon(enemyLocations2D);
         return enemyBounds;
     }
 

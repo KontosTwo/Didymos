@@ -20,7 +20,12 @@ Cite your work
 When stopping a coroutine that uses pooled objects at one point, keep track of which objects it has used up to that point. Pass in a list of pool able objects, and add stuff to that list each time. Upon premature or successful shutdown of coroutine, empty that list of pooled objects
 //////////////////////////////////
 
-Create a ConvexPolygonClass to handle edge cases and distance finding
+Test convfexpolygon then change GetCandidatesForFlank
+
+Humanoid will “reserve” a map node while tracing a path there, then occupy it while 
+there. This will prevent humanoids from setting waypoints on the same map node. Make
+sure to have code that “cancels the reservations” if the humanoid ever stops the 
+pathfinding
 
 Just balance Pathfinder logic with BT logic lol
 

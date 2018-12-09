@@ -12,6 +12,8 @@ public class FastMath : MonoBehaviour
     private static double[] cos;
     private static double[] sin;
 
+    private static readonly float UNCERTAINTY = 0.1f;
+
     static FastMath(){
         cos = new double[360];
         sin = new double[360];
@@ -31,5 +33,11 @@ public class FastMath : MonoBehaviour
 
     public static Vector3 CreateVectorCube(float length){
         return new Vector3(length, length, length);
+    }
+
+    public static bool FloatCloseToZero(
+        float number
+    ){
+        return Math.Abs(number) < UNCERTAINTY;
     }
 }

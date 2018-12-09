@@ -21,12 +21,17 @@ public class FindCandidatesForFlank : CandidateStrategy{
         List<MapNode> candidates = new List<MapNode>();
 
         Vector2 stratLocation = strategizer.InfoGetCenterBottom().To2D();
-        Vector2[] enemiesLocations = targeter.GetEnemyBounds().points;
+        ConvexPolygon enemiesLocations = targeter.GetEnemyBounds();
 
-        if(enemiesLocations.Length == 0){
+        if(enemiesLocations.GetCount() == 0){
             Debug.LogError("No enemies found!");
             return new List<MapNode>();
         }
+
+        /*
+         * Get closest point on enemyPolygon, then try to outflank that
+         * 
+         */
 
         float closestDistance = int.MaxValue;
         Vector2 closestEnemy = new Vector2();

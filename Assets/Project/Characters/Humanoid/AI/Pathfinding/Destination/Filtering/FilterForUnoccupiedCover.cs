@@ -28,7 +28,7 @@ public class FilterForUnoccupiedCover : IDestinationFilterer{
             }
         }
 
-        List<Vector2> enemyBounds = targeter.GetEnemyBounds();
+        ConvexPolygon senemyBounds = targeter.GetEnemyBounds();
         Vector2[] enemyLocations = enemyBounds.points;
         bool tooClose = false;
 
