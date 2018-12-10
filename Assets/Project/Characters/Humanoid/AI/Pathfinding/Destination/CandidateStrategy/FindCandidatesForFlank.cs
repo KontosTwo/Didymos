@@ -35,7 +35,7 @@ public class FindCandidatesForFlank : CandidateStrategy{
 
         float closestDistance = int.MaxValue;
         Vector2 closestEnemy = new Vector2();
-        foreach(Vector2 enemyLocation in enemiesLocations){
+        foreach(Vector2 enemyLocation in enemiesLocations.GetVertices()){
             float distance = Vector2.Distance(
                 enemyLocation,
                 stratLocation

@@ -21,6 +21,10 @@ public class ConvexPolygon{
         return vertices.Count;
     }
 
+    public List<Vector2> GetVertices(){
+        return vertices;
+    }
+
     public bool WithinRange(
         Vector2 location,
         float distance
