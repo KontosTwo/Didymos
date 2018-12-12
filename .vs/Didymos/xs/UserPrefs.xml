@@ -1,9 +1,12 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/NewMonoBehaviour.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Attacking/HumanoidAttackPlanner.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/HumanoidAttackPlanner.cs" Line="27" Column="32" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/NewMonoBehaviour.cs" Line="4" Column="22" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/HumanoidAttackPlannerCommunications.cs" Line="16" Column="24" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Attacking/HumanoidAttackPlanner.cs" Line="58" Column="29" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Attacking/HumanoidAttackPlannerCommunications.cs" Line="6" Column="5" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Targeting/HumanoidTargeter.cs" Line="195" Column="31" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AIHumanoidModel.cs" Line="29" Column="6" NotebookId="1" />
+      <File FileName="Assets/Project/Utility/ConvexHull.cs" Line="65" Column="27" NotebookId="1" />
+      <File FileName="Assets/Project/Utility/ConvexPolygon.cs" Line="134" Column="9" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

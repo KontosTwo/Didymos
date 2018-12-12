@@ -27,6 +27,10 @@ there. This will prevent humanoids from setting waypoints on the same map node. 
 sure to have code that “cancels the reservations” if the humanoid ever stops the 
 pathfinding
 
+Allow enemies to communicate targeters
+
+Never use while() in the BT. Instead, generously sprinkle the check that would’ve been used in check around the place
+
 Just balance Pathfinder logic with BT logic lol
 
 Make PAthrequestmanager generic to handle different types

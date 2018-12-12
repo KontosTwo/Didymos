@@ -187,6 +187,15 @@ public class HumanoidTargeter : MonoBehaviour {
         return enemyBounds;
     }
 
+    public Tuple<List<CommunicatableEnemyMarker>,List<CommunicatableEnemyTarget>> GetBoundingEnemies(){
+        return ConvexHull.MakeHullTwo<CommunicatableEnemyMarker, CommunicatableEnemyTarget>(
+            hiddenEnemies.ToList(),
+            new List<CommunicatableEnemyTarget>(),
+            m => m.GetEnemyMarker().GetLocation().To2D(),
+            t => new Vector2()
+        );
+    }
+
     private void RecalculateEnemyBounds(){
 
     }

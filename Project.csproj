@@ -61,6 +61,8 @@
     <Compile Include="Assets\Project\Camera\FocusStrategy.cs" />
     <Compile Include="Assets\Project\Camera\GameplayCamera.cs" />
     <Compile Include="Assets\Project\Camera\IdleStrategy.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Attacking\HumanoidAttackPlanner.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Attacking\HumanoidAttackPlannerCommunications.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\CostStrategy\CostCalculatorHelper.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\CostStrategy\CostResult.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\CostStrategy\CoverDisparityPenaltyAttributes.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Destination\DestinationCost\FlankDestinationStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Destination\DestinationCost\IDestinationCostCalculator.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Destination\DestinationFinderHelper.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Destination\DestinationReservations.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Destination\Filtering\FilterForUnoccupiedCover.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Destination\Filtering\FilterStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Destination\Filtering\IDestinationFilterer.cs" />
@@ -81,6 +84,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Follower.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Grid.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\GridData.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\HumanoidMovementExecuter.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\ImplementationStrategy\FlankingImplementation.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\ImplementationStrategy\IImplementPathfinder.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\ImplementationStrategy\PathfinderImplementationStrategy.cs" />
@@ -177,6 +181,7 @@
     <Compile Include="Assets\Project\Script\Script.cs" />
     <Compile Include="Assets\Project\Utility\Address.cs" />
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />
+    <Compile Include="Assets\Project\Utility\ConvexHull.cs" />
     <Compile Include="Assets\Project\Utility\ConvexPolygon.cs" />
     <Compile Include="Assets\Project\Utility\FastMath.cs" />
     <Compile Include="Assets\Project\Utility\Integer.cs" />
@@ -789,10 +794,6 @@
     <Reference Include="Boo.Lang">
       <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\HumanoidAttackPlanner.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Destination\DestinationReservations.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\HumanoidAttackPlannerCommunications.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\HumanoidMovementExecuter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

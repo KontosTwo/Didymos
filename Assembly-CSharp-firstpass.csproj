@@ -934,10 +934,6 @@
     <Reference Include="Boo.Lang">
       <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\HumanoidAttackPlanner.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\Destination\DestinationReservations.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\HumanoidAttackPlannerCommunications.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Pathfinding\HumanoidMovementExecuter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Project.csproj">
