@@ -4,8 +4,8 @@ using UnityEngine;
 
 public  class HumanoidAttackPlannerCommunications : MonoBehaviour{
     private  List<HumanoidAttackPlanner> planners;
-    private  List<MarkerForAttack> markersForAttack;
-    private  List<TargetForAttack> targetsForAttack;
+    private  List<AttackableObject<EnemyMarker>> markersForAttack;
+    private  List<AttackableObject<EnemyTarget>> targetsForAttack;
 
     private static HumanoidAttackPlannerCommunications instance;
 
@@ -15,8 +15,8 @@ public  class HumanoidAttackPlannerCommunications : MonoBehaviour{
 
     private void Awake(){
         planners = new List<HumanoidAttackPlanner>();
-        markersForAttack = new List<MarkerForAttack>();
-        targetsForAttack = new List<TargetForAttack>();
+        markersForAttack = new List<AttackableObject<EnemyMarker>> ();
+        targetsForAttack = new List<AttackableObject<EnemyTarget>>();
         instance = this;
     }
 
@@ -26,115 +26,359 @@ public  class HumanoidAttackPlannerCommunications : MonoBehaviour{
         instance.planners.Add(planner);
     }
 
-    public static bool CanFlankLeftMarker(
-        EnemyMarker marker,
-        int limit
-    ){
-        foreach(MarkerForAttack attackable in instance.markersForAttack){
-            if(attackable.GetEnemyMarker() == marker){
-                return attackable.CanFlankLeft(limit);
-            }
+    public static void FlankRightHiddenEnemy(EnemyMarker enemy){
+        AttackableObject<EnemyMarker> info = instance.markersForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy marker found!");
         }
-        Debug.Log("WARNING: Enemy marker not found");
-        return false;
+        else
+        {
+            info.AddRightFlanker();
+        }
     }
 
-    public static bool CanFlankRightMarker(
-        EnemyMarker marker,
-        int limit
-    ){
-        foreach (MarkerForAttack attackable in instance.markersForAttack){
-            if (attackable.GetEnemyMarker() == marker){
-                return attackable.CanFlankRight(limit);
-            }
+    public static void FlankLeftHiddenEnemy(EnemyMarker enemy)
+    {
+        AttackableObject<EnemyMarker> info = instance.markersForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy marker found!");
         }
-        Debug.Log("WARNING: Enemy marker not found");
-        return false;
+        else
+        {
+            info.AddLeftFlanker();
+        }
     }
 
-    public static bool CanSuppressMarker(
-        EnemyMarker marker,
-        int limit
-    ){
-        foreach (MarkerForAttack attackable in instance.markersForAttack){
-            if (attackable.GetEnemyMarker() == marker){
-                return attackable.CanCoveringFire(limit);
-            }
+    public static void SuppressHiddenEnemy(EnemyMarker enemy)
+    {
+        AttackableObject<EnemyMarker> info = instance.markersForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy marker found!");
         }
-        Debug.Log("WARNING: Enemy marker not found");
-        return false;
+        else
+        {
+            info.AddSuppressor();
+        }
     }
 
-    public List<HumanoidAttackPlanner> GetRightRelocators(){
-        return planners.FindAll(p =>{
+    public static void FlankRightVisibleEnemy(EnemyTarget enemy)
+    {
+        AttackableObject<EnemyTarget> info = instance.targetsForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy target found!");
+        }
+        else
+        {
+            info.AddRightFlanker();
+        }
+    }
+
+    public static void FlankLeftVisibleEnemy(EnemyTarget enemy)
+    {
+        AttackableObject<EnemyTarget> info = instance.targetsForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy target found!");
+        }
+        else
+        {
+            info.AddLeftFlanker();
+        }
+    }
+
+    public static void SuppressVisibleEnemy(EnemyTarget enemy)
+    {
+        AttackableObject<EnemyTarget> info = instance.targetsForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy target found!");
+        }
+        else
+        {
+            info.AddSuppressor();
+        }
+    }
+
+    public static void NoLongerFlankRightHiddenEnemy(EnemyMarker enemy)
+    {
+        AttackableObject<EnemyMarker> info = instance.markersForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy marker found!");
+        }
+        else
+        {
+            info.RemoveRightFlanker();
+        }
+    }
+
+    public static void NoLongerFlankLeftHiddenEnemy(EnemyMarker enemy)
+    {
+        AttackableObject<EnemyMarker> info = instance.markersForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy marker found!");
+        }
+        else
+        {
+            info.RemoveLeftFlanker();
+        }
+    }
+
+    public static void NoLongerSuppressHiddenEnemy(EnemyMarker enemy)
+    {
+        AttackableObject<EnemyMarker> info = instance.markersForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy marker found!");
+        }
+        else
+        {
+            info.RemoveSuppressor();
+        }
+    }
+
+    public static void NoLongerFlankRightVisibleEnemy(EnemyTarget enemy)
+    {
+        AttackableObject<EnemyTarget> info = instance.targetsForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy target found!");
+        }
+        else
+        {
+            info.RemoveRightFlanker();
+        }
+    }
+
+    public static void NoLongerFlankLeftVisibleEnemy(EnemyTarget enemy)
+    {
+        AttackableObject<EnemyTarget> info = instance.targetsForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy target found!");
+        }
+        else
+        {
+            info.RemoveLeftFlanker();
+        }
+    }
+
+    public static void NoLongerSuppressVisibleEnemy(EnemyTarget enemy)
+    {
+        AttackableObject<EnemyTarget> info = instance.targetsForAttack.Find(m => {
+            return m.GetObject() == enemy;
+        });
+
+        if (info == null)
+        {
+            Debug.LogError("No enemy target found!");
+        }
+        else
+        {
+            info.RemoveSuppressor();
+        }
+    }
+
+
+
+
+
+    public static int GetRightFlankersOnHiddenEnemy(
+        EnemyMarker target
+    ){
+        AttackableObject < EnemyMarker> info = instance.markersForAttack.Find(m =>{
+            return m.GetObject() == target;        
+        });
+
+        if(info == null){
+            Debug.LogError("No enemy marker found!");
+            return 0;
+        }else{
+            return info.GetRightFlankers();
+        }
+    }
+
+    public static int GetLeftFlankersOnHiddenEnemy(
+       EnemyMarker target
+    ){
+        AttackableObject<EnemyMarker> info = instance.markersForAttack.Find(m => {
+            return m.GetObject() == target;
+        });
+
+        if (info == null){
+            Debug.LogError("No enemy marker found!");
+            return 0;
+        }
+        else{
+            return info.GetLeftFlankers();
+        }
+    }
+
+    public static int GetSuppressorsOnHiddenEnemy(
+       EnemyMarker target
+    ){
+        AttackableObject<EnemyMarker> info = instance.markersForAttack.Find(m => {
+            return m.GetObject() == target;
+        });
+
+        if (info == null){
+            Debug.LogError("No enemy marker found!");
+            return 0;
+        }
+        else{
+            return info.GetCoveringFireAttackers();
+        }
+    }
+
+    public static int GetRightFlankersOnVisibleEnemy(
+        EnemyTarget target
+    ){
+        AttackableObject<EnemyTarget> info = instance.targetsForAttack.Find(m => {
+            return m.GetObject() == target;
+        });
+
+        if (info == null){
+            Debug.LogError("No enemy target found!");
+            return 0;
+        }
+        else{
+            return info.GetRightFlankers();
+        }
+    }
+
+    public static int GetLeftFlankersOnVisibleEnemy(
+       EnemyTarget target
+    ){
+        AttackableObject<EnemyTarget> info = instance.targetsForAttack.Find(m => {
+            return m.GetObject() == target;
+        });
+
+        if (info == null){
+            Debug.LogError("No enemy target found!");
+            return 0;
+        }
+        else{
+            return info.GetLeftFlankers();
+        }
+    }
+
+    public static int GetSuppressorsOnVisibleEnemy(
+       EnemyTarget target
+    ){
+        AttackableObject<EnemyTarget> info = instance.targetsForAttack.Find(m => {
+            return m.GetObject() == target;
+        });
+
+        if (info == null){
+            Debug.LogError("No enemy target found!");
+            return 0;
+        }
+        else{
+            return info.GetCoveringFireAttackers();
+        }
+    }
+
+    public static List<HumanoidAttackPlanner> GetRightRelocators(){
+        return instance.planners.FindAll(p =>{
             return p.IsRelocatingRight();
         });
     }
 
-    public List<HumanoidAttackPlanner> GetLeftRelocators(){
-        return planners.FindAll(p => {
+    public static List<HumanoidAttackPlanner> GetLeftRelocators(){
+        return instance.planners.FindAll(p => {
             return p.IsRelocatingLeft();
         });
     }
 
 
-    private class MarkerForAttack{
-        private EnemyMarker underlyingTarget;
+
+    private class AttackableObject<T>{
+        private T target;
 
         private int coveringFireAttackers;
         private int leftFlankers;
         private int rightFlankers;
 
-        public MarkerForAttack(
-            EnemyMarker marker
-        ){
-            underlyingTarget = marker;
+        public AttackableObject(T obj){
+            target = obj;
         }
 
-        public bool CanFlankLeft(int limit){
-            return leftFlankers < limit;
+        public T GetObject(){
+            return target;
         }
 
-        public bool CanFlankRight(int limit){
-            return rightFlankers < limit;
+        public int GetCoveringFireAttackers(){
+            return coveringFireAttackers;
         }
 
-        public bool CanCoveringFire(int limit){
-            return coveringFireAttackers < limit;
+        public int GetRightFlankers(){
+            return rightFlankers;
         }
 
-        public EnemyMarker GetEnemyMarker(){
-            return underlyingTarget;
-        }
-    }
-
-    private class TargetForAttack{
-        private EnemyTarget underlyingTarget;
-
-        private int coveringFireAttackers;
-        private int leftFlankers;
-        private int rightFlankers;
-
-        public TargetForAttack(
-            EnemyTarget marker
-        ){
-            underlyingTarget = marker;
+        public int GetLeftFlankers(){
+            return leftFlankers;
         }
 
-        public bool CanFlankLeft(int limit){
-            return leftFlankers < limit;
+        public void AddRightFlanker(){
+            rightFlankers++;
         }
 
-        public bool CanFlankRight(int limit){
-            return rightFlankers < limit;
+        public void AddLeftFlanker(){
+            leftFlankers++;
         }
 
-        public bool CanCoveringFire(int limit){
-            return coveringFireAttackers < limit;
+        public void AddSuppressor(){
+            coveringFireAttackers++;
         }
 
-        public EnemyTarget GetEnemyTarget(){
-            return underlyingTarget;
+        public void RemoveRightFlanker(){
+            rightFlankers--;
+        }
+
+        public void RemoveLeftFlanker(){
+            leftFlankers--;
+        }
+
+        public void RemoveSuppressor(){
+            coveringFireAttackers--;
         }
     }
 }

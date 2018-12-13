@@ -10,6 +10,7 @@ public class EnemyMarker{
     private HumanoidVantage enemyVantage;
     private HashSet<HumanoidTargeter> usedBy;
 
+
     public EnemyMarker(HumanoidModel target,Vector3 location,HumanoidTargeter founder){
         this.location = location;
         this.target = target;
@@ -48,4 +49,7 @@ public class EnemyMarker{
         return usedBy.Contains(targeter);
     }
 
+    public bool StillInUse(){
+        return usedBy.Count != 0;
+    }
 }

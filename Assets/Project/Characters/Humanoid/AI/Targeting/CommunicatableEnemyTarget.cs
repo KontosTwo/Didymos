@@ -2,15 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CommunicatableEnemyTarget : MonoBehaviour {
+public class CommunicatableEnemyTarget {
+    private bool isValid;
+    private EnemyTarget target;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public CommunicatableEnemyTarget(
+        EnemyTarget t
+    ){
+        target = t;
+        isValid = true;
+    }
+
+    public void Invalidate(){
+        isValid = false;
+    }
+
+    public EnemyTarget GetEnemyTarget(){
+        return target;
+    }
+
+    public bool IsValid(){
+        return isValid;
+    }
 }
