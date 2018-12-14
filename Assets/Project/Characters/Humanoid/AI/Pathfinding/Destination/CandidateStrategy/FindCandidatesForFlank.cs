@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 public class FindCandidatesForFlank : CandidateStrategy{
+    [Header("Dependencies")]
     [SerializeField]
-    private HumanoidTargeter targeter;
-    [SerializeField]
-    private HumanoidModel strategizer;
+    private HumanoidAttackPlanner planner;
+
+    [Header("Fields")]
+    private float flankingRadius;
 
     public FindCandidatesForFlank(){
 
@@ -13,41 +15,30 @@ public class FindCandidatesForFlank : CandidateStrategy{
 
 
 
-
+    /*
+     * planner needs to have calculated its next action first
+     */
     public override List<MapNode> FindDestinationCandidates(
         Vector3 start,
         Grid grid
     ){
-        List<MapNode> candidates = new List<MapNode>();
 
-        Vector2 stratLocation = strategizer.InfoGetCenterBottom().To2D();
-        ConvexPolygon enemiesLocations = targeter.GetEnemyBounds();
 
-        if(enemiesLocations.GetCount() == 0){
-            Debug.LogError("No enemies found!");
-            return new List<MapNode>();
+        Vector2 plannerToClosestEnemy;
+        if(planner.IsFlankingLeft()){
+
+        }else if(planner.IsFlankingRight()){
+
+        }else{
+            Debug.LogError("WARNING: planner isn't even flanking");
         }
+    }
 
-        /*
-         * Get closest point on enemyPolygon, then try to outflank that
-         * 
-         */
+    private static List<MapNode> FindCandidatesInSquare(
+        Vector2 plannerToClosestEnemy,
+        Vector2 closestEnemyToDirection
+    ){
 
-        float closestDistance = int.MaxValue;
-        Vector2 closestEnemy = new Vector2();
-        foreach(Vector2 enemyLocation in enemiesLocations.GetVertices()){
-            float distance = Vector2.Distance(
-                enemyLocation,
-                stratLocation
-            );
-
-            if(distance < closestDistance){
-                closestDistance = distance;
-                closestEnemy = enemyLocation;
-            }
-        }
-
-        Vector2 stratToEnemy = closestEnemy - stratLocation;
     }
 }
 

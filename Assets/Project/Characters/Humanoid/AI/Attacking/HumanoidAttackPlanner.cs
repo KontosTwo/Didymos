@@ -4,19 +4,25 @@ using System.Linq;
 using System;
 
 public class HumanoidAttackPlanner : MonoBehaviour{
+    [Header("Dependencies")]
     [SerializeField]
     private HumanoidModel planner;
     [SerializeField]
     private HumanoidTargeter targeter;
 
+    [Header("Fields")]
     [SerializeField]
     private int flankParticipationLimit;
+    [SerializeField]
+    private int relocateParticipationLimit;
     [SerializeField]
     private int suppressiveFireParticipationLimit;
 
 
     private AttackAction attackAction;
-    private EnemyMarker currentTarget;
+    private List<EnemyTarget> boundingTargets;
+    private List<EnemyMarker> boundingMarkers;
+    private ConvexPolygon enemyBounds;
     private bool hasTarget;
     
 
@@ -25,6 +31,14 @@ public class HumanoidAttackPlanner : MonoBehaviour{
             this
         );
         attackAction = AttackAction.NONE;
+    }
+
+    public Vector3 GetLocation(){
+        return planner.InfoGetCenterBottom();
+    }
+
+    public ConvexPolygon GetEnemyBounds(){
+        return enemyBounds;
     }
 
     public bool IsAttacking(){
@@ -52,20 +66,27 @@ public class HumanoidAttackPlanner : MonoBehaviour{
     }
 
     public void FindNextAction(){
-        /*
-         * Get closest marker or target
-         * Maintain a 1 : 1 : 1 ratio of covering, right, and left flankers
-         * satisfy that ratio first, then check limit
-         * if not relocate left or right based on 1 : 1 ratio
-         * of left and right
-         * 
-         * Make sure to constantly check if communicatble marker
-         * or target is still valid!
-         */
 
         var boundingEnemies = targeter.GetBoundingEnemies();
         var boundingHiddenEnemies = boundingEnemies.Item1;
         var boundingVisibleEnemies = boundingEnemies.Item2;
+
+        boundingMarkers = boundingHiddenEnemies.ToList();
+        boundingTargets = boundingVisibleEnemies.ToList();
+
+        var currentMarkersLocations = boundingMarkers.Select(m =>{
+            return m.GetLocation().To2D();
+        });
+        var currentTargetsLocations = boundingTargets.Select(m => {
+            return m.GetLocation().To2D();
+        });
+
+        enemyBounds =
+            new ConvexPolygon(
+                currentMarkersLocations.Concat(
+                    currentTargetsLocations
+                ).ToList()
+            );
 
         float closestHiddenEnemyDistance = float.MaxValue;
         EnemyMarker closestHiddenEnemy = null;
@@ -181,10 +202,15 @@ public class HumanoidAttackPlanner : MonoBehaviour{
         int leftRelocators =
             HumanoidAttackPlannerCommunications.GetLeftRelocators().Count;
 
-        if(rightRelocators < leftRelocators){
-            attackAction = AttackAction.RELOCATE_RIGHT;
-        }else{
-            attackAction = AttackAction.RELOCATE_LEFT;
+        if (rightRelocators < leftRelocators){
+            if (rightRelocators < relocateParticipationLimit){
+                attackAction = AttackAction.RELOCATE_RIGHT;
+            }
+        }
+        else{
+            if (leftRelocators < relocateParticipationLimit){
+                attackAction = AttackAction.RELOCATE_LEFT;
+            }
         }
     }
 
@@ -265,13 +291,15 @@ public class HumanoidAttackPlanner : MonoBehaviour{
         int leftRelocators =
             HumanoidAttackPlannerCommunications.GetLeftRelocators().Count;
 
-        if (rightRelocators < leftRelocators)
-        {
-            attackAction = AttackAction.RELOCATE_RIGHT;
+        if (rightRelocators < leftRelocators){
+            if(rightRelocators < relocateParticipationLimit){
+                attackAction = AttackAction.RELOCATE_RIGHT;
+            }
         }
-        else
-        {
-            attackAction = AttackAction.RELOCATE_LEFT;
+        else{
+            if(leftRelocators < relocateParticipationLimit){
+                attackAction = AttackAction.RELOCATE_LEFT;
+            }
         }
     }
     private enum AttackAction
@@ -282,6 +310,8 @@ public class HumanoidAttackPlanner : MonoBehaviour{
         RELOCATE_LEFT,
         SUPPRESS_FIRE,
         NONE
+
+
     }
 
     private class CanDoAction{

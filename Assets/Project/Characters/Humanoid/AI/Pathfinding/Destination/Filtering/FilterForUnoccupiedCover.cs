@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public class FilterForUnoccupiedCover : IDestinationFilterer{
     [SerializeField]
-    private HumanoidTargeter targeter;
+    private HumanoidAttackPlanner attackPlanner;
 
     [SerializeField]
     private float occupancyRadius;
@@ -28,24 +28,18 @@ public class FilterForUnoccupiedCover : IDestinationFilterer{
             }
         }
 
-        ConvexPolygon senemyBounds = targeter.GetEnemyBounds();
-        Vector2[] enemyLocations = enemyBounds.points;
+        ConvexPolygon enemyBounds = attackPlanner.GetEnemyBounds();
         bool tooClose = false;
 
-        if(enemyBounds.Count == 0){
+        if(enemyBounds.GetCount() == 0){
+            Debug.Log("WARNING: No enemies for filterforunoccupiedcover");
             return free && node.IsCoverNode();
-        }else if(enemyBounds.Count == 1)
-
-
-
-        foreach(Vector2 enemyLocation in enemyLocations){
-            if(Vector2.Distance(nodeLocation2D,enemyLocation) 
-               < enemyAvoidanceRadius){
-                tooClose = true;
-                break;
-            }
+        }else{
+            return free && node.IsCoverNode() && !enemyBounds.WithinRange(
+                attackPlanner.GetLocation(),
+                enemyAvoidanceRadius
+            );
         }
-        return !tooClose && free && node.IsCoverNode();
     }
 }
 

@@ -131,10 +131,10 @@ MonoBehaviour:
     y: 30
     width: 1376
     height: 805
-  m_MinSize: {x: 683, y: 492}
-  m_MaxSize: {x: 12008, y: 14042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
-  controlID: 63
+  controlID: 85
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -155,10 +155,10 @@ MonoBehaviour:
     y: 0
     width: 1376
     height: 805
-  m_MinSize: {x: 683, y: 492}
-  m_MaxSize: {x: 12008, y: 14042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 1
-  controlID: 64
+  controlID: 86
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 221}
   m_MaxSize: {x: 12008, y: 4021}
   vertical: 0
-  controlID: 65
+  controlID: 87
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -253,16 +253,16 @@ MonoBehaviour:
     y: 534
     width: 1376
     height: 271
-  m_MinSize: {x: 230, y: 271}
-  m_MaxSize: {x: 10000, y: 10021}
-  m_ActualView: {fileID: 19}
+  m_MinSize: {x: 100, y: 121}
+  m_MaxSize: {x: 4000, y: 4021}
+  m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 19}
   - {fileID: 20}
   - {fileID: 13}
   - {fileID: 14}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -534,9 +534,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 061d0000
-    m_LastClickedID: 7430
-    m_ExpandedIDs: e6fbffff000000002a1d0000
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: e6fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -785,20 +785,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Project/Characters/Humanoid
+    - Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/Filtering
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Project/Characters/Humanoid
+  - Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/Filtering
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/user/Documents/Programming/Unity/Didymos
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 135}
-    m_SelectedIDs: 9a160000
-    m_LastClickedID: 5786
-    m_ExpandedIDs: 00000000c40c0000760e0000460f0000d21100000e120000981200000a1500002615000034150000b8150000be150000f21500009a1600003e1700003a18000068180000ec1900009a1a00009e1a0000a41a00006a1b00008a1b0000a81b0000c21b0000b23e0000b43e0000b63e0000b83e0000ba3e0000bc3e0000be3e0000ffffff7f
+    m_SelectedIDs: 1a160000
+    m_LastClickedID: 5658
+    m_ExpandedIDs: 00000000e20c0000940e0000640f0000f01100002c120000b6120000281500004415000052150000d6150000dc15000010160000ba1600005e1700005a180000881800000c1a0000ba1a0000be1a0000c41a00008a1b0000aa1b0000c81b0000e21b0000d23e0000d43e0000d63e0000d83e0000da3e0000dc3e0000de3e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -826,7 +826,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c40c0000760e0000460f0000d21100000e120000981200000a1500002615000034150000b8150000be150000f21500009a1600003e1700003a18000068180000ec1900009a1a00009e1a0000a41a00006a1b00008a1b0000a81b0000c21b0000b23e0000b43e0000b63e0000b83e0000ba3e0000bc3e0000be3e0000
+    m_ExpandedIDs: 00000000e20c0000940e0000640f0000f01100002c120000b6120000281500004415000052150000d6150000dc15000010160000ba1600005e1700005a180000881800000c1a0000ba1a0000be1a0000c41a00008a1b0000aa1b0000c81b0000e21b0000d23e0000d43e0000d63e0000d83e0000da3e0000dc3e0000de3e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
