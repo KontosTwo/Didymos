@@ -28,18 +28,10 @@ public class FilterForUnoccupiedCover : IDestinationFilterer{
             }
         }
 
-        ConvexPolygon enemyBounds = attackPlanner.GetEnemyBounds();
-        bool tooClose = false;
+        return free && node.IsCoverNode() && attackPlanner.TooCloseToEnemyBounds(
+            enemyAvoidanceRadius
+        );
 
-        if(enemyBounds.GetCount() == 0){
-            Debug.Log("WARNING: No enemies for filterforunoccupiedcover");
-            return free && node.IsCoverNode();
-        }else{
-            return free && node.IsCoverNode() && !enemyBounds.WithinRange(
-                attackPlanner.GetLocation(),
-                enemyAvoidanceRadius
-            );
-        }
     }
 }
 

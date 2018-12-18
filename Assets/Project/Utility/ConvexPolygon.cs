@@ -15,6 +15,10 @@ public class ConvexPolygon{
             sides.Add(new LineSegment(vertices[i],vertices[i + 1]));
         }
         sides.Add(new LineSegment(vertices[0], vertices[vertices.Count - 1]));
+        if (vertices.Count == 0)
+        {
+            Debug.LogError("Warning, no vertices found");
+        }
     }
 
     public int GetCount(){
@@ -22,6 +26,7 @@ public class ConvexPolygon{
     }
 
     public List<Vector2> GetVertices(){
+
         return vertices;
     }
 

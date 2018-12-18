@@ -47,5 +47,18 @@ public static class Vector2Ext
         Vector2 closest = P.GetClosestPointOnLineSegment(A, B);
         return Vector2.Distance(closest, P);
     }
+
+    public static Vector2 Rotate(this Vector2 v, float degrees){
+        float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
+        float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
+
+        float tx = v.x;
+        float ty = v.y;
+
+        v.x = (tx * cos) - (ty * sin);
+        v.y = (sin * tx) - (cos * ty);
+        return v;
+
+    }
 }
                                            

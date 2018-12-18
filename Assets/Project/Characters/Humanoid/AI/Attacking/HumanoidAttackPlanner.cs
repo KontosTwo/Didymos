@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
-
+/*
+ *  Call find next action to update this humanoid's
+ *  attack strategy
+ */
 public class HumanoidAttackPlanner : MonoBehaviour{
     [Header("Dependencies")]
     [SerializeField]
@@ -31,14 +34,34 @@ public class HumanoidAttackPlanner : MonoBehaviour{
             this
         );
         attackAction = AttackAction.NONE;
+        hasTarget = false;
     }
 
-    public Vector3 GetLocation(){
+    public bool TooCloseToEnemyBounds(float limit){
+
+        return enemyBounds.WithinRange(
+            planner.InfoGetCenterBottom().To2D(),
+            limit
+        );
+    }
+
+    public Vector2 GetClosestEnemyLocation(){
+        float closestEnemyDistance = int.MaxValue;
+        Vector2 closestLocation = new Vector2();
+        Vector2 plannerLocation = planner.InfoGetCenterBottom().To2D();
+        foreach(Vector2 enemyLocation in enemyBounds.GetVertices()){
+            float currentDistance =
+                Vector2.Distance(plannerLocation, enemyLocation);
+            if(currentDistance < closestEnemyDistance){
+                closestEnemyDistance = currentDistance;
+                closestLocation = enemyLocation;
+            }
+        }
+        return closestLocation;
+    }
+
+    public Vector2 GetLocation(){
         return planner.InfoGetCenterBottom();
-    }
-
-    public ConvexPolygon GetEnemyBounds(){
-        return enemyBounds;
     }
 
     public bool IsAttacking(){
