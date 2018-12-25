@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{10FD5AC5-4910-C073-7B3A-55DC8A40AD85}|">
+  <MonoDevelop.Ide.ItemProperties.Project PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/CandidateStrategy/CandidateStrategy.cs">
+    <Files>
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/CandidateStrategy/CandidateStrategy.cs" Line="10" Column="7" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
