@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 3}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 548}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -41,15 +41,15 @@ MonoBehaviour:
     x: 858
     y: 0
     width: 502
-    height: 534
-  m_MinSize: {x: 277, y: 74}
-  m_MaxSize: {x: 4002, y: 4024}
-  m_ActualView: {fileID: 18}
+    height: 531
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 18}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -137,10 +137,10 @@ MonoBehaviour:
     y: 30
     width: 1360
     height: 805
-  m_MinSize: {x: 683, y: 348}
-  m_MaxSize: {x: 12008, y: 8048}
+  m_MinSize: {x: 508, y: 498}
+  m_MaxSize: {x: 12008, y: 14048}
   vertical: 0
-  controlID: 87
+  controlID: 58
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -162,10 +162,10 @@ MonoBehaviour:
     y: 0
     width: 1360
     height: 805
-  m_MinSize: {x: 683, y: 348}
-  m_MaxSize: {x: 12008, y: 8048}
+  m_MinSize: {x: 508, y: 498}
+  m_MaxSize: {x: 12008, y: 14048}
   vertical: 1
-  controlID: 88
+  controlID: 59
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -187,11 +187,11 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1360
-    height: 534
-  m_MinSize: {x: 683, y: 224}
+    height: 531
+  m_MinSize: {x: 508, y: 224}
   m_MaxSize: {x: 12008, y: 4024}
   vertical: 0
-  controlID: 89
+  controlID: 60
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -210,9 +210,9 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 202
-    height: 534
-  m_MinSize: {x: 202, y: 224}
-  m_MaxSize: {x: 4002, y: 4024}
+    height: 531
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -236,7 +236,7 @@ MonoBehaviour:
     x: 202
     y: 0
     width: 656
-    height: 534
+    height: 531
   m_MinSize: {x: 204, y: 224}
   m_MaxSize: {x: 4004, y: 4024}
   m_ActualView: {fileID: 16}
@@ -261,19 +261,19 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 534
+    y: 531
     width: 1360
-    height: 271
-  m_MinSize: {x: 100, y: 124}
-  m_MaxSize: {x: 4000, y: 4024}
-  m_ActualView: {fileID: 20}
+    height: 274
+  m_MinSize: {x: 230, y: 274}
+  m_MaxSize: {x: 10000, y: 10024}
+  m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
   - {fileID: 20}
   - {fileID: 13}
   - {fileID: 14}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -294,22 +294,36 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 928
-    y: 94
-    width: 512
-    height: 513
+    x: 938
+    y: 75
+    width: 500
+    height: 511
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TestTypeToolbarIndex: 1
   m_PlayModeTestListGUI:
-    m_Window: {fileID: 0}
-    newResultList: []
+    m_Window: {fileID: 12}
+    newResultList:
+    - id: '[Didymos][suite]'
+      name: Didymos
+      fullName: Didymos
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentID: 
     m_ResultText: 
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 
+      m_ExpandedIDs: ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -333,15 +347,16 @@ MonoBehaviour:
       NotRunHidden: 0
       m_SearchString: 
       selectedCategoryMask: 0
-      availableCategories: []
+      availableCategories:
+      - Uncategorized
   m_EditModeTestListGUI:
     m_Window: {fileID: 12}
     newResultList:
     - id: '[Didymos][suite]'
       name: Didymos
       fullName: Didymos
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.5373611
       messages: 
       output: 
       stacktrace: 
@@ -351,13 +366,398 @@ MonoBehaviour:
       isSuite: 1
       categories: []
       parentID: 
-    m_ResultText: 
+    - id: '[/Users/vincentli/Documents/Didymos/Library/ScriptAssemblies/UnitTests.dll][suite]'
+      name: UnitTests.dll
+      fullName: /Users/vincentli/Documents/Didymos/Library/ScriptAssemblies/UnitTests.dll
+      resultStatus: 1
+      duration: 0.4771576
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentID: '[Didymos][suite]'
+    - id: '[UnitTests][ConvexHullTest][suite]'
+      name: ConvexHullTest
+      fullName: ConvexHullTest
+      resultStatus: 1
+      duration: 0.1235322
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentID: '[/Users/vincentli/Documents/Didymos/Library/ScriptAssemblies/UnitTests.dll][suite]'
+    - id: '[UnitTests][ConvexHullTest.MakeHullTwo_Mixed]'
+      name: MakeHullTwo_Mixed
+      fullName: ConvexHullTest.MakeHullTwo_Mixed
+      resultStatus: 1
+      duration: 0.0452321
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexHullTest][suite]'
+    - id: '[UnitTests][ConvexHullTest.MakeHullTwo_MixedIgnoreSome]'
+      name: MakeHullTwo_MixedIgnoreSome
+      fullName: ConvexHullTest.MakeHullTwo_MixedIgnoreSome
+      resultStatus: 1
+      duration: 0.0149301
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexHullTest][suite]'
+    - id: '[UnitTests][ConvexHullTest.MakeHullTwo_OnlyT1]'
+      name: MakeHullTwo_OnlyT1
+      fullName: ConvexHullTest.MakeHullTwo_OnlyT1
+      resultStatus: 1
+      duration: 0.0211436
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexHullTest][suite]'
+    - id: '[UnitTests][ConvexHullTest.MakeHullTwo_OnlyT2]'
+      name: MakeHullTwo_OnlyT2
+      fullName: ConvexHullTest.MakeHullTwo_OnlyT2
+      resultStatus: 1
+      duration: 0.0192459
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexHullTest][suite]'
+    - id: '[UnitTests][ConvexPolygonTest][suite]'
+      name: ConvexPolygonTest
+      fullName: ConvexPolygonTest
+      resultStatus: 1
+      duration: 0.1583698
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentID: '[/Users/vincentli/Documents/Didymos/Library/ScriptAssemblies/UnitTests.dll][suite]'
+    - id: '[UnitTests][ConvexPolygonTest.Contains_Failure]'
+      name: Contains_Failure
+      fullName: ConvexPolygonTest.Contains_Failure
+      resultStatus: 1
+      duration: 0.0198192
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexPolygonTest][suite]'
+    - id: '[UnitTests][ConvexPolygonTest.Contains_Success]'
+      name: Contains_Success
+      fullName: ConvexPolygonTest.Contains_Success
+      resultStatus: 1
+      duration: 0.0078143
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexPolygonTest][suite]'
+    - id: '[UnitTests][ConvexPolygonTest.FormsSquare]'
+      name: FormsSquare
+      fullName: ConvexPolygonTest.FormsSquare
+      resultStatus: 1
+      duration: 0.0150038
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexPolygonTest][suite]'
+    - id: '[UnitTests][ConvexPolygonTest.FormsSquareScrambled]'
+      name: FormsSquareScrambled
+      fullName: ConvexPolygonTest.FormsSquareScrambled
+      resultStatus: 1
+      duration: 0.0164603
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexPolygonTest][suite]'
+    - id: '[UnitTests][ConvexPolygonTest.IgnoresCenterOfSquare]'
+      name: IgnoresCenterOfSquare
+      fullName: ConvexPolygonTest.IgnoresCenterOfSquare
+      resultStatus: 1
+      duration: 0.0155439
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexPolygonTest][suite]'
+    - id: '[UnitTests][ConvexPolygonTest.WithinRange_LineSegment]'
+      name: WithinRange_LineSegment
+      fullName: ConvexPolygonTest.WithinRange_LineSegment
+      resultStatus: 1
+      duration: 0.0163536
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexPolygonTest][suite]'
+    - id: '[UnitTests][ConvexPolygonTest.WithinRange_NotInRangeLineSegment]'
+      name: WithinRange_NotInRangeLineSegment
+      fullName: ConvexPolygonTest.WithinRange_NotInRangeLineSegment
+      resultStatus: 1
+      duration: 0.0149833
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexPolygonTest][suite]'
+    - id: '[UnitTests][ConvexPolygonTest.WithinRange_NotInRangeVertex]'
+      name: WithinRange_NotInRangeVertex
+      fullName: ConvexPolygonTest.WithinRange_NotInRangeVertex
+      resultStatus: 1
+      duration: 0.0174899
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexPolygonTest][suite]'
+    - id: '[UnitTests][ConvexPolygonTest.WithinRange_Vertex]'
+      name: WithinRange_Vertex
+      fullName: ConvexPolygonTest.WithinRange_Vertex
+      resultStatus: 1
+      duration: 0.0141122
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][ConvexPolygonTest][suite]'
+    - id: '[UnitTests][LinkedDictionaryTest][suite]'
+      name: LinkedDictionaryTest
+      fullName: LinkedDictionaryTest
+      resultStatus: 1
+      duration: 0.0246503
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentID: '[/Users/vincentli/Documents/Didymos/Library/ScriptAssemblies/UnitTests.dll][suite]'
+    - id: '[UnitTests][LinkedDictionaryTest.DictPreservesOrder]'
+      name: DictPreservesOrder
+      fullName: LinkedDictionaryTest.DictPreservesOrder
+      resultStatus: 1
+      duration: 0.0143023
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][LinkedDictionaryTest][suite]'
+    - id: '[UnitTests][PoolTest][suite]'
+      name: PoolTest
+      fullName: PoolTest
+      resultStatus: 1
+      duration: 0.1322104
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentID: '[/Users/vincentli/Documents/Didymos/Library/ScriptAssemblies/UnitTests.dll][suite]'
+    - id: '[UnitTests][PoolTest.PoolExhausts]'
+      name: PoolExhausts
+      fullName: PoolTest.PoolExhausts
+      resultStatus: 1
+      duration: 0.014884
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][PoolTest][suite]'
+    - id: '[UnitTests][PoolTest.PoolRecycles]'
+      name: PoolRecycles
+      fullName: PoolTest.PoolRecycles
+      resultStatus: 1
+      duration: 0.0168962
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][PoolTest][suite]'
+    - id: '[UnitTests][PoolTest.PoolRecyclesAll]'
+      name: PoolRecyclesAll
+      fullName: PoolTest.PoolRecyclesAll
+      resultStatus: 1
+      duration: 0.0156139
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][PoolTest][suite]'
+    - id: '[UnitTests][PoolTest.PoolRecyclesFirst]'
+      name: PoolRecyclesFirst
+      fullName: PoolTest.PoolRecyclesFirst
+      resultStatus: 1
+      duration: 0.0166167
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][PoolTest][suite]'
+    - id: '[UnitTests][PoolTest.PoolRecyclesLast]'
+      name: PoolRecyclesLast
+      fullName: PoolTest.PoolRecyclesLast
+      resultStatus: 1
+      duration: 0.0275952
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][PoolTest][suite]'
+    - id: '[UnitTests][PoolTest.PoolRecyclesMultipleTrials]'
+      name: PoolRecyclesMultipleTrials
+      fullName: PoolTest.PoolRecyclesMultipleTrials
+      resultStatus: 1
+      duration: 0.0100237
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][PoolTest][suite]'
+    - id: '[UnitTests][PoolTest.PoolResizes]'
+      name: PoolResizes
+      fullName: PoolTest.PoolResizes
+      resultStatus: 1
+      duration: 0.0095597
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentID: '[UnitTests][PoolTest][suite]'
+    m_ResultText: MakeHullTwo_Mixed (0.045s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 2ffe269952d59ab5e4f481bd9f69b9c0206ab9d271e64fe0ffffff7f
+      m_SelectedIDs: 5c4bb509
+      m_LastClickedID: 162876252
+      m_ExpandedIDs: 2ffe269952d59ab5e4f481bd9f69b9c0206ab9d271e64fe0ffc5a3f059ffa3ffda3f4a0effffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -547,14 +947,14 @@ MonoBehaviour:
     x: 80
     y: 75
     width: 200
-    height: 514
+    height: 511
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: c2fbffff
+      m_ExpandedIDs: 62f4ffff60f5ffff6cf6ffff10f7ffff10f8ffff64f9ffff86faffffd4fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -602,7 +1002,7 @@ MonoBehaviour:
     x: 282
     y: 75
     width: 652
-    height: 514
+    height: 511
   m_PersistentViewDataDictionary: {fileID: 0}
   m_WindowGUID: 986538737ba6c42c486986fa0da65627
   m_SceneLighting: 1
@@ -694,10 +1094,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -335
-    m_HBaseRangeMax: 335
-    m_VBaseRangeMin: -248
-    m_VBaseRangeMax: 248
+    m_HBaseRangeMin: -167.5
+    m_HBaseRangeMax: 167.5
+    m_VBaseRangeMin: -124
+    m_VBaseRangeMax: 124
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -717,7 +1117,7 @@ MonoBehaviour:
       y: 17
       width: 670
       height: 496
-    m_Scale: {x: 1, y: 1}
+    m_Scale: {x: 2, y: 2}
     m_Translation: {x: 335, y: 248}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -725,15 +1125,15 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -335
-      y: -248
-      width: 670
-      height: 496
+      x: -167.5
+      y: -124
+      width: 335
+      height: 248
     m_MinimalGUI: 1
-  m_defaultScale: 1
+  m_defaultScale: 2
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
-  m_LastWindowPixelSize: {x: 670, y: 513}
+  m_LastWindowPixelSize: {x: 1340, y: 1026}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000100000100
@@ -794,10 +1194,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 64
-    y: 609
-    width: 1376
-    height: 251
+    x: 80
+    y: 606
+    width: 1360
+    height: 254
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -809,22 +1209,22 @@ MonoBehaviour:
     m_ReferencingInstanceIDs: 
     m_SceneHandles: 
     m_ShowAllHits: 0
-    m_SearchArea: 0
+    m_SearchArea: 1
     m_Folders:
-    - Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/CandidateStrategy
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Project/Characters/Humanoid/AI/Pathfinding/Destination/CandidateStrategy
+  - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: /Users/user/Documents/Programming/Unity/Didymos
+  m_LastProjectPath: /Users/vincentli/Documents/Didymos
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 135}
-    m_SelectedIDs: 0a790000
-    m_LastClickedID: 30986
-    m_ExpandedIDs: 00000000040e0000660f00002e10000068120000a41200001e13000042150000521500005e150000da150000e01500000c160000ac1600003c1700000e180000341800006e190000141a0000181a00001e1a0000ac1a0000d21a0000ec1a0000061b0000403a0000423a0000443a0000463a0000483a00004a3a00004c3a0000
+    scrollPos: {x: 0, y: 23.740234}
+    m_SelectedIDs: 280e0000
+    m_LastClickedID: 3624
+    m_ExpandedIDs: 00000000280e00008a0f000052100000c812000042130000661500007615000082150000fe1500000416000030160000d016000060170000321800005818000092190000381a00003c1a0000421a0000d01a0000f61a0000101b00002a1b0000143c0000163c0000183c00001a3c00001c3c00001e3c0000203c000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -852,7 +1252,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000040e0000660f00002e10000068120000a41200001e13000042150000521500005e150000da150000e01500000c160000ac1600003c1700000e180000341800006e190000141a0000181a00001e1a0000ac1a0000d21a0000ec1a0000061b0000403a0000423a0000443a0000463a0000483a00004a3a00004c3a0000
+    m_ExpandedIDs: 00000000280e00008a0f000052100000c812000042130000661500007615000082150000fe1500000416000030160000d016000060170000321800005818000092190000381a00003c1a0000421a0000d01a0000f61a0000101b00002a1b0000143c0000163c0000183c00001a3c00001c3c00001e3c0000203c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

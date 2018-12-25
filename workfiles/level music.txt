@@ -8,15 +8,15 @@ madness 6.5
 madness 9
 madness 10
 madness 7
+madness 6
 she’s beautiful
 humans are such easy prey
 death to the bighead
-madness 6
 tor
 
 before the ambush: calm
 attempted suicide: hades shade -> calm
-Chanson’s dream: lost and forgotten -> field of memories
+Chanson’s dream: lost and forgotten/story by felt -> field of memories
 Amy’s dream: Bump in the night -> un petite morceau
 desperate brawl: born in fire
 hyper worm: born in fire -> Sad
@@ -27,8 +27,8 @@ after the desperate brawl: story left untold
 post-massacre: sadness and sorrow v2
 realizing the gravity: story left untold
 hand severance: light stroke
-it’s over: As if the night is gone
+it’s over: As if the night is gone/ necrofantasia
 credits: Rendezvous
 menu: living one day
-teaching: None
+teaching: buta otome flowering night
 behold the platoon: doom

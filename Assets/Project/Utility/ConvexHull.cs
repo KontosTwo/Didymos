@@ -10,7 +10,7 @@ public class ConvexHull
         List<T2> objectsTwo,
         Func<T1,Vector2> objectOnePointExtractor,
         Func<T2,Vector2> objectTwoPointExtractor
-    ){
+    ) where T1 : class where T2 : class{
         List<Point> points = new List<Point>();
 
         Dictionary<Point, T1> objectsOneMapping = 
@@ -55,9 +55,9 @@ public class ConvexHull
             objectsOneMapping.TryGetValue(point, out remainingOne);
             objectsTwoMapping.TryGetValue(point, out remainingTwo);
 
-            if(!remainingOne.Equals(default(T1))){
+            if(remainingOne != default(T1)){
                 objectOneRemainder.Add(remainingOne);
-            }else if(!remainingTwo.Equals(default(T2))){
+            }else if(remainingTwo != default(T2)){
                 objectTwoRemainder.Add(remainingTwo);
             }
         }

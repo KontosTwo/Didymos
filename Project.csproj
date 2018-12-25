@@ -186,6 +186,7 @@
     <Compile Include="Assets\Project\Utility\ConvexHull.cs" />
     <Compile Include="Assets\Project\Utility\ConvexPolygon.cs" />
     <Compile Include="Assets\Project\Utility\FastMath.cs" />
+    <Compile Include="Assets\Project\Utility\FloatExt.cs" />
     <Compile Include="Assets\Project\Utility\Integer.cs" />
     <Compile Include="Assets\Project\Utility\LinkedDictionary.cs" />
     <Compile Include="Assets\Project\Utility\Pool.cs" />
@@ -820,7 +821,6 @@
     <Reference Include="Boo.Lang">
       <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
-    <Compile Include="Assets\Project\Utility\FloatExt.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
