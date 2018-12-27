@@ -43,11 +43,11 @@ public class HumanoidAILinker : MonoBehaviour
 
     protected void ExecuteAction(Action action)
     {
-        taskExecuter.ExecuteAction(action);
+        //taskExecuter.ExecuteAction(action);
     }
     protected void ExecuteChannelingAction(Action onBegin, Action onEnd, EndCondition condition)
     {
-        taskExecuter.ExecuteChannelingAction(onBegin, onEnd, condition);
+        //taskExecuter.ExecuteChannelingAction(onBegin, onEnd, condition);
     }
 }
 

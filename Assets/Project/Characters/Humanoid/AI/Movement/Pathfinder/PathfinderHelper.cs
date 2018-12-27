@@ -31,7 +31,6 @@ public class PathfinderHelper :MonoBehaviour{
 
     public static PathResult FindPath(
         PathRequest request
-
     ){
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
@@ -68,7 +67,6 @@ public class PathfinderHelper :MonoBehaviour{
             activeNodes.Add(startNode.GetGridCoord(), startNode);
             activeNodes.Add(targetNode.GetGridCoord(), targetNode);
             while (openSet.Count > 0){
-                PathRequestManager.counter++;
                 PathfinderNode currentNode = openSet.RemoveFirst();
 
                 closedSet.Add(currentNode);
@@ -97,8 +95,7 @@ public class PathfinderHelper :MonoBehaviour{
 
         return new PathResult(
             waypoints,
-            pathSuccess,
-            request.callback
+            pathSuccess
         );
     }
 

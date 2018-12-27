@@ -89,7 +89,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\HumanoidMovementExecuter.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\Follower.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\HumanoidPathfindingStrategies.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\ImplementationStrategy\FlankingImplementation.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\ImplementationStrategy\BaseImplementation.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\ImplementationStrategy\IImplementPathfinder.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\ImplementationStrategy\PathfinderImplementationStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\Clamper\INodeDistanceClamper.cs" />
@@ -118,7 +118,6 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\PathfindingHeap.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\PathNode.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\PathRequest.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\PathRequestManager.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\PathResult.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\Point.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyMarker.cs" />

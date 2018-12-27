@@ -1,10 +1,13 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/HumanoidAILinker.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/HumanoidAI.txt" Line="1" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/HumanoidPathfindingStrategies.cs" Line="1" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/MovementController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/HumanoidAILinker.cs" Line="1" Column="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/HumanoidAILinker.cs" Line="46" Column="11" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs" Line="7" Column="5" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderHelper.cs" Line="69" Column="32" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/Pathfinder.cs" Line="14" Column="15" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/Follower.cs" Line="60" Column="16" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathRequest.cs" Line="14" Column="28" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathResult.cs" Line="8" Column="51" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

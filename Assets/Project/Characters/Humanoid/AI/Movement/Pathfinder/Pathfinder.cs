@@ -6,12 +6,11 @@ using static PathfinderHelper;
 
 public static class Pathfinder{
 
-	public static void FindPath(PathRequest request, Action<PathResult> callback)
+	public static PathResult FindPath(PathRequest request)
 	{
-        callback(
+        return
             PathfinderHelper.FindPath(
                 request
-            )
-        );
+            );
 	}
 }

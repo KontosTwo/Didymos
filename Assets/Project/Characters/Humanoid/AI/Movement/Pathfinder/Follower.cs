@@ -27,54 +27,55 @@ public class Follower : MonoBehaviour {
 		StartCoroutine (UpdatePath ());
 	}
 
-	public void OnPathFound(Vector3[] waypoints, bool pathSuccessful) {
-		if (pathSuccessful) {
-			path = new Path(waypoints	, stoppingDst);
-            watch.Stop();
-            UnityEngine.Debug.Log("Elapsed in ms: " + watch.ElapsedMilliseconds);
-            watch = new Stopwatch();
-			//StopCoroutine(FollowPath());
-			//StartCoroutine(FollowPath());
-		}
-	}
-
 	IEnumerator UpdatePath() {
 
 		if (Time.timeSinceLevelLoad < .3f) {
 			yield return new WaitForSeconds (.3f);
 		}
-		PathRequestManager.RequestPath (
+        PathResult result = Pathfinder.FindPath(
             new PathRequest(
-                transform.position, 
-                target.position, 
-                OnPathFound,
+                transform.position,
+                target.position,
                 maxLength,
-                new FlankingImplementation(
-                    nonCoverStrategy,
+                new BaseImplementation(
                     coverStrategy
                 )
             )
         );
+        bool pathSuccessful = result.success;
+        if (pathSuccessful)
+        {
+            path = new Path(result.path, stoppingDst);
+            watch.Stop();
+            UnityEngine.Debug.Log("Elapsed in ms: " + watch.ElapsedMilliseconds);
+            watch = new Stopwatch();
+        }
 
-		float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
+        float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
 		Vector3 targetPosOld = target.position;
 
 		while (true) {
 			yield return new WaitForSeconds (minPathUpdateTime);
 			if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
-				PathRequestManager.RequestPath (
+                 result = Pathfinder.FindPath(
                     new PathRequest(
                         transform.position,
                         target.position,
-                        OnPathFound,
                         maxLength,
-                        new FlankingImplementation(
-                            nonCoverStrategy,
+                        new BaseImplementation(
                             coverStrategy
                         )
                     )
                 );
-				targetPosOld = target.position;
+                pathSuccessful = result.success;
+                if (pathSuccessful)
+                {
+                    path = new Path(result.path, stoppingDst);
+                    watch.Stop();
+                    UnityEngine.Debug.Log("Elapsed in ms: " + watch.ElapsedMilliseconds);
+                    watch = new Stopwatch();
+                }
+                targetPosOld = target.position;
                 watch.Start();
 			}
 		}

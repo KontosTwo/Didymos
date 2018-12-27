@@ -12,7 +12,9 @@ public class HumanoidTaskExecuter
     public HumanoidTaskExecuter(HumanoidModel model){
         this.model = model;
     }
-    public void ExecuteAction(Action action)
+    public void ExecuteAction(Action action,
+                              Action onEnd,
+                              Action onFail)
     {
         Task task = Task.current;
         if (task.isStarting)
@@ -21,15 +23,18 @@ public class HumanoidTaskExecuter
         }
         if (!model.InfoIsExecutingAction())
         {
+            onEnd();
             task.Succeed();
         }
         if (model.InfoIsFlinch())
         {
+            onFail();
             task.Fail();
         }
     }
     public void ExecuteChannelingAction(Action onBegin
         , Action onEnd
+        , Action onFail
         , EndCondition condition)
     {
         Task task = Task.current;
@@ -44,7 +49,7 @@ public class HumanoidTaskExecuter
         }
         if (model.InfoIsFlinch())
         {
-            onEnd();
+            onFail();
             task.Fail();
         }
     }
