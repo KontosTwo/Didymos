@@ -8,13 +8,14 @@ public class BaseImplementation : PathfinderImplementationStrategy{
     private PathfinderNodeCreator currentNodeCreator;
     private PathfinderCostStrategy currentCostStrategy;
 
- 
+
 
     public BaseImplementation(
-        PathfinderCostStrategy costStrategy
+        PathfinderCostStrategy costStrategy,
+        PathfinderNodeCreator nodeCreator
     ){
         currentCostStrategy = costStrategy;
-        currentNodeCreator = new FavorDistanceToStartNodeCreator();
+        currentNodeCreator = nodeCreator;
     }
 
     public override void ProcessNode(
@@ -45,11 +46,6 @@ public class BaseImplementation : PathfinderImplementationStrategy{
                 continue;
             }
 
-
-
-
-
-
             int newMovementCostToNeighbour = 
                 currentNode.GetGCost() + PathfinderHelper.GetDistance(currentNode, neighbour);
             if (newMovementCostToNeighbour < neighbour.GetGCost() || !openSet.Contains(neighbour)){
@@ -65,14 +61,12 @@ public class BaseImplementation : PathfinderImplementationStrategy{
                 if (!openSet.Contains(neighbour)
                     && neighbour.WithInRangeOfStart(maxPathLength)
                 ){
-
-
-
                     openSet.Add(neighbour);
-
+                    DrawGizmo.AddGizmo(Color.grey, "", grid.NodeToWorldCoord(
+                        neighbour.GetGridCoord())
+                    );
                 }
                 else{
-
                     openSet.UpdateItem(neighbour);
                 }
             }
