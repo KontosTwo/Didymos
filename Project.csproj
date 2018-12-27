@@ -188,6 +188,7 @@
     <Compile Include="Assets\Project\Utility\FloatExt.cs" />
     <Compile Include="Assets\Project\Utility\Integer.cs" />
     <Compile Include="Assets\Project\Utility\LinkedDictionary.cs" />
+    <Compile Include="Assets\Project\Utility\ListExt.cs" />
     <Compile Include="Assets\Project\Utility\Pool.cs" />
     <Compile Include="Assets\Project\Utility\Vector2Ext.cs" />
     <Compile Include="Assets\Project\Utility\Vector3Ext.cs" />

@@ -55,7 +55,7 @@ public class BaseImplementation : PathfinderImplementationStrategy{
                     currentCostStrategy.GetAdditionalCostAt(
                         currentLocation, 
                         neighbourLocation
-                    ).GetCoverDisparityPenalty()
+                    )
                 );
                 neighbour.SetParent(currentNode);
                 if (!openSet.Contains(neighbour)

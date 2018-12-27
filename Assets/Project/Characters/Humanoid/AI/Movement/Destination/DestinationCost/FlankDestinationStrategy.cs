@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class FlankDestinationStrategy : DestinationCostStrategy{
     [SerializeField]
@@ -13,18 +14,18 @@ public class FlankDestinationStrategy : DestinationCostStrategy{
     public override CostResult GetAdditionalCostAt(Vector3 location){
         var enemyVantages = targeter.GetAllKnownVantages();
 
-        float totalCoverDisparityPenalty = CostCalculatorHelper.CalculateTotalCoverDisparity(
-            strategizer.InfoGetVantageData(),
-            enemyVantages,
-            location,
-            coverDisparityData.exposedPenalty,
-            coverDisparityData.coverDisparityPenalty
-        );
+        TerrainDisparity totalCoverDisparityPenalty = 
+            CostCalculatorHelper.CalculateByMostVisibleToTarget(
+                strategizer.InfoGetVantageData(),
+                enemyVantages,
+                location
+            );
 
         CostResult result = new CostResult(
-            (int)totalCoverDisparityPenalty,
-            totalCoverDisparityPenalty > 0 &&
-            totalCoverDisparityPenalty < coverDisparityData.exposedPenalty,
+            new Tuple<float,TerrainDisparity>(
+                coverDisparityData.coverDisparityPenalty,
+                totalCoverDisparityPenalty
+            ),
             0
         );
 

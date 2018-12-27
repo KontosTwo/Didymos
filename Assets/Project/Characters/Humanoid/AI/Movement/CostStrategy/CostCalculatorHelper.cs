@@ -41,28 +41,38 @@ public class CostCalculatorHelper {
      * Also visible enemies should be in the enemies list. 
      * Calculate the height at runtime
      */
-    public static float CalculateTotalCoverDisparity(HumanoidVantage strategizer,
-                                                     List<HumanoidVantage> enemyVantages,
-                                                     Vector3 location,
-                                                    float exposedPenalty,
-                                                    float coverDisparityPenalty){
-        float totalDisparity = 0;
+    public static TerrainDisparity CalculateByMostVisibleToTarget(
+        HumanoidVantage strategizer,
+        List<HumanoidVantage> enemyVantages,
+        Vector3 location
+    ){
+        List<TerrainDisparity> allDisparities =
+            CalculateAllCoverDisparities(
+                strategizer,
+                enemyVantages,
+                location
+            );
+
+        return allDisparities.MaxBy(td => td.visibleToTarget);
+    }
+
+    private static List<TerrainDisparity> CalculateAllCoverDisparities(
+        HumanoidVantage strategizer,
+        List<HumanoidVantage> enemyVantages,
+        Vector3 location
+    ){
+        List<TerrainDisparity> totalDisparity = new List<TerrainDisparity>();
 
         Projectile stratWeaponThreat = strategizer.GetWeaponThreat();
         Vector3 standingAtEnd = location.AddY(strategizer.GetStandingHeight());
         Vector3 kneelingAtEnd = location.AddY(strategizer.GetKneelingHeight());
         Vector3 layingAtEnd = location.AddY(strategizer.GetLayingHeight());
 
-
-
-        foreach (HumanoidVantage enemyVantage in enemyVantages)
-        {
+        foreach (HumanoidVantage enemyVantage in enemyVantages){
             Projectile enemyWeaponThreat = enemyVantage.GetWeaponThreat();
             Vector3 enemyStanding = enemyVantage.GetStandingVantage();
             Vector3 enemyKneeling = enemyVantage.GetKneelingVantage();
             Vector3 enemyLaying = enemyVantage.GetLayingVantage();
-
-            float worstDisparity = int.MaxValue;
 
             TerrainDisparity topToTopDisp =
                 EnvironmentPhysics.CalculateTerrainDisparityBetween(
@@ -72,29 +82,10 @@ public class CostCalculatorHelper {
                     enemyStanding
                 );
 
-            if(topToTopDisp.BothHidden()){
-                worstDisparity = 0;
-            }
-            else if(topToTopDisp.BothCompletelyExposed()){
-                worstDisparity = exposedPenalty;
-            }
-            else
-            {
-                /*
-                 * Clamp because any exposed part of the 
-                 * enemy is bad. No "negative" bonuses. 
-                 */
-                worstDisparity = Mathf.Clamp((topToTopDisp.TargetDisparity() 
-                                              * coverDisparityPenalty),-exposedPenalty,int.MaxValue)
-                                       + exposedPenalty
-                                             ;
-            }
-
-            totalDisparity += worstDisparity;
+            totalDisparity.Add(topToTopDisp);
 
         }
 
-        // the lower the disparity, the higher the penalty
         return totalDisparity;
     }
 }

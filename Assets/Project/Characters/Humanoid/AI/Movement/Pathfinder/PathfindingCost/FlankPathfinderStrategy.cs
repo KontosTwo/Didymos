@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 public class FlankPathfinderStrategy : PathfinderCostStrategy
 {
@@ -44,19 +44,20 @@ public class FlankPathfinderStrategy : PathfinderCostStrategy
             heightData.climbDownThreshold
         );
 
-        float totalCoverDisparityPenalty = CostCalculatorHelper.CalculateTotalCoverDisparity(
+        TerrainDisparity totalCoverDisparityPenalty = CostCalculatorHelper.CalculateByMostVisibleToTarget(
             strategizer.InfoGetVantageData(),
             enemyVantages,
-            end,
+            end/*,
             coverDisparityData.exposedPenalty,
-            coverDisparityData.coverDisparityPenalty
+            coverDisparityData.coverDisparityPenalty*/
         );
 
         CostResult result = new CostResult(
-            (int)totalCoverDisparityPenalty,
-            totalCoverDisparityPenalty > 0 &&
-            totalCoverDisparityPenalty < coverDisparityData.exposedPenalty,
-            (int)heightPenalty
+            new Tuple<float, TerrainDisparity> (
+                coverDisparityData.coverDisparityPenalty,
+                totalCoverDisparityPenalty
+            )
+            ,(int)heightPenalty
         );
 
         DrawGizmo.AddGizmo(Color.grey, "" + result.CompletelyHidden(), end);

@@ -23,7 +23,7 @@ public class FavorCoverAndStrategyCost : IComparer<PathfinderNode>{
             }
         }*/
 
-        bool xIsCover = x.IsCover();
+        /*bool xIsCover = x.IsCover();
         bool yIsCover = y.IsCover();
         int compare = 0;
         compare = x.GetGCost().CompareTo(y.GetGCost());
@@ -41,8 +41,31 @@ public class FavorCoverAndStrategyCost : IComparer<PathfinderNode>{
             {
                 compare = 1;
             }
-        }
+        }*/
+        bool xIsCover = x.IsCover();
+        bool yIsCover = y.IsCover();
+        int compare = 0;
+        compare = x.GetGCost().CompareTo(y.GetGCost());
+        if (compare == 0)
+        {
+            compare = (x.GetStrategyCost().GetCoverDisparityPenalty()).CompareTo(y.GetStrategyCost().GetCoverDisparityPenalty());
 
+            if(compare == 0)
+            {
+                if ((!xIsCover && !yIsCover) || (xIsCover && yIsCover))
+                {
+                }
+                else if (xIsCover)
+                {
+                    compare = -1;
+                }
+                else if (yIsCover)
+                {
+                    compare = 1;
+                }
+            }
+
+        }
 
         return -compare;
     }

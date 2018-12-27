@@ -7,5 +7,9 @@ public static class FloatExt
         return (x - a) * (x - b) < 0;
     }
 
+    public static bool CloseToZero(this float x,float marginOfError){
+        return Math.Abs(x) < marginOfError;
+    }
+
 }
 

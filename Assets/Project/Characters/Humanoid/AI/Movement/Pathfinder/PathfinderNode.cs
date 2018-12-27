@@ -11,7 +11,8 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 
     private int gCost;
     private int hCost;
-    private int strategyCost;
+    private CostResult strategyCost;
+    //private int strategyCost;
     private PathfinderNode parent;
     private int heapIndex;
 
@@ -48,7 +49,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     public int GetHCost(){
         return hCost;
     }
-    public int GetStrategyCost(){
+    public CostResult GetStrategyCost(){
         return strategyCost;
     }
     public void SetGCost(int gCost){
@@ -57,7 +58,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     public void SetHCost(int hCost){
         this.hCost = hCost;
     }
-    public void SetStrategyCost(int strategyCost){
+    public void SetStrategyCost(CostResult strategyCost){
         this.strategyCost = strategyCost;
     }
 
@@ -98,13 +99,6 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
             this,
             manhattanGridDist
         );
-    }
-
-    private int ComparerCost{
-        get{
-            return strategyCost;
-        }
-
     }
 
     public int HeapIndex

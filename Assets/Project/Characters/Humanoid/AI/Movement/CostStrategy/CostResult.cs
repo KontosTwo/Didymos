@@ -1,27 +1,36 @@
 ﻿using System;
 
 public class CostResult{
-    private int coverDisparityPenalty;
+    private float coverDisparityPenalty;
     private int terrainPenalty;
 
-    private bool partialCover;
+    private float visibleToObserver;
+    private float visibleToEnemy;
+
+    private bool isPartialCover;
+    private bool completelyHidden;
 
     public CostResult(
-        int coverDisparityPenalty,
-        bool partialCover,
+        Tuple<float,TerrainDisparity> disparityPenalty,
         int terrainPenalty
     ){
-        this.coverDisparityPenalty = coverDisparityPenalty;
+        float disparityMultiplier = disparityPenalty.Item1;
+        TerrainDisparity terrainDisparity = disparityPenalty.Item2;
+        this.visibleToObserver =
+            terrainDisparity.visibleToObserver;
+        this.visibleToEnemy =
+            terrainDisparity.visibleToTarget;
+        this.coverDisparityPenalty = 
+            (int)(terrainDisparity.TargetDisparity() 
+            * disparityMultiplier);
         this.terrainPenalty = terrainPenalty;
-        this.partialCover = partialCover;
+        this.isPartialCover =
+            terrainDisparity.ObserverPartiallyExposed();
+        this.completelyHidden = terrainDisparity.ObserverHidden();
     }
 
     public bool CompletelyHidden(){
-        return coverDisparityPenalty == 0;
-    }
-
-    public int GetCoverDisparityPenalty(){
-        return coverDisparityPenalty;
+        return completelyHidden;
     }
 
     public int GetTerrainPenalty(){
@@ -29,7 +38,17 @@ public class CostResult{
     }
 
     public bool IsPartialCover(){
-        return partialCover;
+        return isPartialCover;
+    }
+
+    public float GetVisibleToObserver(){
+        return visibleToObserver;
+    }
+    public float GetVisibleToEnemy(){
+        return visibleToEnemy;
+    }
+    public int GetCoverDisparityPenalty(){
+        return (int)((visibleToEnemy - visibleToObserver) * coverDisparityPenalty);
     }
 }
 

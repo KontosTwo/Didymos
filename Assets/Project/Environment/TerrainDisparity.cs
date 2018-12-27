@@ -12,18 +12,49 @@ public struct TerrainDisparity
     public float targetHeight;
 
     public bool BothHidden(){
-        return TargetNegligible()
-            && ObserverNegligible();
+        return TargetHidden()
+            && ObserverHidden();
     }
+
+    public bool TargetHidden(){
+        return Math.Abs(visibleToObserver) < 0.1f;
+    }
+
+    public bool ObserverHidden(){
+        return Math.Abs(visibleToTarget) < 0.1f;
+    }
+
+    public bool ObserverPartiallyExposed(){
+        return !ObserverHidden() 
+            && !ObserverCompletelyExposed();
+    }
+
+    public bool TargetPartiallyExposed(){
+        return !TargetHidden()
+            && !TargetCompletelyExposed();
+    }
+
 
     public bool BothCompletelyExposed(){
-        return Math.Abs(visibleToObserver - targetHeight) < NEGLIGIBLE_THRESHOLD
-                   && Math.Abs(visibleToTarget - observerHeight) < NEGLIGIBLE_THRESHOLD;
+        return ObserverCompletelyExposed()
+            && TargetCompletelyExposed();
     }
 
+    public bool ObserverCompletelyExposed(){
+        return Math.Abs(visibleToTarget - observerHeight) 
+            < NEGLIGIBLE_THRESHOLD;
+    }
+
+    public bool TargetCompletelyExposed(){
+        return Math.Abs(visibleToObserver - targetHeight) 
+            < NEGLIGIBLE_THRESHOLD;
+    }
+
+
+
     public bool BothExposed(){
-        return !TargetNegligible()
-            && !ObserverNegligible();
+        return ObserverCompletelyExposed()
+            && TargetCompletelyExposed();
     }
 
     public bool EquallyExposed(){
@@ -45,13 +76,6 @@ public struct TerrainDisparity
 
     }
 
-    private bool ObserverNegligible(){
-        return Math.Abs(visibleToObserver) < 0.1f;
-    }
-
-    private bool TargetNegligible(){
-        return Math.Abs(visibleToTarget) < 0.1f;
-    }
 }
 
 
