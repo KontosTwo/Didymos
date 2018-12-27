@@ -1,11 +1,10 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Testing/Utility/ConvexHullTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/HumanoidAILinker.cs">
     <Files>
-      <File FileName="Assets/Project/Testing/Utility/LinkedDictionaryTest.cs" Line="10" Column="12" />
-      <File FileName="Assets/Project/Utility/ConvexPolygon.cs" Line="25" Column="31" />
-      <File FileName="Assets/Project/Utility/ConvexHull.cs" Line="52" Column="25" />
-      <File FileName="Assets/Project/Testing/Utility/ConvexPolygonTest.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Project/Testing/Utility/ConvexHullTest.cs" Line="69" Column="25" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/HumanoidAI.txt" Line="1" Column="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/HumanoidPathfindingStrategies.cs" Line="1" Column="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/MovementController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/HumanoidAILinker.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
