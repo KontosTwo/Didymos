@@ -85,12 +85,9 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     }
 
 
-    public int FCost
+    public int GetFCost()
     {
-        get
-        {
-            return gCost + hCost;
-        }
+        return gCost + hCost;
     }
 
     public bool WithInRangeOfStart(int manhattanGridDist)

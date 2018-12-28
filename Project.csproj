@@ -82,7 +82,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Destination\Filtering\FilterStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Destination\Filtering\IDestinationFilterer.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Destination\Sorting\IDestinationSorter.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Destination\Sorting\SortByCost.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Destination\Sorting\SortByCoverDisparityPenalty.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Destination\Sorting\SorterStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Grid.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\GridData.cs" />
@@ -182,6 +182,7 @@
     <Compile Include="Assets\Project\Script\Script.cs" />
     <Compile Include="Assets\Project\Utility\Address.cs" />
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />
+    <Compile Include="Assets\Project\Utility\Comparer.cs" />
     <Compile Include="Assets\Project\Utility\ConvexHull.cs" />
     <Compile Include="Assets\Project\Utility\ConvexPolygon.cs" />
     <Compile Include="Assets\Project\Utility\FastMath.cs" />
