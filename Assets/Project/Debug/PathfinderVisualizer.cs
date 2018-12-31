@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEditor;
 
 public class PathfinderVisualizer : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class PathfinderVisualizer : MonoBehaviour
     }
 
     public static void Visualize() {
-        instance.StartCoroutine(CreateVisualizer());
+        //instance.StartCoroutine(CreateVisualizer());
     }
 
     private static IEnumerator CreateVisualizer() {
@@ -39,10 +40,10 @@ public class PathfinderVisualizer : MonoBehaviour
         {
             //Gizmos.color = Color.gray;
 
-            //Gizmos.DrawCube(node.GetLocation(), new Vector3(.3f, .3f, .3f));
-            //Handles.Label(gizmo.location, gizmo.text);
+            Gizmos.DrawCube(node.GetLocation(), new Vector3(.3f, .3f, .3f));
+            Handles.Label(node.GetLocation(),"" + node.GetGCost());
 
-            DrawGizmo.AddGizmo(Color.gray, "" + node.GetGCost(), node.GetLocation());
+            //DrawGizmo.AddGizmo(Color.gray, "" + node.GetGCost(), node.GetLocation());
 
         }
 
