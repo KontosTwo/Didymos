@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class PathfinderImplementationStrategy : IImplementPathfinder {
+    public abstract PathfinderNode CreateStarterNodes(
+        Point point,
+        MapNode data
+    );
     public abstract void ProcessNode(
         PathfinderNode currentNode,
         PathfinderNode startNode,

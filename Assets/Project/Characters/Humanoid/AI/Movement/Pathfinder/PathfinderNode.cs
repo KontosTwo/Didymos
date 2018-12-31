@@ -80,10 +80,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     ){
         this.accumulatedStrategyCost = accumulated;
     }
-    public void UpdateAccumulatedStrategyCost(CostResult strategyCost)
-    {
-        accumulatedStrategyCost += extractor.Extract(strategyCost);
-    }
+   
     public void SetPhysicalGCost(int gCost){
         this.gCost = gCost;
     }
@@ -92,7 +89,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     }
 
     public int GetStrategyGCost(){
-        Debug.Log(accumulatedStrategyCost);
+       // Debug.Log(accumulatedStrategyCost);
         return accumulatedStrategyCost;
     }
 
@@ -108,8 +105,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         List<PathfinderNode> path = new List<PathfinderNode>();
         PathfinderNode currentNode = this;
 
-        while (currentNode != startNode)
-        {
+        while (currentNode != startNode){
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }

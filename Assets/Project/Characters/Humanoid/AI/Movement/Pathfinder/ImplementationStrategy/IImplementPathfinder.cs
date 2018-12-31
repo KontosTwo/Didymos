@@ -14,4 +14,9 @@ public interface IImplementPathfinder {
         int maxPathLength
     );
 
+    PathfinderNode CreateStarterNodes(
+        Point point,
+        MapNode data
+    );
+
 }

@@ -42,20 +42,14 @@ public class PathfinderHelper :MonoBehaviour{
         Point endPoint = instance.grid.WorldCoordToNode(request.pathEnd);
 
         PathfinderNode startNode =
-            new PathfinderNode(
+            implementationStrategy.CreateStarterNodes(
                 startPoint,
-                instance.grid.GetNodeAt(startPoint),
-                new FavorClosenessToOrigin(),
-                new RestrictByGCost(),
-                new ExtractNothing()
+                instance.grid.GetNodeAt(startPoint)
             );
         PathfinderNode targetNode =
-            new PathfinderNode(
+            implementationStrategy.CreateStarterNodes(
                 endPoint,
-                instance.grid.GetNodeAt(endPoint),
-                new FavorClosenessToTarget(),
-                new RestrictByHCost(),
-                new ExtractNothing()
+                instance.grid.GetNodeAt(endPoint)
             );
 
         if (startNode.IsWalkable() && targetNode.IsWalkable()){

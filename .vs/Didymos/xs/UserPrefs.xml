@@ -1,11 +1,8 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderNode.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs" Line="65" Column="69" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderNode.cs" Line="62" Column="44" />
-      <File FileName="Assets/Project/Debug/PathfinderVisualizer.cs" Line="30" Column="50" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/NodeStrategy/Comparer/FavorCoverAndStrategyCost.cs" Line="13" Column="17" />
-      <File FileName="Assets/Project/Environment/TerrainDisparity.cs" Line="20" Column="49" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs" Line="87" Column="19" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderNode.cs" Line="64" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -18,6 +18,16 @@ public class BaseImplementation : PathfinderImplementationStrategy{
         currentNodeCreator = nodeCreator;
     }
 
+    public override PathfinderNode CreateStarterNodes(
+        Point point,
+        MapNode data
+    ){
+        return currentNodeCreator.CreateNode(
+            point,
+            data
+        );
+    }
+
     public override void ProcessNode(
         PathfinderNode currentNode,
         PathfinderNode startNode,
@@ -68,7 +78,7 @@ public class BaseImplementation : PathfinderImplementationStrategy{
             //Debug.Log(neighbour.GetGCost());
             if (newMovementCostToNeighbour < neighbour.GetGCost() || !openSet.Contains(neighbour)){
                 //Debug.Log(neighbour.GetGCost());
-                DrawGizmo.AddGizmo(Color.green, ""  + currentNode.GetExtractor().Extract(newStrategyCost), neighbour.GetLocation());
+                //DrawGizmo.AddGizmo(Color.green, ""  + currentNode.GetExtractor().Extract(newStrategyCost), neighbour.GetLocation());
                 neighbour.SetStrategyCost(
                     newStrategyCost
                 );
