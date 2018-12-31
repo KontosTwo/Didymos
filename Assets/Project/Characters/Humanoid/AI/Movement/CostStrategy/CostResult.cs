@@ -5,14 +5,16 @@ public class CostResult{
 
     private TerrainDisparity terrainDisparity;
     private float coverDisparityMultiplier;
+    private float exposedPenalty;
     private int heightPenalty;
 
     public CostResult(
-        Tuple<float,TerrainDisparity> disparityPenalty,
+        Tuple<float,float,TerrainDisparity> disparityPenalty,
         int terrainPenalty
     ){
-        terrainDisparity = disparityPenalty.Item2;
+        terrainDisparity = disparityPenalty.Item3;
         coverDisparityMultiplier = disparityPenalty.Item1;
+        exposedPenalty = disparityPenalty.Item2;
         heightPenalty = terrainPenalty;
     }
 
@@ -45,7 +47,9 @@ public class CostResult{
     }
 
     public int GetVisiblePenalty(){
-        return (int)(GetVisibleToEnemy() * coverDisparityMultiplier);
+        float penalty = GetVisibleToEnemy();
+        penalty += !CompletelyHidden() ? exposedPenalty : 0;
+        return (int)(penalty * coverDisparityMultiplier);
     }
 }
 

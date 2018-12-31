@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEditor;
 
 public class DrawGizmo : MonoBehaviour {
-    private List<DebugGizmo> gizmos;
+    private HashSet<DebugGizmo> gizmos;
 
     private static DrawGizmo instance;
 
     private void Awake()
     {
         instance = this;
-        instance.gizmos = new List<DebugGizmo>();
+        instance.gizmos = new HashSet<DebugGizmo>();
     }
 
     // Use this for initialization
@@ -47,6 +47,15 @@ public class DrawGizmo : MonoBehaviour {
             color = c;
             text = t;
             location = l;
+        }
+
+        public override int GetHashCode()
+        {
+            return location.GetHashCode();
+        }
+        public override bool Equals(object obj)
+        {
+            return ((DebugGizmo)obj).location.Equals(this.location);
         }
     }
 

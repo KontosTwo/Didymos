@@ -53,8 +53,9 @@ public class FlankPathfinderStrategy : PathfinderCostStrategy
         );
 
         CostResult result = new CostResult(
-            new Tuple<float, TerrainDisparity> (
+            new Tuple<float,float, TerrainDisparity> (
                 coverDisparityData.coverDisparityPenalty,
+                coverDisparityData.exposedPenalty,
                 totalCoverDisparityPenalty
             )
             ,(int)heightPenalty

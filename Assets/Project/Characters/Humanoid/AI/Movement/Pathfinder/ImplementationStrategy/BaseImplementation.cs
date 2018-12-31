@@ -75,14 +75,14 @@ public class BaseImplementation : PathfinderImplementationStrategy{
             int newMovementCostToNeighbour =
                 newPhysicalGCost + newStrategyGCost;
 
-            bool smaller = newMovementCostToNeighbour < neighbour.GetGCost();
-            if (smaller)
-            {
-                DrawGizmo.AddGizmo(Color.green, newMovementCostToNeighbour + " " + neighbour.GetGCost(), neighbour.GetLocation());
+           // bool smaller = newStrategyGCost < neighbour.GetStrategyGCost();
+            //if (smaller)
+           // {
+                DrawGizmo.AddGizmo(Color.green, newStrategyGCost + " " + neighbour.GetStrategyGCost(), neighbour.GetLocation());
 
-            }
+            //}
             //Debug.Log(neighbour.GetGCost());
-            if (newMovementCostToNeighbour <= neighbour.GetGCost() || !openSet.Contains(neighbour)){
+            if (newMovementCostToNeighbour < neighbour.GetGCost() || !openSet.Contains(neighbour)){
                 //Debug.Log(neighbour.GetGCost());
                 //DrawGizmo.AddGizmo(Color.green, ""  + currentNode.GetExtractor().Extract(newStrategyCost), neighbour.GetLocation());
                 neighbour.SetStrategyCost(
