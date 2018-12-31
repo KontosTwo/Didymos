@@ -12,6 +12,9 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 
     private int gCost;
     private int hCost;
+    //Cost of moving from start to this node
+    private int accumulatedStrategyCost;
+    //Cost of moving from previous to this node
     private CostResult strategyCost;
     //private int strategyCost;
     private PathfinderNode parent;
@@ -27,7 +30,14 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         this.comparer = comparer;
         this.clamper = clamper;
         this.extractor = extractor;
+        gCost = 0;
+        hCost = 0;
+        accumulatedStrategyCost = 0;
     }
+    public IExtractCostFromCostResult GetExtractor(){
+        return extractor;
+    }
+
     public Vector3 GetLocation(){
         return data.GetLocation();
     }
@@ -49,7 +59,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     }
 
     public int GetGCost(){
-        return gCost + extractor.Extract(strategyCost);
+        return GetPhysicalGCost() + GetStrategyGCost();
     }
     public int GetHCost(){
         return hCost;
@@ -63,6 +73,10 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     public void SetStrategyCost(CostResult strategyCost){
         this.strategyCost = strategyCost;
     }
+    public void UpdateAccumulatedStrategyCost(CostResult strategyCost)
+    {
+        accumulatedStrategyCost += extractor.Extract(strategyCost);
+    }
     public void SetPhysicalGCost(int gCost){
         this.gCost = gCost;
     }
@@ -71,7 +85,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     }
 
     public int GetStrategyGCost(){
-        return extractor.Extract(strategyCost);
+        return accumulatedStrategyCost;
     }
 
     public void SetParent(PathfinderNode p){

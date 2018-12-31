@@ -52,26 +52,29 @@ public class BaseImplementation : PathfinderImplementationStrategy{
                     neighbourLocation
                 );
 
-
+            neighbour.UpdateAccumulatedStrategyCost(newStrategyCost);
 
             int newPhysicalGCost =
                 currentNode.GetPhysicalGCost()
                 + PathfinderHelper.GetDistance(currentNode, neighbour);
 
-            //Debug.Log(newStrategyCost.GetVisiblePenalty());
 
             int newMovementCostToNeighbour =
-                newPhysicalGCost
-                + newStrategyCost.GetVisiblePenalty(); // this is the strategycost that matters
+                currentNode.GetPhysicalGCost()
+                + PathfinderHelper.GetDistance(currentNode, neighbour)
+                + neighbour.GetExtractor().Extract(newStrategyCost);
 
-            //DrawGizmo.AddGizmo(Color.green, "" + newStrategyCost.GetVisiblePenalty(), neighbour.GetLocation());
-
+            //Debug.Log(neighbour.GetGCost());
             if (newMovementCostToNeighbour < neighbour.GetGCost() || !openSet.Contains(neighbour)){
-                neighbour.SetPhysicalGCost(newPhysicalGCost);
-                neighbour.SetHCost(GetDistance(neighbour, targetNode));
+                //Debug.Log(neighbour.GetGCost());
+                //DrawGizmo.AddGizmo(Color.green, ""  + neighbour.GetExtractor().Extract(newStrategyCost), neighbour.GetLocation());
+
                 neighbour.SetStrategyCost(
                     newStrategyCost
                 );
+                neighbour.SetPhysicalGCost(newPhysicalGCost);
+                neighbour.SetHCost(GetDistance(neighbour, targetNode));
+
                 neighbour.SetParent(currentNode);
                 if (!openSet.Contains(neighbour)
                     && neighbour.WithInRangeOfStart(maxPathLength)
@@ -83,10 +86,12 @@ public class BaseImplementation : PathfinderImplementationStrategy{
                         neighbour.GetGridCoord())
                     );*/
                 }
-                else
-                {
+                else{
                     openSet.UpdateItem(neighbour);
                 }
+            }
+            else{
+
             }
         }
     }

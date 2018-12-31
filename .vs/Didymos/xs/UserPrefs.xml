@@ -1,13 +1,9 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/NodeStrategy/FavorDistanceToStartNodeCreator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs" Line="71" Column="61" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderNode.cs" Line="52" Column="55" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/NodeStrategy/StrategyExtractor/ExtractVisibleToEnemyPenalty.cs" Line="6" Column="1" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/NodeStrategy/Comparer/FavorCoverAndStrategyCost.cs" Line="11" Column="42" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/NodeStrategy/Comparer/FavorClosenessToOrigin.cs" Line="5" Column="28" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderHelper.cs" Line="48" Column="21" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/NodeStrategy/FavorDistanceToStartNodeCreator.cs" Line="11" Column="17" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs" Line="65" Column="69" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderHelper.cs" Line="117" Column="42" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderNode.cs" Line="77" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
