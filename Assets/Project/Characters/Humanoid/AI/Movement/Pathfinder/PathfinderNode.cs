@@ -10,10 +10,10 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     private INodeDistanceClamper clamper;
     private IExtractCostFromCostResult extractor;
 
-    private int gCost;
+    private int physicalGCost;
     private int hCost;
     //Cost of moving from start to this node
-    private int accumulatedStrategyCost;
+    private int strategyGCost;
     //Cost of moving from previous to this node
     private CostResult strategyCost;
     //private int strategyCost;
@@ -30,9 +30,9 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         this.comparer = comparer;
         this.clamper = clamper;
         this.extractor = extractor;
-        gCost = 0;
+        physicalGCost = 0;
         hCost = 0;
-        accumulatedStrategyCost = 0;
+        strategyGCost = 0;
     }
     public IExtractCostFromCostResult GetExtractor(){
         return extractor;
@@ -78,19 +78,19 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     public void SetStrategyGCost(
         int accumulated
     ){
-        this.accumulatedStrategyCost = accumulated;
+        this.strategyGCost = accumulated;
     }
    
     public void SetPhysicalGCost(int gCost){
-        this.gCost = gCost;
+        this.physicalGCost = gCost;
     }
     public int GetPhysicalGCost(){
-        return gCost;
+        return physicalGCost;
     }
 
     public int GetStrategyGCost(){
        // Debug.Log(accumulatedStrategyCost);
-        return accumulatedStrategyCost;
+        return strategyGCost;
     }
 
     public void SetParent(PathfinderNode p){
@@ -117,7 +117,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
 
     public int GetFCost()
     {
-        return gCost + hCost;
+        return GetGCost() + hCost;
     }
 
     public bool WithInRangeOfStart(int manhattanGridDist)
