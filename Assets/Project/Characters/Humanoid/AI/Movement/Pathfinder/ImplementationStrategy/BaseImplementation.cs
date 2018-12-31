@@ -78,7 +78,7 @@ public class BaseImplementation : PathfinderImplementationStrategy{
            // bool smaller = newStrategyGCost < neighbour.GetStrategyGCost();
             //if (smaller)
            // {
-                DrawGizmo.AddGizmo(Color.green, newStrategyGCost + " " + neighbour.GetStrategyGCost(), neighbour.GetLocation());
+                //DrawGizmo.AddGizmo(Color.green, newStrategyGCost + " " + neighbour.GetStrategyGCost(), neighbour.GetLocation());
 
             //}
             //Debug.Log(neighbour.GetGCost());
