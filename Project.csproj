@@ -104,6 +104,9 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\FavorDistanceToStartNodeCreator.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\FavorDistanceToTargetNodeCreator.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\PathfinderNodeCreator.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\StrategyExtractor\ExtractNothing.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\StrategyExtractor\ExtractVisibleToEnemyPenalty.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\StrategyExtractor\IExtractCostFromCostResult.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\Path.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\Pathfinder.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\PathfinderHelper.cs" />
@@ -170,6 +173,7 @@
     <Compile Include="Assets\Project\Debug\DrawGizmo.cs" />
     <Compile Include="Assets\Project\Debug\EnemyTargeterDebugger.cs" />
     <Compile Include="Assets\Project\Debug\MarkerSetter.cs" />
+    <Compile Include="Assets\Project\Debug\PathfinderVisualizer.cs" />
     <Compile Include="Assets\Project\Debug\RotateAround.cs" />
     <Compile Include="Assets\Project\Debug\Test.cs" />
     <Compile Include="Assets\Project\Environment\EnvironmentInteractions.cs" />

@@ -46,27 +46,45 @@ public class BaseImplementation : PathfinderImplementationStrategy{
                 continue;
             }
 
-            int newMovementCostToNeighbour = 
-                currentNode.GetGCost() + PathfinderHelper.GetDistance(currentNode, neighbour);
+            CostResult newStrategyCost = 
+                currentCostStrategy.GetAdditionalCostAt(
+                    currentLocation,
+                    neighbourLocation
+                );
+
+
+
+            int newPhysicalGCost =
+                currentNode.GetPhysicalGCost()
+                + PathfinderHelper.GetDistance(currentNode, neighbour);
+
+            //Debug.Log(newStrategyCost.GetVisiblePenalty());
+
+            int newMovementCostToNeighbour =
+                newPhysicalGCost
+                + newStrategyCost.GetVisiblePenalty(); // this is the strategycost that matters
+
+            //DrawGizmo.AddGizmo(Color.green, "" + newStrategyCost.GetVisiblePenalty(), neighbour.GetLocation());
+
             if (newMovementCostToNeighbour < neighbour.GetGCost() || !openSet.Contains(neighbour)){
-                neighbour.SetGCost(newMovementCostToNeighbour);
+                neighbour.SetPhysicalGCost(newPhysicalGCost);
                 neighbour.SetHCost(GetDistance(neighbour, targetNode));
                 neighbour.SetStrategyCost(
-                    currentCostStrategy.GetAdditionalCostAt(
-                        currentLocation, 
-                        neighbourLocation
-                    )
+                    newStrategyCost
                 );
                 neighbour.SetParent(currentNode);
                 if (!openSet.Contains(neighbour)
                     && neighbour.WithInRangeOfStart(maxPathLength)
                 ){
                     openSet.Add(neighbour);
-                    DrawGizmo.AddGizmo(Color.grey, "", grid.NodeToWorldCoord(
+                    PathfinderVisualizer.Visit(neighbour);
+
+                    /*DrawGizmo.AddGizmo(Color.grey, "", grid.NodeToWorldCoord(
                         neighbour.GetGridCoord())
-                    );
+                    );*/
                 }
-                else{
+                else
+                {
                     openSet.UpdateItem(neighbour);
                 }
             }

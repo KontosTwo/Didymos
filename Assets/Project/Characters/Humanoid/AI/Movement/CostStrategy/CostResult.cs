@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class CostResult{
 
@@ -19,6 +20,10 @@ public class CostResult{
         return terrainDisparity.ObserverHidden();
     }
 
+    public bool CompletelyExposed(){
+        return terrainDisparity.ObserverCompletelyExposed();
+    }
+
     public int GetTerrainPenalty(){
         return heightPenalty;
     }
@@ -37,6 +42,10 @@ public class CostResult{
         return (int)((GetVisibleToEnemy() 
                 - GetVisibleToObserver()) 
                 * coverDisparityMultiplier);
+    }
+
+    public int GetVisiblePenalty(){
+        return (int)(GetVisibleToEnemy() * coverDisparityMultiplier);
     }
 }
 

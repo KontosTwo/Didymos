@@ -16,7 +16,8 @@ public class FavorDistanceToFociCreator : PathfinderNodeCreator{
                     location,
                     data,
                     new FavorClosenessToLocation(foci),
-                    new RestrictByGCost()
+                    new RestrictByGCost(),
+                    new ExtractNothing()
                 );
     }
 }

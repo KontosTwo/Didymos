@@ -46,14 +46,16 @@ public class PathfinderHelper :MonoBehaviour{
                 startPoint,
                 instance.grid.GetNodeAt(startPoint),
                 new FavorClosenessToOrigin(),
-                new RestrictByGCost()
+                new RestrictByGCost(),
+                new ExtractNothing()
             );
         PathfinderNode targetNode =
             new PathfinderNode(
                 endPoint,
                 instance.grid.GetNodeAt(endPoint),
                 new FavorClosenessToTarget(),
-                new RestrictByHCost()
+                new RestrictByHCost(),
+                new ExtractNothing()
             );
 
         if (startNode.IsWalkable() && targetNode.IsWalkable()){
@@ -86,12 +88,14 @@ public class PathfinderHelper :MonoBehaviour{
                     instance.grid,
                     maxPathLength
                 );
+
             }
         }
         if (pathSuccess){
             waypoints = RetracePath(startNode, targetNode);
             pathSuccess = waypoints.Length > 0;
         }
+        PathfinderVisualizer.Visualize();
 
         return new PathResult(
             waypoints,

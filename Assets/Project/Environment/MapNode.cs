@@ -14,6 +14,7 @@ public class MapNode
         this.height = height;
         terrainIsWalkable = walkable;
         isCoverNode = false;
+        this.location = location;
     }
 
     public void MarkAsCoverNode(){

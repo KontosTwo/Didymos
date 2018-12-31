@@ -8,6 +8,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     private MapNode data;
     private IComparer<PathfinderNode> comparer;
     private INodeDistanceClamper clamper;
+    private IExtractCostFromCostResult extractor;
 
     private int gCost;
     private int hCost;
@@ -19,13 +20,17 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     public PathfinderNode(Point gridLocation,
                            MapNode data,
                            IComparer<PathfinderNode> comparer,
-                           INodeDistanceClamper clamper){
+                           INodeDistanceClamper clamper,
+                           IExtractCostFromCostResult extractor){
         location = gridLocation;
         this.data = data;
         this.comparer = comparer;
         this.clamper = clamper;
+        this.extractor = extractor;
     }
-
+    public Vector3 GetLocation(){
+        return data.GetLocation();
+    }
 
     public Point GetGridCoord(){
         return location;
@@ -44,7 +49,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     }
 
     public int GetGCost(){
-        return gCost;
+        return gCost + extractor.Extract(strategyCost);
     }
     public int GetHCost(){
         return hCost;
@@ -52,14 +57,21 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     public CostResult GetStrategyCost(){
         return strategyCost;
     }
-    public void SetGCost(int gCost){
-        this.gCost = gCost;
-    }
     public void SetHCost(int hCost){
         this.hCost = hCost;
     }
     public void SetStrategyCost(CostResult strategyCost){
         this.strategyCost = strategyCost;
+    }
+    public void SetPhysicalGCost(int gCost){
+        this.gCost = gCost;
+    }
+    public int GetPhysicalGCost(){
+        return gCost;
+    }
+
+    public int GetStrategyGCost(){
+        return extractor.Extract(strategyCost);
     }
 
     public void SetParent(PathfinderNode p){

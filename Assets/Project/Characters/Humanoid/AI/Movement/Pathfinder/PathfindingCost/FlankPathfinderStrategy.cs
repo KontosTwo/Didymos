@@ -60,7 +60,7 @@ public class FlankPathfinderStrategy : PathfinderCostStrategy
             ,(int)heightPenalty
         );
 
-        DrawGizmo.AddGizmo(Color.grey, "" + result.CompletelyHidden(), end);
+        //DrawGizmo.AddGizmo(Color.grey, "" + result.CompletelyHidden(), end);
 
         return result;
 

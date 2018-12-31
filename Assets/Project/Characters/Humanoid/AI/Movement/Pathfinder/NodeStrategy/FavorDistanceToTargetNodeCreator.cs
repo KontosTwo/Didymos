@@ -8,7 +8,8 @@ public class FavorDistanceToTargetNodeCreator : PathfinderNodeCreator{
                 location,
                 data,
                 new FavorClosenessToTarget(),
-                new RestrictByGCost()
+                new RestrictByGCost(),
+                new ExtractNothing()
         );
     }
 }

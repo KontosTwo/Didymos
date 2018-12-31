@@ -69,6 +69,7 @@ public class Follower : MonoBehaviour {
                         )
                     )
                 );
+
                 pathSuccessful = result.success;
                 if (pathSuccessful)
                 {
