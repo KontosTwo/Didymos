@@ -17,11 +17,11 @@ public struct TerrainDisparity
     }
 
     public bool TargetHidden(){
-        return Math.Abs(visibleToObserver) < 0.1f;
+        return Math.Abs(visibleToObserver) < 0.5f;
     }
 
     public bool ObserverHidden(){
-        return Math.Abs(visibleToTarget) < 0.1f;
+        return Math.Abs(visibleToTarget) < 0.5f;
     }
 
     public bool ObserverPartiallyExposed(){

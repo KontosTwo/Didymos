@@ -52,25 +52,28 @@ public class BaseImplementation : PathfinderImplementationStrategy{
                     neighbourLocation
                 );
 
-            neighbour.UpdateAccumulatedStrategyCost(newStrategyCost);
+            //neighbour.UpdateAccumulatedStrategyCost(newStrategyCost);
 
             int newPhysicalGCost =
                 currentNode.GetPhysicalGCost()
                 + PathfinderHelper.GetDistance(currentNode, neighbour);
 
+            int newStrategyGCost =
+                + neighbour.GetExtractor().Extract(newStrategyCost)
+                + currentNode.GetStrategyGCost();
 
             int newMovementCostToNeighbour =
-                currentNode.GetPhysicalGCost()
-                + PathfinderHelper.GetDistance(currentNode, neighbour)
-                + neighbour.GetExtractor().Extract(newStrategyCost);
+                newPhysicalGCost + newStrategyGCost;
 
             //Debug.Log(neighbour.GetGCost());
             if (newMovementCostToNeighbour < neighbour.GetGCost() || !openSet.Contains(neighbour)){
                 //Debug.Log(neighbour.GetGCost());
-                //DrawGizmo.AddGizmo(Color.green, ""  + neighbour.GetExtractor().Extract(newStrategyCost), neighbour.GetLocation());
-
+                DrawGizmo.AddGizmo(Color.green, ""  + currentNode.GetExtractor().Extract(newStrategyCost), neighbour.GetLocation());
                 neighbour.SetStrategyCost(
                     newStrategyCost
+                );
+                neighbour.SetStrategyGCost(
+                    newStrategyGCost
                 );
                 neighbour.SetPhysicalGCost(newPhysicalGCost);
                 neighbour.SetHCost(GetDistance(neighbour, targetNode));

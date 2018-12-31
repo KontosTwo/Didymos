@@ -70,8 +70,15 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     public void SetHCost(int hCost){
         this.hCost = hCost;
     }
-    public void SetStrategyCost(CostResult strategyCost){
-        this.strategyCost = strategyCost;
+    public void SetStrategyCost(
+        CostResult strategyCost
+    ){
+        this.strategyCost = strategyCost;;
+    }
+    public void SetStrategyGCost(
+        int accumulated
+    ){
+        this.accumulatedStrategyCost = accumulated;
     }
     public void UpdateAccumulatedStrategyCost(CostResult strategyCost)
     {
@@ -85,6 +92,7 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
     }
 
     public int GetStrategyGCost(){
+        Debug.Log(accumulatedStrategyCost);
         return accumulatedStrategyCost;
     }
 

@@ -27,7 +27,7 @@ public class PathfinderVisualizer : MonoBehaviour
     private static IEnumerator CreateVisualizer() {
         foreach(PathfinderNode node in instance.visitedNodes) {
             instance.nodesToDraw.Add(node);
-            yield return new WaitForSeconds(.02f);
+            yield return new WaitForSeconds(.0010f);
         }
     }
 

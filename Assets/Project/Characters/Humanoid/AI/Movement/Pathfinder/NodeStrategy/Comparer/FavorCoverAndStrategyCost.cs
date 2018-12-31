@@ -8,8 +8,10 @@ public class FavorCoverAndStrategyCost : IComparer<PathfinderNode>{
         int compare = Comparer.NestedCompare(
             new List<Func<PathfinderNode, int>>(){
             
-                pn => pn.GetPhysicalGCost() ,
 
+                //pn => pn.IsCover() && !pn.GetStrategyCost().CompletelyExposed() ? 0 : 1,
+                pn => pn.GetPhysicalGCost() ,
+                //pn => pn.GetStrategyGCost(),
             },
             x,
             y
