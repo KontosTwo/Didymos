@@ -1,13 +1,17 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfindingCost/FlankPathfinderStrategy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderHelper.cs">
     <Files>
-      <File FileName="Assets/Project/Debug/PathfinderVisualizer.cs" Line="25" Column="9" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/NodeStrategy/StrategyExtractor/ExtractVisibleToEnemyPenalty.cs" Line="6" Column="9" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/CostStrategy/CostResult.cs" Line="15" Column="21" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/CostStrategy/CostCalculatorHelper.cs" Line="56" Column="63" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Destination/DestinationCost/FlankDestinationStrategy.cs" Line="18" Column="46" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Grid.cs" Line="180" Column="58" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfindingCost/FlankPathfinderStrategy.cs" Line="62" Column="39" />
+      <File FileName="Assets/Project/Debug/PathfinderVisualizer.cs" Line="37" Column="44" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/NodeStrategy/Comparer/FavorCoverAndStrategyCost.cs" Line="12" Column="38" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs" Line="81" Column="19" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/NodeStrategy/StrategyExtractor/ExtractVisibleToEnemyPenalty.cs" Line="10" Column="10" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/Follower.cs" Line="128" Column="6" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/CostStrategy/CostResult.cs" Line="40" Column="60" />
+      <File FileName="Assets/Project/Environment/TerrainDisparity.cs" Line="50" Column="36" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Destination/DestinationCost/FlankDestinationStrategy.cs" Line="31" Column="13" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/CostStrategy/CoverDisparityPenaltyAttributes.cs" Line="13" Column="34" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfindingCost/FlankPathfinderStrategy.cs" Line="61" Column="32" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderHelper.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

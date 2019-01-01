@@ -9,4 +9,6 @@ public class CoverDisparityPenaltyAttributes{
     public float coverDisparityPenalty;
     [SerializeField]
     public float exposedPenalty;
+    [SerializeField]
+    public float notCoverPenalty;
 }

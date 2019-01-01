@@ -67,7 +67,12 @@ public class PathfinderHelper :MonoBehaviour{
 
                 closedSet.Add(currentNode);
 
-                if (currentNode == targetNode){
+                /*if (currentNode == targetNode){
+                    pathSuccess = true;
+                    break;
+                }*/
+                if (openSet.Contains(targetNode))
+                {
                     pathSuccess = true;
                     break;
                 }

@@ -6,19 +6,22 @@ public class CostResult{
     private TerrainDisparity terrainDisparity;
     private float coverDisparityMultiplier;
     private float exposedPenalty;
+    private float notCoverPenalty;
+
     private int heightPenalty;
     private bool isCover;
 
     public CostResult(
         Tuple<float,float,TerrainDisparity> disparityPenalty,
         int terrainPenalty,
-        bool isCover
+        Tuple<bool,float> coverData
     ){
         terrainDisparity = disparityPenalty.Item3;
         coverDisparityMultiplier = disparityPenalty.Item1;
         exposedPenalty = disparityPenalty.Item2;
         heightPenalty = terrainPenalty;
-        this.isCover = isCover;
+        isCover = coverData.Item1;
+        notCoverPenalty = coverData.Item2;
     }
 
     public bool CompletelyHidden(){
@@ -49,8 +52,12 @@ public class CostResult{
                 * coverDisparityMultiplier);
     }
 
-    public int GetVisiblePenalty(){
+    public int GetFlankingPenalty(){
         float penalty = GetVisibleToEnemy();
+        penalty += !(IsCoverNode() && !CompletelyExposed())
+            ? notCoverPenalty
+            : 0;
+
         penalty += !CompletelyHidden() ? exposedPenalty : 0;
         return (int)(penalty * coverDisparityMultiplier);
     }

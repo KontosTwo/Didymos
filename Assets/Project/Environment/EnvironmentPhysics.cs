@@ -41,7 +41,7 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-        Debug.Log(calcs);
+        //Debug.Log(calcs);
         calcs = 0;
 	}
 
