@@ -37,7 +37,7 @@ public class PathfinderHelper :MonoBehaviour{
         float maxLength = request.maxLength;
         PathfinderImplementationStrategy implementationStrategy = request.aStarImpl;
         /* multiple by 10 to account for the factor of 10 in GetDistance()*/
-        int maxPathLength = instance.grid.DistanceToNodeDistance(maxLength) * 10;
+        int maxPathLength = instance.grid.DistanceToNodeDistance(maxLength);
         Point startPoint = instance.grid.WorldCoordToNode(request.pathStart);
         Point endPoint = instance.grid.WorldCoordToNode(request.pathEnd);
 

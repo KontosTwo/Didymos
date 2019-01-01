@@ -59,6 +59,8 @@ public class FlankPathfinderStrategy : PathfinderCostStrategy
                 totalCoverDisparityPenalty
             )
             ,(int)heightPenalty
+            ,Grid.GetMapNodeAt(end).IsCoverNode()
+
         );
 
         //DrawGizmo.AddGizmo(Color.grey, "" + result.CompletelyHidden(), end);

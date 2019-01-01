@@ -27,7 +27,9 @@ public class FlankDestinationStrategy : DestinationCostStrategy{
                 coverDisparityData.exposedPenalty,
                 totalCoverDisparityPenalty
             ),
-            0
+            0,
+            Grid.GetMapNodeAt(location).IsCoverNode()
+
         );
 
         return result;

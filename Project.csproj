@@ -93,6 +93,7 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\ImplementationStrategy\IImplementPathfinder.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\ImplementationStrategy\PathfinderImplementationStrategy.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\Clamper\INodeDistanceClamper.cs" />
+    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\Clamper\RestrictByDistanceFromStart.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\Clamper\RestrictByGCost.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\Clamper\RestrictByHCost.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\NodeStrategy\Comparer\FavorClosenessToLocation.cs" />

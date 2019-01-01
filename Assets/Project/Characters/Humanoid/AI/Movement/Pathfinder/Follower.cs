@@ -39,7 +39,7 @@ public class Follower : MonoBehaviour {
                 maxLength,
                 new BaseImplementation(
                     coverStrategy,
-                    new FavorCoverAndStrategyCostCreator()
+                    new FavorCoverAndStrategyCostCreator(target.position)
                 )
             )
         );
@@ -65,7 +65,7 @@ public class Follower : MonoBehaviour {
                         maxLength,
                         new BaseImplementation(
                             coverStrategy,
-                            new FavorCoverAndStrategyCostCreator()
+                            new FavorCoverAndStrategyCostCreator(target.position)
                         )
                     )
                 );

@@ -1,8 +1,10 @@
 ﻿using System;
+using UnityEngine;
 
 public class FavorCoverAndStrategyCostCreator : PathfinderNodeCreator{
-    public FavorCoverAndStrategyCostCreator()
-    {
+    private Vector3 start;
+    public FavorCoverAndStrategyCostCreator(Vector3 start){
+        this.start = start;
     }
 
     public PathfinderNode CreateNode(Point location, MapNode data){
@@ -10,7 +12,7 @@ public class FavorCoverAndStrategyCostCreator : PathfinderNodeCreator{
                 location,
                 data,
                 new FavorCoverAndStrategyCost(),
-                new RestrictByGCost(),
+                new RestrictByDistanceFromStart(start),
                 new ExtractVisibleToEnemyPenalty()
         );
     }

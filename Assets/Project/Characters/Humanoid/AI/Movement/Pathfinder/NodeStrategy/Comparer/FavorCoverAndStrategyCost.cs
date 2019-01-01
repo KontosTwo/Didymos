@@ -10,7 +10,6 @@ public class FavorCoverAndStrategyCost : IComparer<PathfinderNode>{
             
 
                 pn => pn.GetFCost() ,
-                //pn => pn.IsCover() && !pn.GetStrategyCost().CompletelyExposed() ? 0 : 1,
 
                 //pn => pn.GetStrategyGCost(),
             },

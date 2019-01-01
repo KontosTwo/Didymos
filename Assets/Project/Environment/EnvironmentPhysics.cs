@@ -15,8 +15,8 @@ using Unity.Jobs;
  * a bit beyond the camera bounds
  */
 public partial class EnvironmentPhysics : MonoBehaviour {
-    
 
+    private int calcs;
 	private static EnvironmentPhysics instance;
 
 	[SerializeField]
@@ -37,11 +37,12 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 	}
 
 	void Start(){
-
+        calcs = 0;
 	}
 
-	void Update(){
-        
+	void FixedUpdate(){
+        Debug.Log(calcs);
+        calcs = 0;
 	}
 
 	void OnDrawGizmos(){
@@ -178,7 +179,7 @@ public partial class EnvironmentPhysics : MonoBehaviour {
         result.targetHeight = observerResult.heightOfTarget;
         result.visibleToTarget = targetResult.visible;
         result.observerHeight = targetResult.heightOfTarget;
-		return result;
+        return result;
 	}
 
     public struct VisiblePortionResult{

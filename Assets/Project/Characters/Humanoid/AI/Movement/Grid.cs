@@ -177,7 +177,10 @@ public class Grid : MonoBehaviour{
             (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
             , (point.y * nodeSize + nodeSize / 2) + bottomLeftCorner.y);
     }
-
+    public static MapNode GetMapNodeAt(Vector3 location){
+        Point p = instance.WorldCoordToNode(location);
+        return instance.nodes[p.x,p.y];
+    }
 
     // change to class once size exceeds 16 bytes
 

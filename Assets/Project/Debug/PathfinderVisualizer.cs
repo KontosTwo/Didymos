@@ -22,7 +22,7 @@ public class PathfinderVisualizer : MonoBehaviour
     }
 
     public static void Visualize() {
-        //instance.StartCoroutine(CreateVisualizer());
+        instance.StartCoroutine(CreateVisualizer());
     }
 
     private static IEnumerator CreateVisualizer() {
@@ -41,11 +41,16 @@ public class PathfinderVisualizer : MonoBehaviour
             //Gizmos.color = Color.gray;
 
             Gizmos.DrawCube(node.GetLocation(), new Vector3(.3f, .3f, .3f));
-            Handles.Label(node.GetLocation(),"" + node.GetGCost());
+            Handles.Label(node.GetLocation(),"" + node.GetStrategyGCost());
 
             //DrawGizmo.AddGizmo(Color.gray, "" + node.GetGCost(), node.GetLocation());
 
         }
 
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 100, 100), "" + (int)(1.0f / Time.smoothDeltaTime));
     }
 }
