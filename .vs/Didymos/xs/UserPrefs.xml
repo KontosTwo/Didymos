@@ -1,10 +1,9 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Utility/FastMath.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Environment/Point.cs">
     <Files>
-      <File FileName="Assets/Project/Testing/Utility/BresenhamTest.cs" Line="27" Column="34" />
-      <File FileName="Assets/Project/Utility/Bresenham.cs" Line="10" Column="40" />
-      <File FileName="Assets/Project/Environment/Point.cs" Line="19" Column="55" />
-      <File FileName="Assets/Project/Utility/FastMath.cs" Line="75" Column="12" />
+      <File FileName="Assets/Project/Testing/Utility/BresenhamTest.cs" Line="104" Column="37" />
+      <File FileName="Assets/Project/Utility/Bresenham.cs" Line="122" Column="50" />
+      <File FileName="Assets/Project/Environment/Point.cs" Line="23" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

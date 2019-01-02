@@ -108,18 +108,25 @@ public static class Bresenham{
         List<Point> tiles = new List<Point>();
         float difX = end.x - start.x;
         float difY = end.y - start.y;
+
+        if (start.ToGridCoord(tileSize).Equals(end.ToGridCoord(tileSize))){
+            tiles.Add(start.ToGridCoord(tileSize));
+            return tiles;
+        }
+
         float dist = Math.Abs(difX) + Math.Abs(difY);
 
         float dx = difX / dist;
         float dy = difY / dist;
         int x = 0;
         int y = 0;
+
         for (int i = 0; i <= Math.Ceiling(dist); i++) {
             x = (int)Math.Round(Math.Floor(start.x + dx * i));
             y = (int)Math.Round(Math.Floor(start.y + dy * i));
             tiles.Add(new Point(x, y));
         }
-        return tiles;
+        return new HashSet<Point>(tiles).ToList();
     }
 }
 
