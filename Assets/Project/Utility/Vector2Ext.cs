@@ -64,5 +64,9 @@ public static class Vector2Ext
     public static Vector2 To3D(this Vector2 v){
         return new Vector3(v.x, 0, v.y);
     }
+
+    public static Point ToGridCoord(this Vector2 v,float tileSize){
+        return new Point((int)(v.x / tileSize), (int)(v.y / tileSize));
+    }
 }
                                            

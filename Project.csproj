@@ -84,8 +84,6 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Destination\Sorting\IDestinationSorter.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Destination\Sorting\SortByCoverDisparityPenalty.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Destination\Sorting\SorterStrategy.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Grid.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\GridData.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\HumanoidMovementExecuter.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\Follower.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\HumanoidPathfindingStrategies.cs" />
@@ -123,7 +121,6 @@
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\PathNode.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\PathRequest.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\PathResult.cs" />
-    <Compile Include="Assets\Project\Characters\Humanoid\AI\Movement\Pathfinder\Point.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyMarker.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicatableEnemyTarget.cs" />
     <Compile Include="Assets\Project\Characters\Humanoid\AI\Targeting\CommunicationPackage.cs" />
@@ -179,13 +176,17 @@
     <Compile Include="Assets\Project\Debug\Test.cs" />
     <Compile Include="Assets\Project\Environment\EnvironmentInteractions.cs" />
     <Compile Include="Assets\Project\Environment\EnvironmentPhysics.cs" />
+    <Compile Include="Assets\Project\Environment\Grid.cs" />
+    <Compile Include="Assets\Project\Environment\GridData.cs" />
     <Compile Include="Assets\Project\Environment\MapBound.cs" />
     <Compile Include="Assets\Project\Environment\MapNode.cs" />
     <Compile Include="Assets\Project\Environment\Obstacle.cs" />
+    <Compile Include="Assets\Project\Environment\Point.cs" />
     <Compile Include="Assets\Project\Environment\Projectile.cs" />
     <Compile Include="Assets\Project\Environment\TerrainDisparity.cs" />
     <Compile Include="Assets\Project\Script\Script.cs" />
     <Compile Include="Assets\Project\Utility\Address.cs" />
+    <Compile Include="Assets\Project\Utility\Bresenham.cs" />
     <Compile Include="Assets\Project\Utility\CircularLinkedList.cs" />
     <Compile Include="Assets\Project\Utility\Comparer.cs" />
     <Compile Include="Assets\Project\Utility\ConvexHull.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Assets\Project\Utility\Integer.cs" />
     <Compile Include="Assets\Project\Utility\LinkedDictionary.cs" />
     <Compile Include="Assets\Project\Utility\ListExt.cs" />
+    <Compile Include="Assets\Project\Utility\PointExt.cs" />
     <Compile Include="Assets\Project\Utility\Pool.cs" />
     <Compile Include="Assets\Project\Utility\Vector2Ext.cs" />
     <Compile Include="Assets\Project\Utility\Vector3Ext.cs" />

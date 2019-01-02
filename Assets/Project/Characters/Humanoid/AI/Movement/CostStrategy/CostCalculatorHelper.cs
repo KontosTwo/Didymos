@@ -5,6 +5,17 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 public class CostCalculatorHelper {
+    /*
+     * Flush the first dictionary KV pair 
+     */
+    private static Dictionary<HumanoidModel,Dictionary<List<HumanoidVantage>, Dictionary<Vector3, TerrainDisparity>>> cache;
+
+    static CostCalculatorHelper(){
+        cache = 
+            new Dictionary<HumanoidModel, Dictionary<List<HumanoidVantage>, Dictionary<Vector3, TerrainDisparity>>>(
+            
+            );
+    }
 
     public static float CalculateHeightPenalty(float heightDiff,
                                              float goUpPenalty,
@@ -87,5 +98,18 @@ public class CostCalculatorHelper {
         }
 
         return totalDisparity;
+    }
+
+    private class ListHumanoidVantageComparer : IEqualityComparer<List<HumanoidVantage>>
+    {
+        public bool Equals(List<HumanoidVantage> x, List<HumanoidVantage> y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode(List<HumanoidVantage> obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
