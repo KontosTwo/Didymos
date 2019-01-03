@@ -26,6 +26,8 @@ public class Grid : MonoBehaviour{
 
     private static Grid instance;
 
+    private static readonly int MAX_NODE_CACHE_SIZE = 50000;
+
     void Awake(){
         Vector3 bottomLeftCorner3d = mapbounds.GetBottomLeftCorner();
         Vector3 dimensions3d = mapbounds.GetDimensions();
@@ -44,16 +46,13 @@ public class Grid : MonoBehaviour{
     }
 
     public static MapNode GetMapNodeAt(Vector3 location){
-        Point point =
-            location.To2D().ToGridCoord(instance.nodeSize);
+        Point point = instance.WorldCoordToNode(location);
         return instance.GetMapNodeAt(point);
     }
 
     public MapNode GetMapNodeAt(Point point){
         MapNode potentialNode = instance.nodes[point];
         if (potentialNode == null){
-            DrawGizmo.AddGizmo(Color.red, "Miss", instance.NodeTo2DWorldCoord(point).To3D());
-            UnityEngine.Debug.Log(instance.NodeTo2DWorldCoord(point).To3D());
             NodesMissResolve(point);
         }
         potentialNode = instance.nodes[point];
@@ -69,13 +68,25 @@ public class Grid : MonoBehaviour{
 
     private static void AdjacencyMissResolve(Point location){
         List<Point> neighbors = instance.GetNeighbors(location);
+             
         List<Point> unInitializedNeighbours =
             neighbors.FindAll(
                 p => instance.nodes[p] == null
             ).ToList();
-        unInitializedNeighbours.ForEach(
-            n => AddNode(n)
-        );
+        /*
+        * 
+        * 
+        * 
+        * 
+        * 
+        * CONVERT TO BATCH ADD NODES
+        * WONT WORK UNTIL BATCHADDNOES IS IMPLEMENTED
+        * 
+        * 
+        * 
+        *         
+        */
+        BatchAddNodes(unInitializedNeighbours);
         MapNode node = instance.nodes[location];
         neighbors = instance.GetNeighbors(location);
         node.CalculateAdjancencyData(
@@ -85,6 +96,56 @@ public class Grid : MonoBehaviour{
                 }
             ).ToList()
         );
+    }
+
+    /*
+     * Efficiently calculates and fetches multiple
+     * mapnodes.     Make sure to filter existing ones first
+     */
+    public static List<MapNode> GetBatchMapNodeAt(List<Vector2> locations){
+        if(locations.Count > MAX_NODE_CACHE_SIZE){
+            UnityEngine.Debug.Log("WARNING: number of mapnodes requested exceeds cache size");
+        }
+        List<Point> points = 
+            locations.Select(
+                l => instance.WorldCoordToNode(l.To3D())
+            ).ToList();
+        List<Point> cacheHits =
+            points.FindAll(p => instance.nodes[p] != null);
+        List<Point> cacheMisses =
+            points.Except(cacheHits).ToList();
+        List<MapNode> hitMapNodes = 
+            cacheHits.Select(ch => instance.nodes[ch]).ToList();
+        BatchNodesMissResolve(cacheMisses);
+        List<Point> cacheMissesNeighbors = new List<Point>();
+        cacheMisses.ForEach(p =>{
+            cacheMissesNeighbors.AddRange(instance.GetNeighbors(p));
+        });
+        List<Point> cacheMissesNeighborsUninitialized =
+            cacheMissesNeighbors.FindAll(p => !instance.nodes[p].AdjacencyDataSet()).ToList();
+        BatchAddNodes(cacheMissesNeighborsUninitialized);
+
+        List<MapNode> allRelevantNodes =
+            points.Select(p => instance.nodes[p]).ToList();
+
+        allRelevantNodes.ForEach(node =>{
+            node.CalculateAdjancencyData(
+                    instance.GetNeighbors(
+                        instance.WorldCoordToNode(
+                            node.GetLocation()
+                        )
+                    ).Select(p => instance.nodes[p]).ToList()
+            );
+        });
+        return allRelevantNodes;
+    }
+
+    private static void BatchNodesMissResolve(List<Point> locations){
+        BatchAddNodes(locations);
+    }
+
+    private static void BatchAdjacencyMissResolve(List<Point> locations){
+
     }
 
     public int DistanceToNodeDistance(float distance){
@@ -159,12 +220,25 @@ public class Grid : MonoBehaviour{
         instance.nodes[location] = newNode;
     }
 
+    private static void BatchAddNodes(List<Point> locations){
+        List<MapNode> newNodes =
+            EnvironmentPhysics.CreateMapNodesAt(
+                locations.Select(l => instance.NodeTo2DWorldCoord(l)).ToList()
+            );
+        newNodes.ForEach(
+            node =>{
+                instance.nodes[instance.WorldCoordToNode(node.GetLocation())] =
+                    node;
+            }
+        );
+    }
+
     void OnDrawGizmos(){
         if (Application.isPlaying){
             foreach (Tuple<MapNode, Point> pair in nodes){
                 MapNode node = pair.Item1;
-                Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
-                Gizmos.DrawCube(NodeToWorldCoord(pair.Item2), Vector3.one * (nodeSize-.1f));
+                //Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
+                //Gizmos.DrawCube(NodeToWorldCoord(pair.Item2), Vector3.one * (nodeSize-.1f));
             }
         }
 

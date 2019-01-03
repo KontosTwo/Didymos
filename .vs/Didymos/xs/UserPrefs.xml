@@ -1,14 +1,12 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Debug/PathfinderVisualizer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Utility/Bresenham.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs" Line="38" Column="19" />
-      <File FileName="Assets/Project/Environment/Grid.cs" Line="165" Column="43" />
+      <File FileName="Assets/Project/Environment/Grid.cs" Line="98" Column="20" />
+      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="345" Column="67" />
+      <File FileName="Assets/Project/Environment/MapNode.cs" Line="6" Column="30" />
       <File FileName="Assets/Project/Utility/PointExt.cs" Line="12" Column="8" />
-      <File FileName="Assets/Project/Utility/Vector2Ext.cs" Line="67" Column="5" />
-      <File FileName="Assets/Project/Utility/Bresenham.cs" Line="21" Column="52" />
-      <File FileName="Assets/Project/Environment/MapNode.cs" Line="28" Column="9" />
-      <File FileName="Assets/Project/Utility/LinkedDictionary.cs" Line="25" Column="14" />
-      <File FileName="Assets/Project/Debug/PathfinderVisualizer.cs" Line="25" Column="9" />
+      <File FileName="Assets/Project/Utility/Vector2Ext.cs" Line="67" Column="1" />
+      <File FileName="Assets/Project/Utility/Bresenham.cs" Line="39" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

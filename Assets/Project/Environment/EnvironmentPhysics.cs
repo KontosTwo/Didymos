@@ -81,7 +81,12 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 	private delegate void ProcessIntersection(IntersectionResult result);
 	private delegate bool ShouldContinueRayCast(IntersectionResult result);
 
-	private static void IncrementalRaycast(Vector3 start,Vector3 end,ProcessIntersection onIntersect,ShouldContinueRayCast shouldContinue){
+	private static void IncrementalRaycast(
+        Vector3 start,
+        Vector3 end,
+        ProcessIntersection onIntersect,
+        ShouldContinueRayCast shouldContinue
+    ){
 		RaycastHit hitInfo;
 		Vector3 ray = end - start;
 		Vector3 dx = ray.normalized;
@@ -103,7 +108,34 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 		}
 	}
 
-	public static bool LineOfSightToVantagePointExists(int visionSharpness,Vector3 start,Vector3 target){
+    private static void IncrementalRaycastFast(
+        Vector3 start, 
+        Vector3 end, 
+        ProcessIntersection onIntersect, 
+        ShouldContinueRayCast shouldContinue
+    ){
+        RaycastHit hitInfo;
+        Vector3 ray = end - start;
+        Vector3 dx = ray.normalized;
+        Vector3 remaining = end - start;
+        dx.Scale(new Vector3(.01f, .01f, .01f));
+        while (Physics.Raycast(start, dx, out hitInfo, remaining.magnitude, instance.collisionMask)){
+
+            remaining -= (hitInfo.point - start);
+            start = (hitInfo.point + dx);
+
+            //hit object must have an obstacle script
+            if (hitInfo.collider.transform.GetComponent<Obstacle>() != null){
+                IntersectionResult result = new IntersectionResult(hitInfo);
+                onIntersect(result);
+                if (!shouldContinue(result)){
+                    break;
+                }
+            }
+        }
+    }
+
+    public static bool LineOfSightToVantagePointExists(int visionSharpness,Vector3 start,Vector3 target){
 		bool uninterrupted = true;
 		int clarityLeft = visionSharpness;
 		ProcessIntersection onIntersect = (result => {
@@ -308,6 +340,10 @@ public partial class EnvironmentPhysics : MonoBehaviour {
         };
         IncrementalRaycast(origin, end, onIntersect, shouldContinue);
         return environmentPoint;
+    }
+
+    public static List<MapNode> CreateMapNodesAt(List<Vector2> locations){
+
     }
 }
 

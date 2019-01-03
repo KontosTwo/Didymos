@@ -22,7 +22,7 @@ public class PathfinderVisualizer : MonoBehaviour
     }
 
     public static void Visualize() {
-        instance.StartCoroutine(CreateVisualizer());
+        //instance.StartCoroutine(CreateVisualizer());
     }
 
     private static IEnumerator CreateVisualizer() {

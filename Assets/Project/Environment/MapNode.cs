@@ -24,7 +24,7 @@ public class MapNode
     }
 
     public bool AdjacencyDataSet(){
-        CheckIfNeighborsCalculated();
+        //CheckIfNeighborsCalculated();
 
         return neighboursChecked;
     }
@@ -44,19 +44,19 @@ public class MapNode
 
 
     public Vector3 GetLocation(){
-        CheckIfNeighborsCalculated();
+        //CheckIfNeighborsCalculated();
 
         return location;
     }
 
     public float GetHeight(){
-        CheckIfNeighborsCalculated();
+        //CheckIfNeighborsCalculated();
 
         return location.y;
     }
 
     public bool TerrainIsWalkable(){
-        CheckIfNeighborsCalculated();
+        //CheckIfNeighborsCalculated();
 
         return terrainIsWalkable;
     }

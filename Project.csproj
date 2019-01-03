@@ -177,7 +177,6 @@
     <Compile Include="Assets\Project\Environment\EnvironmentInteractions.cs" />
     <Compile Include="Assets\Project\Environment\EnvironmentPhysics.cs" />
     <Compile Include="Assets\Project\Environment\Grid.cs" />
-    <Compile Include="Assets\Project\Environment\GridData.cs" />
     <Compile Include="Assets\Project\Environment\MapBound.cs" />
     <Compile Include="Assets\Project\Environment\MapNode.cs" />
     <Compile Include="Assets\Project\Environment\Obstacle.cs" />

@@ -36,5 +36,9 @@ public static class Bresenham{
         }
         return new HashSet<Point>(tiles).ToList();
     }
+
+    private static Point ToGridCoord(this Vector2 v, float tileSize){
+        return new Point((int)(v.x / tileSize), (int)(v.y / tileSize));
+    }
 }
 
