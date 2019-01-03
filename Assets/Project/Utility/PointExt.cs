@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 public static class PointExt{
-    public static Vector2 ToWorldCoord(
+    /*public static Vector2 ToWorldCoord(
         this Point p,
         float tileSize
     ){
@@ -9,5 +9,5 @@ public static class PointExt{
             (p.x * tileSize) + tileSize / 2,
             (p.y * tileSize) + tileSize / 2
         );
-    }
+    }*/
 }

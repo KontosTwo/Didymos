@@ -61,7 +61,7 @@ public static class Vector2Ext
 
     }
 
-    public static Vector2 To3D(this Vector2 v){
+    public static Vector3 To3D(this Vector2 v){
         return new Vector3(v.x, 0, v.y);
     }
 

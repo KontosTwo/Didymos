@@ -1,10 +1,14 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Environment/MapNode.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Debug/PathfinderVisualizer.cs">
     <Files>
-      <File FileName="Assets/Project/Environment/Grid.cs" Line="51" Column="32" />
-      <File FileName="Assets/Project/Utility/LinkedDictionary.cs" Line="28" Column="34" />
-      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="271" Column="11" NotebookId="1" />
-      <File FileName="Assets/Project/Environment/MapNode.cs" Line="54" Column="10" NotebookId="1" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs" Line="38" Column="19" />
+      <File FileName="Assets/Project/Environment/Grid.cs" Line="165" Column="43" />
+      <File FileName="Assets/Project/Utility/PointExt.cs" Line="12" Column="8" />
+      <File FileName="Assets/Project/Utility/Vector2Ext.cs" Line="67" Column="5" />
+      <File FileName="Assets/Project/Utility/Bresenham.cs" Line="21" Column="52" />
+      <File FileName="Assets/Project/Environment/MapNode.cs" Line="28" Column="9" />
+      <File FileName="Assets/Project/Utility/LinkedDictionary.cs" Line="25" Column="14" />
+      <File FileName="Assets/Project/Debug/PathfinderVisualizer.cs" Line="25" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

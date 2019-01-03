@@ -6,8 +6,7 @@ using UnityEngine;
  * Source (Copied)
  * https://stackoverflow.com/questions/29205934/c-sharp-equivalent-of-linkedhashmap
  */
-public class LinkedDictionary<T, U> : IEnumerable<Tuple<U,T>>
-{
+public class LinkedDictionary<T, U> : IEnumerable<Tuple<U,T>> where U : class{
     private Dictionary<T, LinkedListNode<Tuple<U, T>>> D;
     private LinkedList<Tuple<U, T>> LL;
 
@@ -20,12 +19,12 @@ public class LinkedDictionary<T, U> : IEnumerable<Tuple<U,T>>
 
     public U this[T c]{
         get{
-            LinkedListNode<Tuple<U, T>> value = default(LinkedListNode<Tuple<U, T>>);
+            LinkedListNode<Tuple<U, T>> value = null;
             if(D.TryGetValue(c,out value)){
                 return D[c].Value.Item1;
             }
             else{
-                return default(U);
+                return null;
             }
         }
 

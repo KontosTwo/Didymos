@@ -22,7 +22,7 @@ public class Grid : MonoBehaviour{
     private Vector2 dimensions;
 
     private int length;
-    private int  height;
+    private int height;
 
     private static Grid instance;
 
@@ -41,7 +41,6 @@ public class Grid : MonoBehaviour{
     }
 
     void Start(){
-
     }
 
     public static MapNode GetMapNodeAt(Vector3 location){
@@ -53,6 +52,8 @@ public class Grid : MonoBehaviour{
     public MapNode GetMapNodeAt(Point point){
         MapNode potentialNode = instance.nodes[point];
         if (potentialNode == null){
+            DrawGizmo.AddGizmo(Color.red, "Miss", instance.NodeTo2DWorldCoord(point).To3D());
+            UnityEngine.Debug.Log(instance.NodeTo2DWorldCoord(point).To3D());
             NodesMissResolve(point);
         }
         potentialNode = instance.nodes[point];
@@ -76,6 +77,7 @@ public class Grid : MonoBehaviour{
             n => AddNode(n)
         );
         MapNode node = instance.nodes[location];
+        neighbors = instance.GetNeighbors(location);
         node.CalculateAdjancencyData(
             neighbors.Select(
                 n => {
@@ -152,7 +154,7 @@ public class Grid : MonoBehaviour{
     private static void AddNode(Point location){
         MapNode newNode =
             EnvironmentPhysics.CreateMapNoteAt(
-                location.ToWorldCoord(instance.nodeSize)
+                instance.NodeTo2DWorldCoord(location)
             );
         instance.nodes[location] = newNode;
     }

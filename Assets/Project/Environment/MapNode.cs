@@ -24,6 +24,8 @@ public class MapNode
     }
 
     public bool AdjacencyDataSet(){
+        CheckIfNeighborsCalculated();
+
         return neighboursChecked;
     }
 
@@ -42,20 +44,24 @@ public class MapNode
 
 
     public Vector3 GetLocation(){
+        CheckIfNeighborsCalculated();
+
         return location;
     }
 
     public float GetHeight(){
+        CheckIfNeighborsCalculated();
+
         return location.y;
     }
 
     public bool TerrainIsWalkable(){
+        CheckIfNeighborsCalculated();
+
         return terrainIsWalkable;
     }
     public bool IsCoverNode(){
-        if (!neighboursChecked){
-            Debug.Log("WARNING: This node has not been fully calculated yet");
-        }
+        CheckIfNeighborsCalculated();
         return isCoverNode;
     }
     private void MarkAsCoverNode(){
@@ -66,5 +72,11 @@ public class MapNode
     private bool LowerThan(MapNode other){
         return other.height - this.height
             > NEGLIGIBLE_COVER_THRESHOLD;
+    }
+
+    private void CheckIfNeighborsCalculated(){
+        if (!neighboursChecked){
+            Debug.Log("WARNING: This node has not been fully calculated yet");
+        }
     }
 }
