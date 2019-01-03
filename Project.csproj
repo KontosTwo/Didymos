@@ -191,6 +191,7 @@
     <Compile Include="Assets\Project\Utility\Comparer.cs" />
     <Compile Include="Assets\Project\Utility\ConvexHull.cs" />
     <Compile Include="Assets\Project\Utility\ConvexPolygon.cs" />
+    <Compile Include="Assets\Project\Utility\CoroutineWrapper.cs" />
     <Compile Include="Assets\Project\Utility\FastMath.cs" />
     <Compile Include="Assets\Project\Utility\FloatExt.cs" />
     <Compile Include="Assets\Project\Utility\Integer.cs" />

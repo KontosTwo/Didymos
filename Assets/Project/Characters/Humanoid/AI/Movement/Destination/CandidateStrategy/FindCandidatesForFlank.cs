@@ -103,7 +103,7 @@ public class FindCandidatesForFlank : CandidateStrategy{
                     candidateLocation.To2D()
                 )){
                     candidates.Add(
-                        grid.GetNodeAt(
+                        grid.GetMapNodeAt(
                             currentPoint
                         )
                     );

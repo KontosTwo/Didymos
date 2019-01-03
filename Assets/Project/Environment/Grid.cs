@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Reflection;
 using Environment;
 using System;
+using System.Linq;
 
 
 
@@ -16,9 +17,12 @@ public class Grid : MonoBehaviour{
     [SerializeField]
     private float nodeSize;
 
-    private MapNode[,] nodes;
+    private LinkedDictionary<Point,MapNode> nodes;
     private Vector2 bottomLeftCorner;
     private Vector2 dimensions;
+
+    private int length;
+    private int  height;
 
     private static Grid instance;
 
@@ -27,149 +31,116 @@ public class Grid : MonoBehaviour{
         Vector3 dimensions3d = mapbounds.GetDimensions();
         bottomLeftCorner = new Vector2(bottomLeftCorner3d.x, bottomLeftCorner3d.z);
         dimensions = new Vector2(dimensions3d.x, dimensions3d.z);
-        nodes = new MapNode[(int)(dimensions.x / nodeSize), (int)(dimensions.y / nodeSize)];
+        nodes = new LinkedDictionary<Point, MapNode>();
+        length = (int)(dimensions.x / nodeSize);
+        height = (int)(dimensions.y / nodeSize);
+
         instance = this;
+
+
     }
 
     void Start(){
-        for (int i = 0; i < nodes.GetLength(0); i++){
-            for (int j = 0; j < nodes.GetLength(1); j++){
-                Vector2 worldLocation = NodeTo2DWorldCoord(new Point(i, j));
-                nodes[i, j] = EnvironmentPhysics.CreateMapNoteAt(worldLocation.x, worldLocation.y);
-            }
-        }
 
-        for (int i = 0; i < nodes.GetLength(0); i++){
-            for (int j = 0; j < nodes.GetLength(1); j++){
-                CheckAndSetIfCoverNode(new Point(i, j));
-            }
-        }
     }
 
-    private void CheckAndSetIfCoverNode(Point coord){
-        List<Point> neighbours = GetNeighbors(coord);
-        MapNode node = nodes[coord.x, coord.y];
-        foreach (Point p in neighbours){
-            if (node.LowerThan(nodes[p.x, p.y])){
-                node.MarkAsCoverNode();
+    public static MapNode GetMapNodeAt(Vector3 location){
+        Point point =
+            location.To2D().ToGridCoord(instance.nodeSize);
+        return instance.GetMapNodeAt(point);
+    }
 
-                break;
-            }
+    public MapNode GetMapNodeAt(Point point){
+        MapNode potentialNode = instance.nodes[point];
+        if (potentialNode == null){
+            NodesMissResolve(point);
         }
+        potentialNode = instance.nodes[point];
+        if (!potentialNode.AdjacencyDataSet()){
+            AdjacencyMissResolve(point);
+        }
+        return instance.nodes[point];
+    }
+
+    private static void NodesMissResolve(Point location){
+        AddNode(location);
+    }
+
+    private static void AdjacencyMissResolve(Point location){
+        List<Point> neighbors = instance.GetNeighbors(location);
+        List<Point> unInitializedNeighbours =
+            neighbors.FindAll(
+                p => instance.nodes[p] == null
+            ).ToList();
+        unInitializedNeighbours.ForEach(
+            n => AddNode(n)
+        );
+        MapNode node = instance.nodes[location];
+        node.CalculateAdjancencyData(
+            neighbors.Select(
+                n => {
+                    return instance.nodes[n];
+                }
+            ).ToList()
+        );
     }
 
     public int DistanceToNodeDistance(float distance){
         return (int)(distance / nodeSize);
     }
 
-    void Update()
-    {
-
-    }
-
-    /*void OnDrawGizmos(){
-        if(nodes != null){
-            for(int i = 0; i < nodes.GetLength(0); i ++){
-                for(int j = 0; j < nodes.GetLength(1); j ++){
-                    Node node = nodes [i, j];
-                    Gizmos.color = (node.terrainIsWalkable)?Gizmos.color:Color.red;
-                    //Gizmos.DrawCube(NodeToWorldCoord(new Point(i,j)), Vector3.one * (nodeSize-.1f));
-                }
-            }
-        }
-    }*/
-
-
-
-    public Point WorldCoordToNode(Vector3 worldCoord)
-    {
+    public Point WorldCoordToNode(Vector3 worldCoord){
         return new Point((int)(worldCoord.x / nodeSize - bottomLeftCorner.x), (int)(worldCoord.z / nodeSize - bottomLeftCorner.y));
     }
 
-    public Vector3 NodeToWorldCoord(Point point)
-    {
+    public Vector3 NodeToWorldCoord(Point point){
         return new Vector3(
             (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
-            , nodes[point.x, point.y].GetHeight()
+            , nodes[point].GetHeight()
             , (point.y * nodeSize + nodeSize / 2) + bottomLeftCorner.y);
     }
 
-    public MapNode GetNodeAt(Point point)
-    {
-        return nodes[point.x, point.y];
-    }
 
-    public List<Point> GetNeighbors(Point point)
-    {
+
+    public List<Point> GetNeighbors(Point point){
         List<Point> neighbors = new List<Point>();
         Point p1 = new Point(point.x - 1, point.y - 1);
-        if (InBound(p1))
-        {
+        if (InBound(p1)){
             neighbors.Add(p1);
         }
         Point p2 = new Point(point.x - 1, point.y);
-        if (InBound(p2))
-        {
+        if (InBound(p2)){
             neighbors.Add(p2);
         }
         Point p3 = new Point(point.x - 1, point.y + 1);
-        if (InBound(p3))
-        {
+        if (InBound(p3)){
             neighbors.Add(p3);
         }
         Point p4 = new Point(point.x, point.y + 1);
-        if (InBound(p4))
-        {
+        if (InBound(p4)){
             neighbors.Add(p4);
         }
         Point p5 = new Point(point.x + 1, point.y + 1);
-        if (InBound(p5))
-        {
+        if (InBound(p5)){
             neighbors.Add(p5);
         }
         Point p6 = new Point(point.x + 1, point.y);
-        if (InBound(p6))
-        {
+        if (InBound(p6)){
             neighbors.Add(p6);
         }
         Point p7 = new Point(point.x + 1, point.y - 1);
-        if (InBound(p7))
-        {
+        if (InBound(p7)){
             neighbors.Add(p7);
         }
         Point p8 = new Point(point.x, point.y - 1);
-        if (InBound(p8))
-        {
+        if (InBound(p8)){
             neighbors.Add(p8);
         }
         return neighbors;
     }
-    /*
-     * Optimize by using HashSet?
-     */
-    public List<Point> GetNeighbors(Point point, int radius){
-        List<Point> ret = new List<Point>();
-        int originX = point.x;
-        int originY = point.y;
-        int minY = Mathf.Clamp(originY - radius, 0, nodes.GetLength(0) - 1);
-        int maxY = Mathf.Clamp(originY + radius, 0, nodes.GetLength(0) - 1);
-        int minX = Mathf.Clamp(originX - radius, 0, nodes.GetLength(1) - 1);
-        int maxX = Mathf.Clamp(originX + radius, 0, nodes.GetLength(1) - 1);
-
-        for (int y = minY; y < maxY; y++)
-        {
-            for (int x = minX; x < maxX; x++)
-            {
-                if (x != originX && y != originY){
-                    ret.Add(new Point(x, y));
-                }
-            }
-        }
-        return ret;
-    }
-    private bool InBound(Point p)
-    {
-        return p.x >= 0 && p.x < nodes.GetLength(0) - 1 && p.y >= 0 && p.y < nodes.GetLength(1);
+    
+    private bool InBound(Point p){
+        return p.x >= 0 && p.x < length - 1 && p.y >= 0 && p.y < height;
     }
 
     private Vector2 NodeTo2DWorldCoord(Point point){
@@ -177,13 +148,25 @@ public class Grid : MonoBehaviour{
             (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
             , (point.y * nodeSize + nodeSize / 2) + bottomLeftCorner.y);
     }
-    public static MapNode GetMapNodeAt(Vector3 location){
-        Point p = instance.WorldCoordToNode(location);
-        return instance.nodes[p.x,p.y];
+
+    private static void AddNode(Point location){
+        MapNode newNode =
+            EnvironmentPhysics.CreateMapNoteAt(
+                location.ToWorldCoord(instance.nodeSize)
+            );
+        instance.nodes[location] = newNode;
     }
 
-    // change to class once size exceeds 16 bytes
+    void OnDrawGizmos(){
+        if (Application.isPlaying){
+            foreach (Tuple<MapNode, Point> pair in nodes){
+                MapNode node = pair.Item1;
+                Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
+                Gizmos.DrawCube(NodeToWorldCoord(pair.Item2), Vector3.one * (nodeSize-.1f));
+            }
+        }
 
+    }
 }
 
 

@@ -243,7 +243,9 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 		return height;
 	}
 
-    public static MapNode CreateMapNoteAt(float x,float z){
+    public static MapNode CreateMapNoteAt(Vector2 location){
+        float x = location.x;
+        float z = location.y;
         float height = 0;
         bool heightSet = false;
         bool walkable = true;
@@ -267,9 +269,6 @@ public partial class EnvironmentPhysics : MonoBehaviour {
             onIntersect,
             continueCondition
         );
-        /*MapNode mapNode = MapNode.GetMapNode();
-        mapNode.Reinitialize(height, speedModifier, walkable);
-        return mapNode;*/
         return new MapNode(new Vector3(x,height,z),height, walkable);
     }
 
