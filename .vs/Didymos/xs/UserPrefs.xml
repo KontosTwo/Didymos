@@ -1,12 +1,8 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Utility/Bresenham.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Environment/EnvironmentPhysics.cs">
     <Files>
-      <File FileName="Assets/Project/Environment/Grid.cs" Line="98" Column="20" />
-      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="345" Column="67" />
-      <File FileName="Assets/Project/Environment/MapNode.cs" Line="6" Column="30" />
-      <File FileName="Assets/Project/Utility/PointExt.cs" Line="12" Column="8" />
-      <File FileName="Assets/Project/Utility/Vector2Ext.cs" Line="67" Column="1" />
-      <File FileName="Assets/Project/Utility/Bresenham.cs" Line="39" Column="5" />
+      <File FileName="Assets/Project/Environment/Grid.cs" Line="140" Column="33" />
+      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="412" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -237,8 +237,8 @@ public class Grid : MonoBehaviour{
         if (Application.isPlaying){
             foreach (Tuple<MapNode, Point> pair in nodes){
                 MapNode node = pair.Item1;
-                //Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
-                //Gizmos.DrawCube(NodeToWorldCoord(pair.Item2), Vector3.one * (nodeSize-.1f));
+                Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
+                Gizmos.DrawCube(NodeToWorldCoord(pair.Item2), Vector3.one * (nodeSize-.1f));
             }
         }
 

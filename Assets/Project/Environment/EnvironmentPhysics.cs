@@ -5,6 +5,8 @@ using Environment;
 using System.Threading.Tasks;
 using UnityEngine.AI;
 using Unity.Jobs;
+using System;
+using Unity.Collections;
 
 /*
  * To do: shorten projectil length. Even though a projectile has a start
@@ -14,6 +16,7 @@ using Unity.Jobs;
  * One good limiting factor is the camera current position; only let the vector extend
  * a bit beyond the camera bounds
  */
+using System.Linq;
 public partial class EnvironmentPhysics : MonoBehaviour {
 
     private int calcs;
@@ -81,32 +84,7 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 	private delegate void ProcessIntersection(IntersectionResult result);
 	private delegate bool ShouldContinueRayCast(IntersectionResult result);
 
-	private static void IncrementalRaycast(
-        Vector3 start,
-        Vector3 end,
-        ProcessIntersection onIntersect,
-        ShouldContinueRayCast shouldContinue
-    ){
-		RaycastHit hitInfo;
-		Vector3 ray = end - start;
-		Vector3 dx = ray.normalized;
-		Vector3 remaining = end - start;
-		dx.Scale(new Vector3(.01f,.01f,.01f));
-		while (Physics.Raycast (start, dx, out hitInfo, remaining.magnitude, instance.collisionMask)) {
-			
-			remaining -= (hitInfo.point - start);	
-			start = (hitInfo.point + dx);
-
-			//hit object must have an obstacle script
-			if(hitInfo.collider.transform.GetComponent<Obstacle>() != null){
-				IntersectionResult result = new IntersectionResult (hitInfo);
-				onIntersect (result);
-				if (!shouldContinue (result)) {
-					break;
-				}
-			}
-		}
-	}
+	
 
     private static void IncrementalRaycastFast(
         Vector3 start, 
@@ -275,34 +253,6 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 		return height;
 	}
 
-    public static MapNode CreateMapNoteAt(Vector2 location){
-        float x = location.x;
-        float z = location.y;
-        float height = 0;
-        bool heightSet = false;
-        bool walkable = true;
-        float speedModifier = 1;
-        ProcessIntersection onIntersect = (result => {
-            if(!heightSet && !result.GetObstacle().CanPhaseThrough()){
-                height = result.GetPosition().y;
-                heightSet = true;
-            }
-            if(!result.GetObstacle().IsWalkable()){
-                walkable = false;
-            }
-            speedModifier *= result.GetObstacle().GetSpeedModifier();
-        });
-        ShouldContinueRayCast continueCondition = (result => {
-            return true;
-        });
-        IncrementalRaycast(
-            new Vector3(x, instance.bottomLeftCorner.y + instance.maxDimensions.y, z),
-            new Vector3(x, instance.bottomLeftCorner.y, z),
-            onIntersect,
-            continueCondition
-        );
-        return new MapNode(new Vector3(x,height,z),height, walkable);
-    }
 
     public static float FindWalkableHeightAt(float x, float z){
         return FindHeightAt(x, z) + 0.01f;
@@ -342,8 +292,223 @@ public partial class EnvironmentPhysics : MonoBehaviour {
         return environmentPoint;
     }
 
-    public static List<MapNode> CreateMapNodesAt(List<Vector2> locations){
+    public static MapNode CreateMapNoteAt(Vector2 location){
+        float x = location.x;
+        float z = location.y;
+        float height = 0;
+        bool heightSet = false;
+        bool walkable = true;
+        float speedModifier = 1;
+        ProcessIntersection onIntersect = (result => {
+            if (!heightSet && !result.GetObstacle().CanPhaseThrough()){
+                height = result.GetPosition().y;
+                heightSet = true;
+            }
+            if (!result.GetObstacle().IsWalkable()){
+                walkable = false;
+            }
+            speedModifier *= result.GetObstacle().GetSpeedModifier();
+        });
+        ShouldContinueRayCast continueCondition = (result => {
+            return true;
+        });
+        IncrementalRaycast(
+            new Vector3(x, instance.bottomLeftCorner.y + instance.maxDimensions.y, z),
+            new Vector3(x, instance.bottomLeftCorner.y, z),
+            onIntersect,
+            continueCondition
+        );
+        return new MapNode(new Vector3(x, height, z), height, walkable);
+    }
 
+    public static List<MapNode> CreateMapNodesAt(List<Vector2> locations){
+        List<Tuple<Vector2, ParallelIncrementalRaycastResult>> results =
+            locations.Select(
+                l => new Tuple<Vector2, ParallelIncrementalRaycastResult>(
+                    l, 
+                    new ParallelIncrementalRaycastResult()
+                )
+            ).ToList();
+        List<ParallelIncrementalRaycastData> raycastData =
+            results.Select(tuple =>{
+                ParallelIncrementalRaycastResult result = tuple.Item2;
+                Vector2 location = tuple.Item1;
+                float x = location.x;
+                float z = location.y;
+                result.walkable = true;
+                result.heightSet = false;
+
+
+                ProcessIntersection onIntersect = (r => {
+                    if (!result.heightSet && !r.GetObstacle().CanPhaseThrough()){
+                        result.height = r.GetPosition().y;
+                        result.heightSet = true;
+                    }
+                    if (!r.GetObstacle().IsWalkable()){
+                        result.walkable = false;
+                    }
+                    result.speedModifier *= r.GetObstacle().GetSpeedModifier();
+                });
+                ShouldContinueRayCast continueCondition = (r => {
+                    return true;
+                });
+
+                return new ParallelIncrementalRaycastData(
+                    new Vector3(x, instance.bottomLeftCorner.y + instance.maxDimensions.y, z),
+                    new Vector3(x, instance.bottomLeftCorner.y, z),
+                    onIntersect,
+                    continueCondition
+                );
+            }).ToList();
+
+        ParallelIncrementalRaycast(raycastData);
+
+        return results.Select(
+            tuple =>{
+                ParallelIncrementalRaycastResult result =
+                    tuple.Item2;
+                Vector2 location = tuple.Item1;
+                return new MapNode(
+                    new Vector3(location.x, result.height, location.y),
+                        result.height,
+                        result.walkable
+                    );
+            }
+        ).ToList();
+    }
+    /*
+     * Might cause memory leaks if interrupted before NativeArrays are disposed   
+    */
+    private static void ParallelIncrementalRaycast(
+        List<ParallelIncrementalRaycastData> paths
+    ){
+        List<ParallelIncrementalRaycastData> remainingPaths =
+            new List<ParallelIncrementalRaycastData>(paths);
+
+        NativeArray<RaycastHit> results = default(NativeArray<RaycastHit>);
+        NativeArray<RaycastCommand> commands = default(NativeArray<RaycastCommand>);
+        do {
+
+             results = new NativeArray<RaycastHit>(remainingPaths.Count, Allocator.TempJob);
+             commands = new NativeArray<RaycastCommand>(remainingPaths.Count, Allocator.TempJob);
+
+            for (int i = 0; i < remainingPaths.Count; i++){
+                commands[i] = new RaycastCommand(
+                    remainingPaths[i].start,
+                    remainingPaths[i].dx,
+                    remainingPaths[i].remaining.magnitude,
+                    instance.collisionMask
+                );
+            }
+
+            JobHandle handle = RaycastCommand.ScheduleBatch(commands, results, 1, default(JobHandle));
+            handle.Complete();
+
+            for (int i = 0; i < remainingPaths.Count; i++){
+                ParallelIncrementalRaycastData data = remainingPaths[i];
+                RaycastHit batchedHit = results[i];
+                data.hit = batchedHit;
+                if(batchedHit.collider == null){
+                    continue;
+                }
+
+
+                data.remaining -= (batchedHit.point - data.start);
+                data.start = (batchedHit.point + data.dx);
+
+
+                if (batchedHit.collider.transform.GetComponent<Obstacle>() != null){
+                    IntersectionResult result = new IntersectionResult(batchedHit);
+                    data.onIntersect(result);
+                }
+            }
+
+            remainingPaths.RemoveAll(
+                path => !path.continueCondition(path.result) || path.hit.collider == null
+            );
+            results.Dispose();
+            commands.Dispose();
+        } while (remainingPaths.Count > 0);
+
+    }
+
+
+    private class ParallelIncrementalRaycastData{
+        public Vector3 start;
+        public readonly Vector3 end;
+        public readonly ProcessIntersection onIntersect;
+        public readonly ShouldContinueRayCast continueCondition;
+        public readonly Vector3 ray;
+        public readonly Vector3 dx;
+        public Vector3 remaining;
+        public IntersectionResult result;
+        public RaycastHit hit;
+
+        public ParallelIncrementalRaycastData(
+            Vector3 start,
+            Vector3 end,
+            ProcessIntersection onIntersect,
+            ShouldContinueRayCast continueCondition
+        ){
+            this.start = start;
+            this.end = end;
+            this.onIntersect = onIntersect;
+            this.continueCondition = continueCondition;
+            ray = end - start;
+            remaining = end - start;
+            dx = ray.normalized;
+        }
+    }
+
+    private class ParallelIncrementalRaycastResult{
+        public float height;
+        public bool walkable;
+        public float speedModifier;
+
+        public RaycastHit hit;
+
+        public bool heightSet;
+
+        public ParallelIncrementalRaycastResult(){
+            heightSet = false;
+        }
+
+        /*public ParallelIncrementalRaycastResult(
+            float height,
+            bool walkable,
+            float speedModifier
+        ){
+            this.height = height;
+            this.walkable = walkable;
+            this.speedModifier = speedModifier;
+        }*/
+    }
+
+    private static void IncrementalRaycast(
+        Vector3 start,
+        Vector3 end,
+        ProcessIntersection onIntersect,
+        ShouldContinueRayCast shouldContinue
+    ){
+        RaycastHit hitInfo;
+        Vector3 ray = end - start;
+        Vector3 dx = ray.normalized;
+        Vector3 remaining = end - start;
+        dx.Scale(new Vector3(.01f, .01f, .01f));
+        while (Physics.Raycast(start, dx, out hitInfo, remaining.magnitude, instance.collisionMask)){
+
+            remaining -= (hitInfo.point - start);
+            start = (hitInfo.point + dx);
+
+            //hit object must have an obstacle script
+            if (hitInfo.collider.transform.GetComponent<Obstacle>() != null){
+                IntersectionResult result = new IntersectionResult(hitInfo);
+                onIntersect(result);
+                if (!shouldContinue(result)){
+                    break;
+                }
+            }
+        }
     }
 }
 
