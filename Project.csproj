@@ -172,6 +172,7 @@
     <Compile Include="Assets\Project\Debug\EnemyTargeterDebugger.cs" />
     <Compile Include="Assets\Project\Debug\MarkerSetter.cs" />
     <Compile Include="Assets\Project\Debug\PathfinderVisualizer.cs" />
+    <Compile Include="Assets\Project\Debug\RaycastVisualizer.cs" />
     <Compile Include="Assets\Project\Debug\RotateAround.cs" />
     <Compile Include="Assets\Project\Debug\Test.cs" />
     <Compile Include="Assets\Project\Environment\EnvironmentInteractions.cs" />

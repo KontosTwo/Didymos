@@ -29,6 +29,8 @@ pathfinding
 
 use cover disparity for destination, visible to target for pathfinding
 
+Fix slim objects not being detected by CreateMapNode
+
 use attack planner for destination, pathfinding, and action code
 Allow enemies to communicate targeters
 

@@ -46,7 +46,9 @@ public class MapNode{
         neighboursChecked = true;
     }
 
-
+    public List<Tuple<float,Obstacle>> GetLayers(){
+        return layers;
+    }
 
     public Vector3 GetLocation(){
         //CheckIfNeighborsCalculated();

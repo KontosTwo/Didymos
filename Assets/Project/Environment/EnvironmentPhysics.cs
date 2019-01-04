@@ -17,9 +17,8 @@ using Unity.Collections;
  * a bit beyond the camera bounds
  */
 using System.Linq;
-public partial class EnvironmentPhysics : MonoBehaviour {
+public class EnvironmentPhysics : MonoBehaviour {
 
-    private int calcs;
 	private static EnvironmentPhysics instance;
 
 	[SerializeField]
@@ -31,21 +30,14 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 	[SerializeField]
 	private MapBound mapbounds;
 
+    [SerializeField]
+    private Grid grid;
 	private static readonly int TERRAINDISPARITYCONFIDENCEINTERVAL = 8	;
 
 	void Awake(){
 		instance = this;
 		bottomLeftCorner = mapbounds.GetBottomLeftCorner();
 		maxDimensions = mapbounds.GetDimensions ();
-	}
-
-	void Start(){
-        calcs = 0;
-	}
-
-	void FixedUpdate(){
-        //Debug.Log(calcs);
-        calcs = 0;
 	}
 
 	void OnDrawGizmos(){
@@ -59,8 +51,15 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 			position = info.point;
 			obstacle = info.collider.transform.GetComponent<Obstacle>();
 		}
+        public IntersectionResult(
+            Vector3 location,
+            Obstacle obstacle
+        ){
+            this.position = location;
+            this.obstacle = obstacle;
+        }
 
-		public Vector3 GetPosition(){
+        public Vector3 GetPosition(){
 			return position;
 		}
 		public Obstacle GetObstacle(){
@@ -81,51 +80,22 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 	}
 
 
-	private delegate void ProcessIntersection(IntersectionResult result);
-	private delegate bool ShouldContinueRayCast(IntersectionResult result);
-
-	
-
-    private static void IncrementalRaycastFast(
-        Vector3 start, 
-        Vector3 end, 
-        ProcessIntersection onIntersect, 
-        ShouldContinueRayCast shouldContinue
-    ){
-        RaycastHit hitInfo;
-        Vector3 ray = end - start;
-        Vector3 dx = ray.normalized;
-        Vector3 remaining = end - start;
-        dx.Scale(new Vector3(.01f, .01f, .01f));
-        while (Physics.Raycast(start, dx, out hitInfo, remaining.magnitude, instance.collisionMask)){
-
-            remaining -= (hitInfo.point - start);
-            start = (hitInfo.point + dx);
-
-            //hit object must have an obstacle script
-            if (hitInfo.collider.transform.GetComponent<Obstacle>() != null){
-                IntersectionResult result = new IntersectionResult(hitInfo);
-                onIntersect(result);
-                if (!shouldContinue(result)){
-                    break;
-                }
-            }
-        }
-    }
 
     public static bool LineOfSightToVantagePointExists(int visionSharpness,Vector3 start,Vector3 target){
 		bool uninterrupted = true;
 		int clarityLeft = visionSharpness;
-		ProcessIntersection onIntersect = (result => {
-			clarityLeft -= result.GetObstacle().GetTransparency();
-			if(clarityLeft <= 0){
+		ProcessIntersectionFast onIntersect = (result => {
+            foreach(var r in result){
+                clarityLeft -= r.GetObstacle().GetTransparency();
+            }
+            if (clarityLeft <= 0){
 				uninterrupted = false;
 			}
 		});
-		ShouldContinueRayCast continueCondition = (result => {
+		ShouldContinueRayCastFast continueCondition = (result => {
 			return clarityLeft > 0;
 		});
-		IncrementalRaycast (start, target, onIntersect,continueCondition);
+		IncrementalRaycastFast (start, target, onIntersect,continueCondition);
 		return uninterrupted;
 	}
 
@@ -380,6 +350,10 @@ public partial class EnvironmentPhysics : MonoBehaviour {
             }
         ).ToList();
     }
+
+    private delegate void ProcessIntersection(IntersectionResult result);
+    private delegate bool ShouldContinueRayCast(IntersectionResult result);
+
     /*
      * Might cause memory leaks if interrupted before NativeArrays are disposed   
     */
@@ -515,6 +489,98 @@ public partial class EnvironmentPhysics : MonoBehaviour {
                 }
             }
         }
+    }
+
+
+    private delegate void ProcessIntersectionFast(IEnumerable<IntersectionResult> result);
+    private delegate bool ShouldContinueRayCastFast(IEnumerable<IntersectionResult> result);
+    /*
+     *  Cannot be used for vertical raycasts!
+     */
+    private static void IncrementalRaycastFast(
+        Vector3 start,
+        Vector3 end,
+        ProcessIntersectionFast onIntersect,
+        ShouldContinueRayCastFast shouldContinue
+    ){
+        Vector2 start2D = start.To2D();
+        Vector2 end2D = end.To2D();
+
+        float endpointDistance2D =
+            Vector2.Distance(start2D, end2D);
+
+        float endpointHeight2D =
+            Math.Abs(end.y - start.y);
+
+        Vector3 higher = new Vector3();
+        Vector3 lower = new Vector3();
+        if(start.y > end.y){
+            higher = start;
+            lower = end;
+        }
+        else{
+            higher = end;
+            lower = start;
+        }
+
+        List<MapNode> nodesInTheWay =
+            instance.grid.GetMapNodesBetween(start2D,end2D);
+
+        nodesInTheWay.OrderBy(
+            node =>{
+                return Vector3.Distance(
+                    node.GetLocation(),
+                    start
+                );
+            }
+        );
+        foreach(MapNode node in nodesInTheWay){
+            var layers = node.GetLayers();
+            Vector2 mapLocation = node.GetLocation().To2D();
+
+            IEnumerable<IntersectionResult> results = layers.Select(tuple =>
+                new IntersectionResult(
+                    mapLocation.To3DWithY(tuple.Item1),
+                    tuple.Item2
+                )
+            );
+            IEnumerable<IntersectionResult> tallEnough =
+                results.Where(result =>{
+                    float distanceFromHigher =
+                        Vector2.Distance(
+                            result.GetPosition().To2D(), higher.To2D()
+                        );
+                    float heightAtLS = FindHeightAtLineSegment(
+                        new Vector2(0, 0),
+                        new Vector2(
+                            endpointDistance2D,
+                            endpointHeight2D
+                        ),
+                        distanceFromHigher
+                    );
+                    return result.GetPosition().y > heightAtLS;    
+                });
+
+            foreach(IntersectionResult r in tallEnough)
+            {
+               // DrawGizmo.AddGizmo(Color.red, "" + r.GetPosition(), r.GetPosition());
+            }
+            onIntersect(tallEnough);
+            if (!shouldContinue(tallEnough)){
+                break;
+            }
+        }
+    }
+
+    private static float FindHeightAtLineSegment(
+        Vector2 lower,
+        Vector2 higher,
+        float distanceFromHigher
+    ){
+        float y2 = (higher - lower).y;
+        float x2 = Math.Abs((higher - lower).x);
+        float x = x2 - distanceFromHigher;
+        return ((x * y2) / x2) + lower.y;
     }
 }
 
