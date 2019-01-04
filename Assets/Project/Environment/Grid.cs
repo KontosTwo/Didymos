@@ -4,6 +4,7 @@ using Environment;
 using System;
 using System.Linq;
 using UnityEngine.Profiling;
+using System.Collections;
 
 
 public class Grid : MonoBehaviour{
@@ -94,65 +95,66 @@ public class Grid : MonoBehaviour{
      ){
         Profiler.BeginSample("GetBatchMapNodesAt");
 
-        List<Point> cacheHits =
-           points.Where(p => instance.nodes[p] != null).ToList();
-        List<Point> cacheMisses =
-           points.Where(p => instance.nodes[p] == null).ToList();
+        List<Point> cacheHits = new List<Point>();
+        for(int i = 0; i < points.Count; i++){
+            Point currentPoint = points[i];
+            if (instance.nodes[currentPoint] != null){
+                cacheHits.Add(currentPoint);
+            }
+        }
+
+        List<Point> cacheMisses = new List<Point>();
+        for (int i = 0; i < points.Count; i++){
+            Point currentPoint = points[i];
+            if (instance.nodes[currentPoint] == null){
+                cacheMisses.Add(currentPoint);
+            }
+        }
 
         HashSet<Point> allNeededPoints = new HashSet<Point>();
-        cacheMisses.ForEach(cm =>{
+        for (int i = 0; i < cacheMisses.Count; i++){
+            Point cm = cacheMisses[i];
             allNeededPoints.Add(cm);
-            instance.GetNeighbors(cm).ForEach(
-                neighbor =>{
-                    allNeededPoints.Add(neighbor);
-                }
-            );
-        });
+            List<Point> neighbours =
+                instance.GetNeighbors(
+                    cm
+                );
 
-        List<Point> allNeededPointsMisses =
-            allNeededPoints.Where(
-                p => instance.nodes[p] == null
-            ).ToList();
+            for (int j = 0; j < neighbours.Count; j++){
+                allNeededPoints.Add(neighbours[j]);
+            }
+        }
 
-       // UnityEngine.Debug.Log(cacheMisses.Count);
+        List<Point> allNeededPointsMisses = new List<Point>();
+        IEnumerator<Point> allNeededPointsEnum =
+            allNeededPoints.GetEnumerator();
+        while (allNeededPointsEnum.MoveNext()){
+            Point current = allNeededPointsEnum.Current;
+            if(instance.nodes[current] == null){
+                allNeededPointsMisses.Add(current);
+            }
+        }
 
         BatchNodesMissResolve(allNeededPointsMisses);
         BatchAdjacencyMissResolve(cacheMisses);
         Profiler.EndSample();
 
-        return points.Select(p => instance.nodes[p]).ToList();
-        /*List<MapNode> hitMapNodes =
-            cacheHits.Select(ch => instance.nodes[ch]).ToList();
-        BatchNodesMissResolve(cacheMisses);
-        List<Point> cacheMissesNeighbors = new List<Point>();
-        cacheMisses.ForEach(p => {
-            cacheMissesNeighbors.AddRange(instance.GetNeighbors(p));
-        });
-        List<Point> cacheMissesNeighborsUninitialized =
-            cacheMissesNeighbors.FindAll(p => !instance.nodes[p].AdjacencyDataSet()).ToList();
-        BatchAddNodes(cacheMissesNeighborsUninitialized);
+        List<MapNode> mapnodes = new List<MapNode>();
+        for(int i = 0; i < points.Count; i++){
+            mapnodes.Add(instance.nodes[points[i]]);
+        }
 
-        List<MapNode> allRelevantNodes =
-            points.Select(p => instance.nodes[p]).ToList();
-
-        allRelevantNodes.ForEach(node => {
-            node.CalculateAdjancencyData(
-                    instance.GetNeighbors(
-                        instance.WorldCoordToNode(
-                            node.GetLocation()
-                        )
-                    ).Select(p => instance.GetMapNodeAt(p)).ToList()
-            );
-        });*/
+        return mapnodes;
     }
     public static List<MapNode> GetBatchMapNodeAt(List<Vector2> locations){
         if(locations.Count > MAX_NODE_CACHE_SIZE){
             UnityEngine.Debug.Log("WARNING: number of mapnodes requested exceeds cache size");
         }
-        List<Point> points = 
-            locations.Select(
-                l => instance.WorldCoordToNode(l.To3D())
-            ).ToList();
+        List<Point> points = new List<Point>();
+        for(int i = 0; i < locations.Count; i++){
+            Vector2 current = locations[i];
+            points.Add(instance.WorldCoordToNode(current.To3D()));
+        }
         return GetBatchMapNodesAt(points);
     }
 
@@ -164,13 +166,18 @@ public class Grid : MonoBehaviour{
     }
 
     private static void BatchAdjacencyMissResolve(List<Point> locations){
-        locations.ForEach(l =>{
-            instance.nodes[l].CalculateAdjancencyData(
-                instance.GetNeighbors(l).Select(
-                    n => instance.nodes[n]
-                ).ToList()
-            );
-        });
+        for(int i = 0; i < locations.Count; i++){
+            Point current = locations[i];
+            MapNode currentNode = instance.nodes[current];
+            List<Point> neighbours = instance.GetNeighbors(current);
+            List<MapNode> neighbourNodes = new List<MapNode>();
+            for(int j = 0; j < neighbours.Count; j++){
+                Point neighbourPoint = neighbours[j];
+                MapNode neighbourNode = instance.nodes[neighbourPoint];
+                neighbourNodes.Add(neighbourNode);
+            }
+            currentNode.CalculateAdjancencyData(neighbourNodes);
+        }
     }
 
     public int DistanceToNodeDistance(float distance){
@@ -261,24 +268,28 @@ public class Grid : MonoBehaviour{
 
     private static void BatchAddNodes(List<Point> locations){
         Debug.Log("attempted add nodes");
+        List<Vector2> worldLocations = new List<Vector2>();
+        for(int i = 0; i < locations.Count; i++){
+            worldLocations.Add(instance.NodeTo2DWorldCoord(locations[i]));
+        }
         List<MapNode> newNodes =
             EnvironmentPhysics.CreateMapNodesAt(
-                locations.Select(l => instance.NodeTo2DWorldCoord(l)).ToList()
+                worldLocations
             );
-        newNodes.ForEach(
-            node =>{
-                instance.nodes[instance.WorldCoordToNode(node.GetLocation())] =
-                    node;
-            }
-        );
+
+        for(int i = 0; i < newNodes.Count; i++){
+            MapNode current = newNodes[i];
+            instance.nodes[instance.WorldCoordToNode(current.GetLocation())] =
+                    current;
+        }
     }
 
     void OnDrawGizmos(){
         if (Application.isPlaying){
             foreach (var pair in nodes){
                 MapNode node = pair.Value.Item1;
-                //Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
-                //Gizmos.DrawCube(NodeToWorldCoord(pair.Item2), Vector3.one * (nodeSize-.1f));
+                Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
+                Gizmos.DrawCube(NodeToWorldCoord(pair.Value.Item2), Vector3.one * (nodeSize-.1f));
             }
         }
 

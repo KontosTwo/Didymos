@@ -17,7 +17,7 @@ using UnityEngine.Profiling;
  * One good limiting factor is the camera current position; only let the vector extend
  * a bit beyond the camera bounds
  */
-using System.Linq;
+//using System.Linq;
 public class EnvironmentPhysics : MonoBehaviour {
 
 	private static EnvironmentPhysics instance;
@@ -71,7 +71,9 @@ public class EnvironmentPhysics : MonoBehaviour {
 	private static List<Obstacle> FindNearbyObstacles(Vector3 location, float radius){
 		Collider[] collided = Physics.OverlapSphere (location, radius, instance.collisionMask);
 		List<Obstacle> obstacles = new List<Obstacle> ();
-		foreach(Collider collider in collided){
+		for(int i = 0; i < collided.Length; i ++){
+            Collider collider = collided[i];
+
 			Obstacle newObstacle = collider.GetComponent<Obstacle> ();
 			if(newObstacle != null){
 				obstacles.Add (newObstacle);
@@ -86,7 +88,8 @@ public class EnvironmentPhysics : MonoBehaviour {
 		bool uninterrupted = true;
 		int clarityLeft = visionSharpness;
 		ProcessIntersectionFast onIntersect = (result => {
-            foreach(var r in result){
+            for(int i = 0; i < result.Count; i ++){
+                IntersectionResult r = result[i];
                 clarityLeft -= r.GetObstacle().GetTransparency();
             }
             if (clarityLeft <= 0){
@@ -195,22 +198,22 @@ public class EnvironmentPhysics : MonoBehaviour {
 	}
 
 	public static bool ProjectileCanPassThrough(Projectile projectile,Vector3 start, Vector3 target){
-		ProcessIntersection onIntersect = (result => {
-			projectile.SlowedBy(result.GetObstacle());
+		//ProcessIntersection onIntersect = (result => {
+		//	projectile.SlowedBy(result.GetObstacle());
 
 
-		});
-		ShouldContinueRayCast continueCondition = (result => {
-			return projectile.IsStillActive();
-		});
-		IncrementalRaycast (start, target, onIntersect,continueCondition);
-		bool passedThrough = projectile.IsStillActive ();
-		projectile.ResetStrength ();
-		return passedThrough;
-        /*
-         * ProcessIntersectionFast onIntersect = (result => {
-            foreach(var r in result){
-                projectile.SlowedBy(r.GetObstacle());
+		//});
+		//ShouldContinueRayCast continueCondition = (result => {
+		//	return projectile.IsStillActive();
+		//});
+		//IncrementalRaycast (start, target, onIntersect,continueCondition);
+		//bool passedThrough = projectile.IsStillActive ();
+		//projectile.ResetStrength ();
+		//return passedThrough;
+         ProcessIntersectionFast onIntersect = (result => {
+            for(int i = 0; i <  result.Count; i++) {
+                 var r = result[i];
+                 projectile.SlowedBy(r.GetObstacle());
             }
         });
         ShouldContinueRayCastFast continueCondition = (result => {
@@ -220,8 +223,7 @@ public class EnvironmentPhysics : MonoBehaviour {
         bool passedThrough = projectile.IsStillActive ();
         projectile.ResetStrength ();
         return passedThrough;
-         * 
-         */
+
     }
 
     public static float FindHeightAt(float x,float z){	
@@ -313,60 +315,75 @@ public class EnvironmentPhysics : MonoBehaviour {
     }
 
     public static List<MapNode> CreateMapNodesAt(List<Vector2> locations){
+
         List<Tuple<Vector2, ParallelIncrementalRaycastResult>> results =
-            locations.Select(
-                l => new Tuple<Vector2, ParallelIncrementalRaycastResult>(
-                    l, 
+            new List<Tuple<Vector2, ParallelIncrementalRaycastResult>>();
+        for(int i = 0; i < locations.Count; i++){
+            results.Add(
+                new Tuple<Vector2, ParallelIncrementalRaycastResult>(
+                    locations[i],
                     new ParallelIncrementalRaycastResult()
                 )
-            ).ToList();
+            );
+        }
         List<ParallelIncrementalRaycastData> raycastData =
-            results.Select(tuple =>{
-                ParallelIncrementalRaycastResult result = tuple.Item2;
-                Vector2 location = tuple.Item1;
-                float x = location.x;
-                float z = location.y;
-                result.walkable = true;
-                result.heightSet = false;
+            new List<ParallelIncrementalRaycastData>();
 
-                ProcessIntersection onIntersect = (r => {
-                    if (!result.heightSet && !r.GetObstacle().CanPhaseThrough()){
-                        result.height = r.GetPosition().y;
-                        result.heightSet = true;
-                    }
-                    if (!r.GetObstacle().IsWalkable()){
-                        result.walkable = false;
-                    }
-                    result.layers.Add(new Tuple<float, Obstacle>(r.GetPosition().y, r.GetObstacle()));
+        for (int i = 0; i < results.Count; i++){
+            var tuple = results[i];
 
-                    result.speedModifier *= r.GetObstacle().GetSpeedModifier();
-                });
-                ShouldContinueRayCast continueCondition = (r => {
-                    return true;
-                });
+            ParallelIncrementalRaycastResult result = tuple.Item2;
+            Vector2 location = tuple.Item1;
+            float x = location.x;
+            float z = location.y;
+            result.walkable = true;
+            result.heightSet = false;
 
-                return new ParallelIncrementalRaycastData(
+            ProcessIntersection onIntersect = (r => {
+                if (!result.heightSet && !r.GetObstacle().CanPhaseThrough()){
+                    result.height = r.GetPosition().y;
+                    result.heightSet = true;
+                }
+                if (!r.GetObstacle().IsWalkable()){
+                    result.walkable = false;
+                }
+                result.layers.Add(new Tuple<float, Obstacle>(r.GetPosition().y, r.GetObstacle()));
+
+                result.speedModifier *= r.GetObstacle().GetSpeedModifier();
+            });
+            ShouldContinueRayCast continueCondition = (r => {
+                return true;
+            });
+
+            raycastData.Add( 
+                new ParallelIncrementalRaycastData(
                     new Vector3(x, instance.bottomLeftCorner.y + instance.maxDimensions.y, z),
                     new Vector3(x, instance.bottomLeftCorner.y, z),
                     onIntersect,
                     continueCondition
-                );
-            }).ToList();
+                )
+            );
+        }
 
         ParallelIncrementalRaycast(raycastData);
-        return results.Select(
-            tuple =>{
-                ParallelIncrementalRaycastResult result =
-                    tuple.Item2;
-                Vector2 location = tuple.Item1;
-                return new MapNode(
+
+        List<MapNode> mapNodes = new List<MapNode>();
+        for(int i = 0; i < results.Count; i++){
+            var tuple = results[i];
+            ParallelIncrementalRaycastResult result = 
+                tuple.Item2;
+            Vector2 location = tuple.Item1;
+            mapNodes.Add(
+                new MapNode(
                     new Vector3(location.x, result.height, location.y),
-                        result.height,
-                        result.layers,
-                        result.walkable
-                    );
-            }
-        ).ToList();
+                    result.height,
+                    result.layers,
+                    result.walkable
+                )
+            );
+        }
+
+        return mapNodes;
     }
 
     private delegate void ProcessIntersection(IntersectionResult result);
@@ -470,16 +487,6 @@ public class EnvironmentPhysics : MonoBehaviour {
             heightSet = false;
             layers = new List<Tuple<float, Obstacle>>();
         }
-
-        /*public ParallelIncrementalRaycastResult(
-            float height,
-            bool walkable,
-            float speedModifier
-        ){
-            this.height = height;
-            this.walkable = walkable;
-            this.speedModifier = speedModifier;
-        }*/
     }
 
     private static void IncrementalRaycast(
@@ -509,9 +516,8 @@ public class EnvironmentPhysics : MonoBehaviour {
         }
     }
 
-
-    private delegate void ProcessIntersectionFast(IEnumerable<IntersectionResult> result);
-    private delegate bool ShouldContinueRayCastFast(IEnumerable<IntersectionResult> result);
+    private delegate void ProcessIntersectionFast(List<IntersectionResult> result);
+    private delegate bool ShouldContinueRayCastFast(List<IntersectionResult> result);
     /*
      *  Cannot be used for vertical raycasts!
      */
@@ -522,7 +528,7 @@ public class EnvironmentPhysics : MonoBehaviour {
         ShouldContinueRayCastFast shouldContinue
     ){
         Profiler.BeginSample("IncrementalRaycastFast");
-
+        Profiler.BeginSample("Preliminary");
         Vector2 start2D = start.To2D();
         Vector2 end2D = end.To2D();
 
@@ -542,45 +548,65 @@ public class EnvironmentPhysics : MonoBehaviour {
             higher = end;
             lower = start;
         }
+        Profiler.EndSample();
         Profiler.BeginSample("Nodes in the way");
         List<MapNode> nodesInTheWay =
             instance.grid.GetMapNodesBetween(start2D,end2D);
-        List<MapNode> orderedNodes = nodesInTheWay.OrderBy(
-            node =>{
-                return Vector3.Distance(
-                    node.GetLocation(),
-                    start
+
+        nodesInTheWay.Sort(
+            (x, y) =>{
+                float xDistance = Vector2.Distance(
+                    x.GetLocation().To2D(),
+                    start2D
                 );
+                float yDistance = Vector2.Distance(
+                    y.GetLocation().To2D(),
+                    start2D
+                );
+                return xDistance.CompareTo(yDistance);
             }
-        ).ToList();
+        );
         Profiler.EndSample();
         Profiler.BeginSample("Calculations");
-        foreach (MapNode node in orderedNodes){
+        for (int i = 0; i < nodesInTheWay.Count; i ++){
+            MapNode node = nodesInTheWay[i];
+
             var layers = node.GetLayers();
             Vector2 mapLocation = node.GetLocation().To2D();
 
-            IEnumerable<IntersectionResult> results = layers.Select(tuple =>
-                new IntersectionResult(
-                    mapLocation.To3DWithY(tuple.Item1),
-                    tuple.Item2
-                )
-            );
-            IEnumerable<IntersectionResult> tallEnough =
-                results.Where(result =>{
-                    float distanceFromHigher =
+            List<IntersectionResult> results = new List<IntersectionResult>();
+            for(int j = 0; j < layers.Count; j++){
+                var tuple = layers[j];
+                results.Add(
+                    new IntersectionResult(
+                        mapLocation.To3DWithY(tuple.Item1),
+                        tuple.Item2
+                    )
+                );
+            }
+
+            List<IntersectionResult> tallEnough =
+                new List<IntersectionResult>();
+
+            for(int j = 0; j < results.Count; j++){
+                IntersectionResult result = results[j];
+                float distanceFromHigher =
                         Vector2.Distance(
                             result.GetPosition().To2D(), higher.To2D()
                         );
-                    float heightAtLS = FindHeightAtLineSegment(
-                        new Vector2(0, 0),
-                        new Vector2(
-                            endpointDistance2D,
-                            endpointHeight2D
-                        ),
-                        distanceFromHigher
-                    );
-                    return result.GetPosition().y > heightAtLS;    
-                });
+                float heightAtLS = FindHeightAtLineSegment(
+                    new Vector2(0, 0),
+                    new Vector2(
+                        endpointDistance2D,
+                        endpointHeight2D
+                    ),
+                    distanceFromHigher
+                );
+                if(result.GetPosition().y > heightAtLS){
+                    tallEnough.Add(result);
+                }
+            }
+
             onIntersect(tallEnough);
             if (!shouldContinue(tallEnough)){
                 break;
