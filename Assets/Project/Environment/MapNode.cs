@@ -1,8 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-public class MapNode
-{
+public class MapNode{
+    /*
+     * From top to bottom
+     */
+    private List<Tuple<float, Obstacle>> layers;
     private readonly float height;
     private readonly bool terrainIsWalkable;
     private bool isCoverNode;
@@ -13,7 +16,8 @@ public class MapNode
 
     public MapNode(
         Vector3 location,
-        float height, 
+        float height,
+        List<Tuple<float, Obstacle>> layers,
         bool walkable
     ){
         this.height = height;
@@ -21,6 +25,7 @@ public class MapNode
         isCoverNode = false;
         this.location = location;
         neighboursChecked = false;
+        this.layers = layers;
     }
 
     public bool AdjacencyDataSet(){
@@ -76,7 +81,7 @@ public class MapNode
 
     private void CheckIfNeighborsCalculated(){
         if (!neighboursChecked){
-            Debug.Log("WARNING: This node has not been fully calculated yet");
+            Debug.LogError("WARNING: This node has not been fully calculated yet");
         }
     }
 }

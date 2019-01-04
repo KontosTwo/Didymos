@@ -292,13 +292,15 @@ public partial class EnvironmentPhysics : MonoBehaviour {
         return environmentPoint;
     }
 
-    public static MapNode CreateMapNoteAt(Vector2 location){
+    public static MapNode CreateMapNodeAt(Vector2 location){
         float x = location.x;
         float z = location.y;
         float height = 0;
         bool heightSet = false;
         bool walkable = true;
         float speedModifier = 1;
+        List<Tuple<float, Obstacle>> layers = 
+            new List<Tuple<float, Obstacle>>();
         ProcessIntersection onIntersect = (result => {
             if (!heightSet && !result.GetObstacle().CanPhaseThrough()){
                 height = result.GetPosition().y;
@@ -307,6 +309,7 @@ public partial class EnvironmentPhysics : MonoBehaviour {
             if (!result.GetObstacle().IsWalkable()){
                 walkable = false;
             }
+            layers.Add(new Tuple<float, Obstacle>(result.GetPosition().y, result.GetObstacle()));
             speedModifier *= result.GetObstacle().GetSpeedModifier();
         });
         ShouldContinueRayCast continueCondition = (result => {
@@ -318,7 +321,7 @@ public partial class EnvironmentPhysics : MonoBehaviour {
             onIntersect,
             continueCondition
         );
-        return new MapNode(new Vector3(x, height, z), height, walkable);
+        return new MapNode(new Vector3(x, height, z), height, layers, walkable);
     }
 
     public static List<MapNode> CreateMapNodesAt(List<Vector2> locations){
@@ -338,7 +341,6 @@ public partial class EnvironmentPhysics : MonoBehaviour {
                 result.walkable = true;
                 result.heightSet = false;
 
-
                 ProcessIntersection onIntersect = (r => {
                     if (!result.heightSet && !r.GetObstacle().CanPhaseThrough()){
                         result.height = r.GetPosition().y;
@@ -347,6 +349,8 @@ public partial class EnvironmentPhysics : MonoBehaviour {
                     if (!r.GetObstacle().IsWalkable()){
                         result.walkable = false;
                     }
+                    result.layers.Add(new Tuple<float, Obstacle>(r.GetPosition().y, r.GetObstacle()));
+
                     result.speedModifier *= r.GetObstacle().GetSpeedModifier();
                 });
                 ShouldContinueRayCast continueCondition = (r => {
@@ -362,7 +366,6 @@ public partial class EnvironmentPhysics : MonoBehaviour {
             }).ToList();
 
         ParallelIncrementalRaycast(raycastData);
-
         return results.Select(
             tuple =>{
                 ParallelIncrementalRaycastResult result =
@@ -371,6 +374,7 @@ public partial class EnvironmentPhysics : MonoBehaviour {
                 return new MapNode(
                     new Vector3(location.x, result.height, location.y),
                         result.height,
+                        result.layers,
                         result.walkable
                     );
             }
@@ -464,6 +468,7 @@ public partial class EnvironmentPhysics : MonoBehaviour {
         public float height;
         public bool walkable;
         public float speedModifier;
+        public List<Tuple<float, Obstacle>> layers;
 
         public RaycastHit hit;
 
@@ -471,6 +476,7 @@ public partial class EnvironmentPhysics : MonoBehaviour {
 
         public ParallelIncrementalRaycastResult(){
             heightSet = false;
+            layers = new List<Tuple<float, Obstacle>>();
         }
 
         /*public ParallelIncrementalRaycastResult(

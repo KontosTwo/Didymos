@@ -117,6 +117,7 @@ public class PathfinderHelper :MonoBehaviour{
     ){
         List<PathfinderNode> neighbors = new List<PathfinderNode>();
         List<Point> neighborPoints = instance.grid.GetNeighbors(node.GetGridCoord());
+        List<Point> unActiveNeighbors = new List<Point>();
         for (int i = 0; i < neighborPoints.Count; i++){
             Point currentPoint = neighborPoints[i];
             PathfinderNode currentNode = null;
@@ -125,6 +126,7 @@ public class PathfinderHelper :MonoBehaviour{
                 neighbors.Add(currentNode);
             }
             else{
+                unActiveNeighbors.Add(currentPoint);
                 currentNode = nodeCreator.CreateNode(
                     currentPoint, instance.grid.GetMapNodeAt(currentPoint)
                 );
@@ -132,6 +134,7 @@ public class PathfinderHelper :MonoBehaviour{
                 neighbors.Add(currentNode);
             }
         }
+        
         return neighbors;
     }
 
