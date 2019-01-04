@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Profiling;
 public static class Bresenham{
     /*
      * Return type is ordered from start to end. start and end are relative to the grid's 
@@ -13,6 +14,7 @@ public static class Bresenham{
         Vector2 end,
         float tileSize
     ){
+
         List<Point> tiles = new List<Point>();
         float difX = end.x - start.x;
         float difY = end.y - start.y;
@@ -22,18 +24,20 @@ public static class Bresenham{
             return tiles;
         }
 
-        float dist = Math.Abs(difX) + Math.Abs(difY);
+        float dist = Mathf.Abs(difX) + Mathf.Abs(difY);
 
         float dx = difX / dist;
         float dy = difY / dist;
         int x = 0;
         int y = 0;
-
         for (int i = 0; i <= Math.Ceiling(dist); i++) {
-            x = (int)Math.Round(Math.Floor(start.x + dx * i));
-            y = (int)Math.Round(Math.Floor(start.y + dy * i));
+
+            x = (int)Mathf.Round(Mathf.Floor(start.x + dx * i));
+            y = (int)Mathf.Round(Mathf.Floor(start.y + dy * i));
             tiles.Add(new Point(x, y));
+
         }
+
         return new HashSet<Point>(tiles).ToList();
     }
 

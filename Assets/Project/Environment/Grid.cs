@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Reflection;
 using Environment;
 using System;
 using System.Linq;
-
+using UnityEngine.Profiling;
 
 
 public class Grid : MonoBehaviour{
@@ -43,6 +39,10 @@ public class Grid : MonoBehaviour{
     }
 
     void Start(){
+    }
+
+    private void Update()
+    {
     }
 
     public static MapNode GetMapNodeAt(Vector3 location){
@@ -92,10 +92,12 @@ public class Grid : MonoBehaviour{
      public static List<MapNode> GetBatchMapNodesAt(
         List<Point> points
      ){
+        Profiler.BeginSample("GetBatchMapNodesAt");
+
         List<Point> cacheHits =
-           points.FindAll(p => instance.nodes[p] != null);
+           points.Where(p => instance.nodes[p] != null).ToList();
         List<Point> cacheMisses =
-            points.Except(cacheHits).ToList();
+           points.Where(p => instance.nodes[p] == null).ToList();
 
         HashSet<Point> allNeededPoints = new HashSet<Point>();
         cacheMisses.ForEach(cm =>{
@@ -106,8 +108,18 @@ public class Grid : MonoBehaviour{
                 }
             );
         });
-        BatchNodesMissResolve(allNeededPoints.ToList());
+
+        List<Point> allNeededPointsMisses =
+            allNeededPoints.Where(
+                p => instance.nodes[p] == null
+            ).ToList();
+
+       // UnityEngine.Debug.Log(cacheMisses.Count);
+
+        BatchNodesMissResolve(allNeededPointsMisses);
         BatchAdjacencyMissResolve(cacheMisses);
+        Profiler.EndSample();
+
         return points.Select(p => instance.nodes[p]).ToList();
         /*List<MapNode> hitMapNodes =
             cacheHits.Select(ch => instance.nodes[ch]).ToList();
@@ -145,6 +157,9 @@ public class Grid : MonoBehaviour{
     }
 
     private static void BatchNodesMissResolve(List<Point> locations){
+        if(locations.Count == 0){
+            return;
+        }
         BatchAddNodes(locations);
     }
 
@@ -179,7 +194,9 @@ public class Grid : MonoBehaviour{
     ) {
         Vector2 relativeStart = start - bottomLeftCorner;
         Vector2 relativeEnd = end - bottomLeftCorner;
+
         List<Point> intersectingPoints = Bresenham.FindTiles(relativeStart, relativeEnd, nodeSize);
+
         return GetBatchMapNodesAt(intersectingPoints);
     }
 
@@ -233,6 +250,8 @@ public class Grid : MonoBehaviour{
     }
 
     private static void AddNode(Point location){
+        Debug.Log("attempted add node");
+
         MapNode newNode =
             EnvironmentPhysics.CreateMapNodeAt(
                 instance.NodeTo2DWorldCoord(location)
@@ -241,6 +260,7 @@ public class Grid : MonoBehaviour{
     }
 
     private static void BatchAddNodes(List<Point> locations){
+        Debug.Log("attempted add nodes");
         List<MapNode> newNodes =
             EnvironmentPhysics.CreateMapNodesAt(
                 locations.Select(l => instance.NodeTo2DWorldCoord(l)).ToList()
@@ -255,8 +275,8 @@ public class Grid : MonoBehaviour{
 
     void OnDrawGizmos(){
         if (Application.isPlaying){
-            foreach (Tuple<MapNode, Point> pair in nodes){
-                MapNode node = pair.Item1;
+            foreach (var pair in nodes){
+                MapNode node = pair.Value.Item1;
                 //Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
                 //Gizmos.DrawCube(NodeToWorldCoord(pair.Item2), Vector3.one * (nodeSize-.1f));
             }

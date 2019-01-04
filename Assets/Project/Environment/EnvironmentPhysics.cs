@@ -7,6 +7,7 @@ using UnityEngine.AI;
 using Unity.Jobs;
 using System;
 using Unity.Collections;
+using UnityEngine.Profiling;
 
 /*
  * To do: shorten projectil length. Even though a projectile has a start
@@ -95,8 +96,10 @@ public class EnvironmentPhysics : MonoBehaviour {
 		ShouldContinueRayCastFast continueCondition = (result => {
 			return clarityLeft > 0;
 		});
-		IncrementalRaycastFast (start, target, onIntersect,continueCondition);
-		return uninterrupted;
+
+        IncrementalRaycastFast(start, target, onIntersect,continueCondition);
+
+        return uninterrupted;
 	}
 
 	public static bool LineOfSightToGroundExists(int visionSharpness,Vector3 start,Vector3 target){
@@ -204,9 +207,24 @@ public class EnvironmentPhysics : MonoBehaviour {
 		bool passedThrough = projectile.IsStillActive ();
 		projectile.ResetStrength ();
 		return passedThrough;
-	}
-		
-	public static float FindHeightAt(float x,float z){	
+        /*
+         * ProcessIntersectionFast onIntersect = (result => {
+            foreach(var r in result){
+                projectile.SlowedBy(r.GetObstacle());
+            }
+        });
+        ShouldContinueRayCastFast continueCondition = (result => {
+            return projectile.IsStillActive();
+        });
+        IncrementalRaycastFast (start, target, onIntersect,continueCondition);
+        bool passedThrough = projectile.IsStillActive ();
+        projectile.ResetStrength ();
+        return passedThrough;
+         * 
+         */
+    }
+
+    public static float FindHeightAt(float x,float z){	
 		float height = 0;
 		ProcessIntersection onIntersect = (result => {
 			height = result.GetPosition().y;
@@ -503,6 +521,8 @@ public class EnvironmentPhysics : MonoBehaviour {
         ProcessIntersectionFast onIntersect,
         ShouldContinueRayCastFast shouldContinue
     ){
+        Profiler.BeginSample("IncrementalRaycastFast");
+
         Vector2 start2D = start.To2D();
         Vector2 end2D = end.To2D();
 
@@ -522,19 +542,20 @@ public class EnvironmentPhysics : MonoBehaviour {
             higher = end;
             lower = start;
         }
-
+        Profiler.BeginSample("Nodes in the way");
         List<MapNode> nodesInTheWay =
             instance.grid.GetMapNodesBetween(start2D,end2D);
-
-        nodesInTheWay.OrderBy(
+        List<MapNode> orderedNodes = nodesInTheWay.OrderBy(
             node =>{
                 return Vector3.Distance(
                     node.GetLocation(),
                     start
                 );
             }
-        );
-        foreach(MapNode node in nodesInTheWay){
+        ).ToList();
+        Profiler.EndSample();
+        Profiler.BeginSample("Calculations");
+        foreach (MapNode node in orderedNodes){
             var layers = node.GetLayers();
             Vector2 mapLocation = node.GetLocation().To2D();
 
@@ -560,16 +581,13 @@ public class EnvironmentPhysics : MonoBehaviour {
                     );
                     return result.GetPosition().y > heightAtLS;    
                 });
-
-            foreach(IntersectionResult r in tallEnough)
-            {
-               // DrawGizmo.AddGizmo(Color.red, "" + r.GetPosition(), r.GetPosition());
-            }
             onIntersect(tallEnough);
             if (!shouldContinue(tallEnough)){
                 break;
             }
         }
+        Profiler.EndSample();
+        Profiler.EndSample();
     }
 
     private static float FindHeightAtLineSegment(

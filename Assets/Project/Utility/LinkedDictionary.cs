@@ -6,22 +6,29 @@ using UnityEngine;
  * Source (Copied)
  * https://stackoverflow.com/questions/29205934/c-sharp-equivalent-of-linkedhashmap
  */
-public class LinkedDictionary<T, U> : IEnumerable<Tuple<U,T>> where U : class{
-    private Dictionary<T, LinkedListNode<Tuple<U, T>>> D;
-    private LinkedList<Tuple<U, T>> LL;
-
-
+using UnityEngine.Profiling;
+public class LinkedDictionary<T, U> : IEnumerable<KeyValuePair<long,Tuple<U,T>>> where U : class{
+    private Dictionary<T, LinkedListNode<Tuple<long, Tuple<U, T>>>> D;
+    private SortedList<long,Tuple<U, T>> LL;
+    /*
+     * LinkedDictionary will malfunction
+     * when overflow occurs. Don't overuse.    
+     */
+    private long tail;
+    private long head;
 
     public LinkedDictionary(){
-        D = new Dictionary<T, LinkedListNode<Tuple<U, T>>>();
-        LL = new LinkedList<Tuple<U, T>>();
+        D = new Dictionary<T, LinkedListNode<Tuple<long,Tuple<U, T>>>>();
+        LL = new SortedList<long, Tuple<U, T>>();
+        head = 0;
+        tail = 0;
     }
 
     public U this[T c]{
         get{
-            LinkedListNode<Tuple<U, T>> value = null;
+            LinkedListNode<Tuple<long, Tuple<U, T>>> value = null;
             if(D.TryGetValue(c,out value)){
-                return D[c].Value.Item1;
+                return D[c].Value.Item2.Item1;
             }
             else{
                 return null;
@@ -30,11 +37,18 @@ public class LinkedDictionary<T, U> : IEnumerable<Tuple<U,T>> where U : class{
 
         set{
             if (D.ContainsKey(c)){
-                LL.Remove(D[c].Value);
+                LL.Remove(D[c].Value.Item1);
             }
 
-            D[c] = new LinkedListNode<Tuple<U, T>>(new Tuple<U, T>(value, c));
-            LL.AddLast(D[c].Value);
+            D[c] = 
+                new LinkedListNode<Tuple<long,Tuple<U, T>>>(
+                    new Tuple<long,Tuple<U,T>>(
+                        tail,
+                        new Tuple<U, T>(value, c)
+                    )
+                );
+            LL.Add(D[c].Value.Item1,D[c].Value.Item2);
+            tail++;
         }
     }
 
@@ -43,28 +57,30 @@ public class LinkedDictionary<T, U> : IEnumerable<Tuple<U,T>> where U : class{
     }
 
     public U PopFirst(){
-        var node = LL.First;
-        LL.Remove(node);
-        D.Remove(node.Value.Item2);
-        return node.Value.Item1;
+        long index = head;
+        var node = LL[index];
+        LL.Remove(index);
+        D.Remove(node.Item2);
+        head++;
+        return node.Item1;
     }
 
     public U PopLast(){
-        var node = LL.Last;
-        LL.Remove(node);
-        D.Remove(node.Value.Item2);
-        return node.Value.Item1;
+        long index = tail - 1;
+        var node = LL[index];
+        LL.Remove(index);
+        D.Remove(node.Item2);
+        tail--;
+        return node.Item1;
     }
 
-    public IEnumerator<Tuple<U, T>> GetEnumerator(){
+    public IEnumerator<KeyValuePair<long,Tuple<U,T>>> GetEnumerator(){
         return LL.GetEnumerator();
     }
-
-    IEnumerator IEnumerable.GetEnumerator(){
+    IEnumerator IEnumerable.GetEnumerator()
+    {
         return LL.GetEnumerator();
     }
-
-
 
     public int Count{
         get{

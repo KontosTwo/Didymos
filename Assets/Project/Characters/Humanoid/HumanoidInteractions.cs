@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 /*
  * governs any passive interaction between humanoids that will
@@ -24,13 +25,15 @@ public class HumanoidInteractions : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+
         SeeInteractions();
+
         ClosenessInteraction();
         SeesEnemyMarker();
 	}
 
     private void SeeInteractions(){
-        for (int i = 0; i < 300; i ++)
+        for (int i = 0; i < 100; i ++)
         foreach(HumanoidModel enemy in enemiesModels){
             if(enemy.InfoCanSee(amyModel)){
                 enemy.EffectOnSeeEnemy(amyModel);
