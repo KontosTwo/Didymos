@@ -58,6 +58,10 @@ public class PathfinderNode : IHeapItem<PathfinderNode>
         return data.GetHeight();
     }
 
+    public MapNode GetData(){
+        return data;
+    }
+
     public int GetGCost(){
         return GetPhysicalGCost() + GetStrategyGCost();
     }

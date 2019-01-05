@@ -1,16 +1,7 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Utility/Bresenham.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Environment/Grid.cs">
     <Files>
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/Follower.cs" Line="27" Column="3" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderHelper.cs" Line="126" Column="23" />
-      <File FileName="Assets/Project/Environment/Point.cs" Line="28" Column="26" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Destination/CandidateStrategy/FindCandidatesForFlank.cs" Line="97" Column="42" />
-      <File FileName="Assets/Project/Environment/Grid.cs" Line="175" Column="9" />
-      <File FileName="Assets/Project/Environment/MapNode.cs" Line="4" Column="14" />
-      <File FileName="Assets/Project/Utility/Pools.cs" Line="63" Column="34" />
-      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="394" Column="1" />
-      <File FileName="Assets/Project/Utility/Pool.cs" Line="61" Column="30" />
-      <File FileName="Assets/Project/Utility/Bresenham.cs" Line="57" Column="32" />
+      <File FileName="Assets/Project/Environment/Grid.cs" Line="61" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

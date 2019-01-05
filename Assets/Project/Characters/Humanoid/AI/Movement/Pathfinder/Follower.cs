@@ -5,7 +5,7 @@ using System.Diagnostics;
 public class Follower : MonoBehaviour {
 
 	const float minPathUpdateTime = .1f;
-	const float pathUpdateMoveThreshold = .5f;
+	const float pathUpdateMoveThreshold = .05f;
 
     public PathfinderCostStrategy nonCoverStrategy;
     public PathfinderCostStrategy coverStrategy;
@@ -20,14 +20,47 @@ public class Follower : MonoBehaviour {
 
     private Stopwatch watch;
 
-	Path path;
+    private float sqrMoveThreshold;
+    private Vector3 targetPosOld;
+
+    Path path;
 
 	void Start() {
-        watch = new Stopwatch();
-		StartCoroutine (UpdatePath ());
-	}
+         sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
+         targetPosOld = target.position;
+        //StartCoroutine (UpdatePath ());
+    }
 
-	IEnumerator UpdatePath() {
+    private void Update()
+    {
+        if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+        {
+            PathResult result = Pathfinder.FindPath(
+               new PathRequest(
+                   transform.position,
+                   target.position,
+                   maxLength,
+                   new BaseImplementation(
+                       coverStrategy,
+                       new FavorCoverAndStrategyCostCreator(target.position)
+                   )
+               )
+           );
+
+            bool pathSuccessful = result.success;
+            if (pathSuccessful)
+            {
+                path = new Path(result.path, stoppingDst);
+                //watch.Stop();
+                //UnityEngine.Debug.Log("Elapsed in ms: " + watch.ElapsedMilliseconds);
+                //watch = new Stopwatch();
+            }
+            targetPosOld = target.position;
+            //watch.Start();
+        }
+    }
+
+    IEnumerator UpdatePath() {
 
 		if (Time.timeSinceLevelLoad < .3f) {
 			yield return new WaitForSeconds (.3f);
@@ -75,7 +108,7 @@ public class Follower : MonoBehaviour {
                 {
                     path = new Path(result.path, stoppingDst);
                     watch.Stop();
-                    UnityEngine.Debug.Log("Elapsed in ms: " + watch.ElapsedMilliseconds);
+                    //UnityEngine.Debug.Log("Elapsed in ms: " + watch.ElapsedMilliseconds);
                     watch = new Stopwatch();
                 }
                 targetPosOld = target.position;
@@ -125,7 +158,7 @@ public class Follower : MonoBehaviour {
 
 	public void OnDrawGizmos() {
 		if (path != null) {
-			path.DrawWithGizmos ();
+			//path.DrawWithGizmos ();
 		}
 	}
 }

@@ -56,6 +56,12 @@ public class LinkedDictionary<T, U> : IEnumerable<KeyValuePair<long,Tuple<U,T>>>
         return D.ContainsKey(k);
     }
 
+    public T PeekFirstKey(){
+        long index = head;
+        var node = LL[index];
+        return node.Item2;
+    }
+
     public U PopFirst(){
         long index = head;
         var node = LL[index];

@@ -5,15 +5,24 @@ using System;
 /*
  *  Source
  *  https://github.com/SebLague/Pathfinding
+ * 
+ *  NOT THREAD OR COROUTINE SAFE
  */
 public class PathfinderHelper :MonoBehaviour{
     [SerializeField]
     private Grid grid;
 
     private static PathfinderHelper instance;
-    private static readonly int MAXPATHHEAPSIZE = 1000;
+    private static readonly int MAXPATHHEAPSIZE = 10000;
+
+    private PathfindingHeap<PathfinderNode> openSet;
+    private Dictionary<Point, PathfinderNode> activeNodes;
+    private HashSet<PathfinderNode> closedSet;
 
     private void Awake(){
+        openSet = new PathfindingHeap<PathfinderNode>(MAXPATHHEAPSIZE);
+        activeNodes = new Dictionary<Point, PathfinderNode>(1000);
+        closedSet = new HashSet<PathfinderNode>();
         instance = this;
     }
 
@@ -32,11 +41,13 @@ public class PathfinderHelper :MonoBehaviour{
     public static PathResult FindPath(
         PathRequest request
     ){
+        instance.openSet.Clear();
+        instance.activeNodes.Clear();
+        instance.closedSet.Clear();
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
         float maxLength = request.maxLength;
         PathfinderImplementationStrategy implementationStrategy = request.aStarImpl;
-        /* multiple by 10 to account for the factor of 10 in GetDistance()*/
         int maxPathLength = instance.grid.DistanceToNodeDistance(maxLength);
         Point startPoint = instance.grid.WorldCoordToNode(request.pathStart);
         Point endPoint = instance.grid.WorldCoordToNode(request.pathEnd);
@@ -53,37 +64,33 @@ public class PathfinderHelper :MonoBehaviour{
             );
 
         if (startNode.IsWalkable() && targetNode.IsWalkable()){
-            PathfindingHeap<PathfinderNode> openSet = 
-                new PathfindingHeap<PathfinderNode>(MAXPATHHEAPSIZE);
-            HashSet<PathfinderNode> closedSet = 
-                new HashSet<PathfinderNode>();
-            Dictionary<Point, PathfinderNode> activeNodes = 
-                new Dictionary<Point, PathfinderNode>();
-            openSet.Add(startNode);
-            activeNodes.Add(startNode.GetGridCoord(), startNode);
-            activeNodes.Add(targetNode.GetGridCoord(), targetNode);
-            while (openSet.Count > 0){
-                PathfinderNode currentNode = openSet.RemoveFirst();
 
-                closedSet.Add(currentNode);
+
+            instance.openSet.Add(startNode);
+
+            instance.activeNodes.Add(startNode.GetGridCoord(), startNode);
+            instance.activeNodes.Add(targetNode.GetGridCoord(), targetNode);
+            while (instance.openSet.Count > 0){
+                PathfinderNode currentNode = instance.openSet.RemoveFirst();
+
+                instance.closedSet.Add(currentNode);
 
                 /*if (currentNode == targetNode){
                     pathSuccess = true;
                     break;
                 }*/
-                if (openSet.Contains(targetNode))
+                if (instance.openSet.Contains(targetNode))
                 {
                     pathSuccess = true;
                     break;
                 }
-
                 implementationStrategy.ProcessNode(
                     currentNode,
                     startNode,
                     targetNode,
-                    openSet,
-                    closedSet,
-                    activeNodes,
+                    instance.openSet,
+                    instance.closedSet,
+                    instance.activeNodes,
                     instance.grid,
                     maxPathLength
                 );
@@ -94,6 +101,34 @@ public class PathfinderHelper :MonoBehaviour{
             waypoints = RetracePath(startNode, targetNode);
             pathSuccess = waypoints.Length > 0;
         }
+        List<Point> recycledPoints = Pools.ListPoints;
+        recycledPoints.Add(startPoint);
+        recycledPoints.Add(endPoint);
+        Dictionary<Point,PathfinderNode>.Enumerator enumerator = 
+            instance.activeNodes.GetEnumerator();
+        while (enumerator.MoveNext()){
+            var current = enumerator.Current;
+            Point p = current.Key;
+            recycledPoints.Add(p);
+        }
+        //HashSet<PathfinderNode>.Enumerator enumerator2 =
+        //    instance.closedSet.GetEnumerator();
+        //while (enumerator2.MoveNext()){
+        //    var current = enumerator2.Current;
+        //    Point p = current.GetGridCoord();
+        //    recycledPoints.Add(p);
+        //}
+
+        for(int i = 0; i < recycledPoints.Count; i++)
+        {
+            Point current = recycledPoints[i];
+            if (!instance.grid.PointInUse(current))
+            {
+                Pools.Point = current;
+            }
+        }
+
+        Pools.ListPoints = recycledPoints;
         PathfinderVisualizer.Visualize();
 
         return new PathResult(
@@ -119,13 +154,16 @@ public class PathfinderHelper :MonoBehaviour{
         List<Point> unActiveNeighbors = Pools.ListPoints;
         for (int i = 0; i < neighborPoints.Count; i++){
             Point currentPoint = neighborPoints[i];
+
+
             PathfinderNode currentNode = null;
             activeNodes.TryGetValue(currentPoint, out currentNode);
+            // current node is already active
             if (currentNode != null){
                 neighbors.Add(currentNode);
                 Pools.Point = currentPoint;
-            }
-            else{
+            // current node is not active
+            }else{
                 unActiveNeighbors.Add(currentPoint);
                 currentNode = nodeCreator.CreateNode(
                     currentPoint, instance.grid.GetMapNodeAt(currentPoint)

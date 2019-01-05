@@ -39,9 +39,8 @@ public class BaseImplementation : PathfinderImplementationStrategy{
         int maxPathLength
     ){
 
-
-
         Vector3 currentLocation = grid.NodeToWorldCoord(currentNode.GetGridCoord());
+
 
         List<PathfinderNode> neighbors = PathfinderHelper.GetNeighbors(
             currentNode,
@@ -49,8 +48,19 @@ public class BaseImplementation : PathfinderImplementationStrategy{
             currentNodeCreator
         );
 
+        if (neighbors.Contains(targetNode))
+        {
+            DrawGizmo.AddGizmo(
+                Color.black,
+                "Containing targetnode",
+                currentLocation
+            );
+        }
+
         foreach (PathfinderNode neighbour in neighbors){
+
             Vector3 neighbourLocation = grid.NodeToWorldCoord(neighbour.GetGridCoord());
+
             if (!neighbour.IsWalkable()
                 || closedSet.Contains(neighbour)){
                 continue;

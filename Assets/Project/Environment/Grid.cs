@@ -17,7 +17,8 @@ public class Grid : MonoBehaviour{
     [SerializeField]
     private float nodeSize;
 
-    private LinkedDictionary<Point,MapNode> nodes;
+    public LinkedDictionary<Point,MapNode> nodes;
+    private HashSet<Point> pointsInUse;
     private Vector2 bottomLeftCorner;
     private Vector2 dimensions;
 
@@ -36,6 +37,7 @@ public class Grid : MonoBehaviour{
         nodes = new LinkedDictionary<Point, MapNode>();
         length = (int)(dimensions.x / nodeSize);
         height = (int)(dimensions.y / nodeSize);
+        pointsInUse = new HashSet<Point>(new SameObject());
 
         instance = this;
 
@@ -56,6 +58,10 @@ public class Grid : MonoBehaviour{
         }
     }
 
+    public bool PointInUse(Point p){
+        return pointsInUse.Contains(p);
+    }
+
     public static MapNode GetMapNodeAt(Vector3 location){
         Point point = instance.WorldCoordToNode(location);
         MapNode node = instance.GetMapNodeAt(point);
@@ -65,6 +71,7 @@ public class Grid : MonoBehaviour{
 
     public MapNode GetMapNodeAt(Point point){
         MapNode potentialNode = instance.nodes[point];
+
         if (potentialNode == null){
             NodesMissResolve(point);
         }
@@ -103,7 +110,7 @@ public class Grid : MonoBehaviour{
             adjacentMapNodes
         );
         Pools.FreeListPoints(neighbors);
-        Pools.FreeListPoints(unInitializedNeighbours);
+        //Pools.FreeListPoints(unInitializedNeighbours);
 
         Pools.ListMapNodes = adjacentMapNodes;
         Pools.ListPoints = neighbors;
@@ -238,7 +245,13 @@ public class Grid : MonoBehaviour{
     }
 
     public Vector3 NodeToWorldCoord(Point point){
-
+        if(nodes[point] == null)
+        {
+            DrawGizmo.AddGizmo(Color.cyan, "" + point, new Vector3(
+            (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
+            , 10
+            , (point.y * nodeSize + nodeSize / 2) + bottomLeftCorner.y));
+        }
         return new Vector3(
             (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
             , nodes[point].GetHeight()
@@ -319,12 +332,16 @@ public class Grid : MonoBehaviour{
     }
 
     private static void AddNode(Point location){
-
+        if(location.Equals(new Point(44, 58)))
+        {
+            Debug.Log("44,58 is added");
+        }
         MapNode newNode =
             EnvironmentPhysics.CreateMapNodeAt(
                 instance.NodeTo2DWorldCoord(location)
             );
         instance.nodes[location] = newNode;
+        instance.pointsInUse.Add(location);
         //if(instance.nodes.Count > MAX_NODE_CACHE_SIZE){
         //    RemoveNode();
         //}
@@ -343,8 +360,11 @@ public class Grid : MonoBehaviour{
 
         for(int i = 0; i < newNodes.Count; i++){
             MapNode current = newNodes[i];
-            instance.nodes[instance.WorldCoordToNode(current.GetLocation())] =
-                    current;
+            Point currentPoint = 
+                instance.WorldCoordToNode(current.GetLocation());
+            instance.nodes[currentPoint] = current;
+            instance.pointsInUse.Add(currentPoint);
+
         }
         Pools.ListMapNodes = newNodes;
         Pools.ListVector2s = worldLocations;
@@ -355,6 +375,12 @@ public class Grid : MonoBehaviour{
      *  if Unity one day becomes multithreaded
      */    
     private static void RemoveNode(){
+        Debug.Log("removing");
+        Point oldPoint = instance.nodes.PeekFirstKey();
+        instance.pointsInUse.Remove(
+            oldPoint
+        );
+        Pools.Point = oldPoint;
         MapNode removed = instance.nodes.PopFirst();
         Pools.MapNode = removed;
     }
@@ -372,11 +398,24 @@ public class Grid : MonoBehaviour{
                 {
                     Debug.Log("null point!");
                 }
-                //Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
-                //Gizmos.DrawCube(NodeToWorldCoord(pair.Value.Item2), Vector3.one * (nodeSize-.1f));
+                Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
+                Gizmos.DrawCube(NodeToWorldCoord(pair.Value.Item2), Vector3.one * (nodeSize-.1f));
             }
         }
 
+    }
+
+    private class SameObject : IEqualityComparer<Point>
+    {
+        public bool Equals(Point x, Point y)
+        {
+            return object.ReferenceEquals(x, y);
+        }
+
+        public int GetHashCode(Point obj)
+        {
+            return obj.GetHashCode();
+        }
     }
 }
 

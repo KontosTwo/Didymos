@@ -20,6 +20,18 @@ public class Pools : MonoBehaviour {
     private Pool<List<Vector2>> listVector2s;
     private Pool<List<Vector3>> listVector3s;
 
+    private void Awake()
+    {
+        listMapNodes = new Pool<List<MapNode>>(30);
+        mapNodes = new Pool<MapNode>(1000);
+        listPoints = new Pool<List<Point>>(30);
+        listIntersectionResults = new Pool<List<EnvironmentPhysics.IntersectionResult>>(30);
+        hashSetPoints = new Pool<HashSet<Point>>(30);
+        points = new Pool<Point>(5000);
+        listVector2s = new Pool<List<Vector2>>(100);
+        listVector3s = new Pool<List<Vector3>>(100);
+        instance = this;
+    }
     public static MapNode MapNode
     {
         get
@@ -145,17 +157,7 @@ public class Pools : MonoBehaviour {
             instance.listVector3s.Recycle(value);
         }
     }
-    private void Awake() {
-        listMapNodes = new Pool<List<MapNode>>(30);
-        mapNodes = new Pool<MapNode>(1000);
-        listPoints = new Pool<List<Point>>(30);
-        listIntersectionResults = new Pool<List<EnvironmentPhysics.IntersectionResult>>(30);
-        hashSetPoints = new Pool<HashSet<Point>>(30);
-        points = new Pool<Point>(100);
-        listVector2s = new Pool<List<Vector2>>(100);
-        listVector3s = new Pool<List<Vector3>>(100);
-        instance = this; 
-    }
+   
 
     private void Update()
     {
