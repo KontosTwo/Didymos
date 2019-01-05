@@ -15,7 +15,7 @@ public static class Bresenham{
         float tileSize
     ){
 
-        List<Point> tiles = new List<Point>();
+        List<Point> tiles = Pools.ListPoints;
         float difX = end.x - start.x;
         float difY = end.y - start.y;
 
@@ -37,8 +37,19 @@ public static class Bresenham{
             tiles.Add(new Point(x, y));
 
         }
-
-        return new HashSet<Point>(tiles).ToList();
+        HashSet<Point> noDuplicated = Pools.HashSetPoints;
+        for(int i = 0; i < tiles.Count; i ++){
+            noDuplicated.Add(tiles[i]);
+        }
+        List<Point> noDuplicatedList = Pools.ListPoints;
+        IEnumerator<Point> noDuplicatedIterator = 
+            noDuplicated.GetEnumerator();
+        while (noDuplicatedIterator.MoveNext()){
+            noDuplicatedList.Add(noDuplicatedIterator.Current);
+        }
+        Pools.HashSetPoints = noDuplicated;
+        Pools.ListPoints = tiles;
+        return noDuplicatedList;
     }
 
     private static Point ToGridCoord(this Vector2 v, float tileSize){

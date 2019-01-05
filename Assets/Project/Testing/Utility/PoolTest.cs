@@ -110,8 +110,52 @@ public class PoolTest {
 
     }
 
-    private class TestPoolableObject : Poolable<TestPoolableObject>
+    [Test]
+    public void Pool_PinsOnlyElement()
+    {
+        var obj1 = pool.Get();
+        pool.Pin(obj1);
+        pool.Recycle(obj1);
+        var obj2 = pool.Get();
+        pool.Recycle(obj2);
+
+        var obj3 = pool.Get();
+        Assert.AreNotSame(obj1, obj3);
+        Assert.AreEqual(3, pool.GetSize());
+    }
+
+    [Test]
+    public void Pool_UnpinOnlyElement()
+    {
+        var obj1 = pool.Get();
+        pool.Pin(obj1);
+        pool.Recycle(obj1);
+
+        var obj2 = pool.Get();
+        pool.Recycle(obj2);
+
+        var obj3 = pool.Get();
+
+        pool.Unpin(obj1);
+
+        var obj4 = pool.Get();
+
+        var obj5 = pool.Get();
+
+        Assert.AreEqual(4, pool.GetSize());
+
+        Assert.AreSame(obj4, obj2);
+
+        Assert.AreSame(obj1, obj5);
+    }
+
+    private class TestPoolableObject
     {
         private int lol = 1;
+
+        public TestPoolableObject()
+        {
+
+        }
     }
 }

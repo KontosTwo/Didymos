@@ -16,7 +16,7 @@ public class RaycastVisualizer : MonoBehaviour{
     {
         while (true)
         {
-            //Debug.Log(EnvironmentPhysics.LineOfSightToVantagePointExists(1, start.position, end.position));
+//            Debug.Log(EnvironmentPhysics.LineOfSightToVantagePointExists(1, start.position, end.position));
             yield return new WaitForSeconds(.2f);
         }
 

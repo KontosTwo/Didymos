@@ -199,6 +199,7 @@
     <Compile Include="Assets\Project\Utility\ListExt.cs" />
     <Compile Include="Assets\Project\Utility\PointExt.cs" />
     <Compile Include="Assets\Project\Utility\Pool.cs" />
+    <Compile Include="Assets\Project\Utility\Pools.cs" />
     <Compile Include="Assets\Project\Utility\Vector2Ext.cs" />
     <Compile Include="Assets\Project\Utility\Vector3Ext.cs" />
     <None Include="Assets\Project\Environment\Terrain.shader" />

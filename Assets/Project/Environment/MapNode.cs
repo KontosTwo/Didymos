@@ -1,13 +1,13 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-public class MapNode{
+public class MapNode {
     /*
      * From top to bottom
      */
-    private List<Tuple<float, Obstacle>> layers;
-    private readonly float height;
-    private readonly bool terrainIsWalkable;
+    private List<EnvironmentPhysics.IntersectionResult> layers;
+    private float height;
+    private bool terrainIsWalkable;
     private bool isCoverNode;
     private Vector3 location;
     private bool neighboursChecked;
@@ -17,7 +17,21 @@ public class MapNode{
     public MapNode(
         Vector3 location,
         float height,
-        List<Tuple<float, Obstacle>> layers,
+        List<EnvironmentPhysics.IntersectionResult> layers,
+        bool walkable
+    ) {
+        this.height = height;
+        terrainIsWalkable = walkable;
+        isCoverNode = false;
+        this.location = location;
+        neighboursChecked = false;
+        this.layers = layers;
+    }
+
+    public void Set(
+        Vector3 location,
+        float height,
+        List< EnvironmentPhysics.IntersectionResult > layers,
         bool walkable
     ){
         this.height = height;
@@ -26,6 +40,20 @@ public class MapNode{
         this.location = location;
         neighboursChecked = false;
         this.layers = layers;
+    }
+
+    public void Clear()
+    {
+        this.height = 0;
+        terrainIsWalkable = true;
+        isCoverNode = false;
+        this.location = new Vector3();
+        neighboursChecked = false;
+        this.layers = null;
+    }
+
+    public MapNode(){
+
     }
 
     public bool AdjacencyDataSet(){
@@ -46,7 +74,7 @@ public class MapNode{
         neighboursChecked = true;
     }
 
-    public List<Tuple<float,Obstacle>> GetLayers(){
+    public List<EnvironmentPhysics.IntersectionResult> GetLayers(){
         return layers;
     }
 

@@ -5,8 +5,11 @@ using System;
 using System.Linq;
 using UnityEngine.Profiling;
 using System.Collections;
+using UnityEditor.SceneManagement;
 
-
+/*
+ * This class is not Coroutine-safe!
+ */
 public class Grid : MonoBehaviour{
 
     [SerializeField]
@@ -23,7 +26,7 @@ public class Grid : MonoBehaviour{
 
     private static Grid instance;
 
-    private static readonly int MAX_NODE_CACHE_SIZE = 50000;
+    private static readonly int MAX_NODE_CACHE_SIZE = 10;
 
     void Awake(){
         Vector3 bottomLeftCorner3d = mapbounds.GetBottomLeftCorner();
@@ -44,6 +47,13 @@ public class Grid : MonoBehaviour{
 
     private void Update()
     {
+    }
+
+    private void LateUpdate()
+    {
+        for(int i = 0; i < instance.nodes.Count - MAX_NODE_CACHE_SIZE; i++){
+            RemoveNode();
+        }
     }
 
     public static MapNode GetMapNodeAt(Vector3 location){
@@ -84,6 +94,7 @@ public class Grid : MonoBehaviour{
                 }
             ).ToList()
         );
+        Pools.ListPoints = neighbors;
     }
 
     /*
@@ -95,7 +106,7 @@ public class Grid : MonoBehaviour{
      ){
         Profiler.BeginSample("GetBatchMapNodesAt");
 
-        List<Point> cacheHits = new List<Point>();
+        List<Point> cacheHits = Pools.ListPoints;
         for(int i = 0; i < points.Count; i++){
             Point currentPoint = points[i];
             if (instance.nodes[currentPoint] != null){
@@ -103,7 +114,7 @@ public class Grid : MonoBehaviour{
             }
         }
 
-        List<Point> cacheMisses = new List<Point>();
+        List<Point> cacheMisses = Pools.ListPoints;
         for (int i = 0; i < points.Count; i++){
             Point currentPoint = points[i];
             if (instance.nodes[currentPoint] == null){
@@ -111,7 +122,7 @@ public class Grid : MonoBehaviour{
             }
         }
 
-        HashSet<Point> allNeededPoints = new HashSet<Point>();
+        HashSet<Point> allNeededPoints = Pools.HashSetPoints;
         for (int i = 0; i < cacheMisses.Count; i++){
             Point cm = cacheMisses[i];
             allNeededPoints.Add(cm);
@@ -125,7 +136,7 @@ public class Grid : MonoBehaviour{
             }
         }
 
-        List<Point> allNeededPointsMisses = new List<Point>();
+        List<Point> allNeededPointsMisses = Pools.ListPoints;
         IEnumerator<Point> allNeededPointsEnum =
             allNeededPoints.GetEnumerator();
         while (allNeededPointsEnum.MoveNext()){
@@ -139,10 +150,15 @@ public class Grid : MonoBehaviour{
         BatchAdjacencyMissResolve(cacheMisses);
         Profiler.EndSample();
 
-        List<MapNode> mapnodes = new List<MapNode>();
+        List<MapNode> mapnodes = Pools.ListMapNodes;
         for(int i = 0; i < points.Count; i++){
             mapnodes.Add(instance.nodes[points[i]]);
         }
+
+        Pools.HashSetPoints = allNeededPoints;
+        Pools.ListPoints = cacheHits;
+        Pools.ListPoints = cacheMisses;
+        Pools.ListPoints = allNeededPointsMisses;
 
         return mapnodes;
     }
@@ -150,12 +166,14 @@ public class Grid : MonoBehaviour{
         if(locations.Count > MAX_NODE_CACHE_SIZE){
             UnityEngine.Debug.Log("WARNING: number of mapnodes requested exceeds cache size");
         }
-        List<Point> points = new List<Point>();
+        List<Point> points = Pools.ListPoints;
         for(int i = 0; i < locations.Count; i++){
             Vector2 current = locations[i];
             points.Add(instance.WorldCoordToNode(current.To3D()));
         }
-        return GetBatchMapNodesAt(points);
+        List<MapNode> mapnodes = GetBatchMapNodesAt(points);
+        Pools.ListPoints = points;
+        return mapnodes;
     }
 
     private static void BatchNodesMissResolve(List<Point> locations){
@@ -170,13 +188,16 @@ public class Grid : MonoBehaviour{
             Point current = locations[i];
             MapNode currentNode = instance.nodes[current];
             List<Point> neighbours = instance.GetNeighbors(current);
-            List<MapNode> neighbourNodes = new List<MapNode>();
+            List<MapNode> neighbourNodes = Pools.ListMapNodes;
             for(int j = 0; j < neighbours.Count; j++){
                 Point neighbourPoint = neighbours[j];
                 MapNode neighbourNode = instance.nodes[neighbourPoint];
                 neighbourNodes.Add(neighbourNode);
             }
             currentNode.CalculateAdjancencyData(neighbourNodes);
+
+            Pools.ListMapNodes = neighbourNodes;
+            Pools.ListPoints = neighbours;
         }
     }
 
@@ -204,42 +225,52 @@ public class Grid : MonoBehaviour{
 
         List<Point> intersectingPoints = Bresenham.FindTiles(relativeStart, relativeEnd, nodeSize);
 
-        return GetBatchMapNodesAt(intersectingPoints);
+        List<MapNode> between = GetBatchMapNodesAt(intersectingPoints);
+        Pools.ListPoints = intersectingPoints;
+        return between;
     }
 
 
 
     public List<Point> GetNeighbors(Point point){
-        List<Point> neighbors = new List<Point>();
-        Point p1 = new Point(point.x - 1, point.y - 1);
+        List<Point> neighbors = Pools.ListPoints;
+        Point p1 = Pools.Point;
+        p1.Set(point.x - 1, point.y - 1);
         if (InBound(p1)){
             neighbors.Add(p1);
         }
-        Point p2 = new Point(point.x - 1, point.y);
+        Point p2 = Pools.Point;
+        p2.Set(point.x - 1, point.y);
         if (InBound(p2)){
             neighbors.Add(p2);
         }
-        Point p3 = new Point(point.x - 1, point.y + 1);
+        Point p3 = Pools.Point;
+        p3.Set(point.x, point.y - 1);
         if (InBound(p3)){
             neighbors.Add(p3);
         }
-        Point p4 = new Point(point.x, point.y + 1);
+        Point p4 = Pools.Point;
+        p4.Set(point.x + 1, point.y - 1);
         if (InBound(p4)){
             neighbors.Add(p4);
         }
-        Point p5 = new Point(point.x + 1, point.y + 1);
+        Point p5 = Pools.Point;
+        p5.Set(point.x - 1, point.y + 1);
         if (InBound(p5)){
             neighbors.Add(p5);
         }
-        Point p6 = new Point(point.x + 1, point.y);
+        Point p6 = Pools.Point;
+        p6.Set(point.x + 1, point.y + 1);
         if (InBound(p6)){
             neighbors.Add(p6);
         }
-        Point p7 = new Point(point.x + 1, point.y - 1);
+        Point p7 = Pools.Point;
+        p7.Set(point.x + 1, point.y );
         if (InBound(p7)){
             neighbors.Add(p7);
         }
-        Point p8 = new Point(point.x, point.y - 1);
+        Point p8 = Pools.Point;
+        p8.Set(point.x, point.y + 1);
         if (InBound(p8)){
             neighbors.Add(p8);
         }
@@ -257,17 +288,19 @@ public class Grid : MonoBehaviour{
     }
 
     private static void AddNode(Point location){
-        Debug.Log("attempted add node");
 
         MapNode newNode =
             EnvironmentPhysics.CreateMapNodeAt(
                 instance.NodeTo2DWorldCoord(location)
             );
         instance.nodes[location] = newNode;
+        //if(instance.nodes.Count > MAX_NODE_CACHE_SIZE){
+        //    RemoveNode();
+        //}
     }
 
     private static void BatchAddNodes(List<Point> locations){
-        Debug.Log("attempted add nodes");
+
         List<Vector2> worldLocations = new List<Vector2>();
         for(int i = 0; i < locations.Count; i++){
             worldLocations.Add(instance.NodeTo2DWorldCoord(locations[i]));
@@ -282,6 +315,23 @@ public class Grid : MonoBehaviour{
             instance.nodes[instance.WorldCoordToNode(current.GetLocation())] =
                     current;
         }
+        Pools.ListMapNodes = newNodes;
+        //for(int i = 0; i < instance.nodes.Count - MAX_NODE_CACHE_SIZE; i++){
+        //    RemoveNode();
+        //}
+    }
+
+    /*
+     * This can cause serious issues
+     *  if Unity one day becomes multithreaded
+     */    
+    private static void RemoveNode(){
+        MapNode removed = instance.nodes.PopFirst();
+        Pools.MapNode = removed;
+        //if (AllPool.MapNodes.IsPinned(removed))
+        //{
+        //    Debug.Log("WARNING: Mapnode that just got removed is pinned");
+        //}
     }
 
     void OnDrawGizmos(){

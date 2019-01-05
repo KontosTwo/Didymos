@@ -4,8 +4,8 @@ using UnityEngine;
 public struct Point
 {
 
-    public readonly int x;
-    public readonly int y;
+    public int x;
+    public int y;
     public Point(int x,int y){
 		this.x = x;
 		this.y = y;
@@ -13,7 +13,16 @@ public struct Point
 	public override string ToString(){
 		return x + " " + y;
 	}
-
+    public void Set(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+    public void Clear()
+    {
+        x = 0;
+        y = 0;
+    }
     public override bool Equals(object obj)
     {
         Point other = (Point)obj;

@@ -6,66 +6,94 @@ using System;
  * Source (Paraphrased)
  * http://gameprogrammingpatterns.com/object-pool.html
  */
-public class Pool<P> where P : Poolable<P>, new()
+public class Pool<P> where P : new()
 {
-    private P[] pool;
-    private P available;
+    private Queue<P> freeList;
+    private long total;
+    private HashSet<P> pinned;
+    private Queue<P> pinQueue;
 
-    private static readonly float EXP_INCREASE = 1.4f;
+
+    private static float EXP_INCREASE = 1.4f;
 
     public Pool(int initialSize){
-        pool = new P[initialSize];
-        for (int i = 0; i < pool.Length; i ++){
-            pool[i] = new P();
+        freeList = new Queue<P>(initialSize);
+        total = initialSize;
+        pinned = new HashSet<P>();
+        pinQueue = new Queue<P>();
+        for(int i = 0; i < initialSize; i++){
+            P newP = new P();
+            freeList.Enqueue(newP);
         }
-        for (int i = 0; i < pool.Length - 1; i++){
-            pool[i].SetNext(pool[i + 1]);
-        }
-        available = pool[0];
     }
+    /*
+     * This field is NOT thread safe!
+     */
+    private List<P> toBeRemoved;
 
     public P Get(){
-        if(available.GetNext() == null){
+        int pinQueueSize = pinQueue.Count;
+        for(int i = 0; i < pinQueueSize; i++){
+            P current = pinQueue.Dequeue();
+            if (pinned.Contains(current)){
+                pinQueue.Enqueue(current);
+            }
+            else{
+                freeList.Enqueue(current);
+            }
+        }
+        if (freeList.Count <= 1){
             Resize();
         }
-        P ret = available;
-        available = available.GetNext();
-        return ret;
+        return freeList.Dequeue();
     }
 
-    public void Recycle(P used){
-        used.SetNext(available);
-        available = used;
-    }
-
-    public int GetSize(){
-        return pool.Length;
-    }
-
-    private void Resize(){
-        P[] newPool = new P[(int)(pool.Length * EXP_INCREASE)];
-        for (int i = 0; i < pool.Length; i ++){
-            newPool[i] = pool[i];
+    public void Recycle(P obj)
+    {
+        if (pinned.Contains(obj)){
+            pinQueue.Enqueue(obj);
         }
-        for (int i = pool.Length; i < newPool.Length; i ++){
-            newPool[i] = new P();
+        else{
+            freeList.Enqueue(obj);
         }
-        available.SetNext(newPool[pool.Length]);
-        for (int i = pool.Length; i < newPool.Length - 1; i++){
-            newPool[i].SetNext(newPool[i + 1]);
+    }
+    /*
+     * The poolable object may have
+     * been readded to the free list,
+     * but it still might be in use.
+     * In that case, pinning prevents Get()
+     * from returning the pinned poolable object
+     */
+    public void Pin(P obj)
+    {
+        pinned.Add(obj);
+    }
+    public void Unpin(P obj)
+    {
+        pinned.Remove(obj);
+    }
+    public bool IsPinned(P obj)
+    {
+        return pinned.Contains(obj);
+    }
+    public long GetSize()
+    {
+        return total;
+    }
+
+    public override string ToString()
+    {
+        return "FreeCount: " + freeList.Count
+                +  " | PinCount: " + pinQueue.Count;
+    }
+
+    private void Resize()
+    {
+        long newTotal = (int)(total * EXP_INCREASE);
+        for (int i = 0; i < newTotal - total; i++){
+            P newP = new P();
+            freeList.Enqueue(newP);
         }
-        pool = newPool;
-    }
-}
-public abstract class Poolable<P>
-{
-    private P next;
-
-    public P GetNext(){
-        return next;
-    }
-
-    public void SetNext(P next){
-        this.next = next;
+        total = newTotal;
     }
 }

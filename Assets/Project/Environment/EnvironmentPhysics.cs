@@ -33,7 +33,7 @@ public class EnvironmentPhysics : MonoBehaviour {
 
     [SerializeField]
     private Grid grid;
-	private static readonly int TERRAINDISPARITYCONFIDENCEINTERVAL = 8	;
+	private static readonly int TERRAINDISPARITYCONFIDENCEINTERVAL = 4	;
 
 	void Awake(){
 		instance = this;
@@ -45,7 +45,7 @@ public class EnvironmentPhysics : MonoBehaviour {
 		
 	}
 
-	private struct IntersectionResult{
+	public struct IntersectionResult{
 		private Vector3 position;
 		private Obstacle obstacle;
 		public IntersectionResult(RaycastHit info){
@@ -289,8 +289,8 @@ public class EnvironmentPhysics : MonoBehaviour {
         bool heightSet = false;
         bool walkable = true;
         float speedModifier = 1;
-        List<Tuple<float, Obstacle>> layers = 
-            new List<Tuple<float, Obstacle>>();
+        List<IntersectionResult> layers =
+            new List<IntersectionResult>();
         ProcessIntersection onIntersect = (result => {
             if (!heightSet && !result.GetObstacle().CanPhaseThrough()){
                 height = result.GetPosition().y;
@@ -299,7 +299,10 @@ public class EnvironmentPhysics : MonoBehaviour {
             if (!result.GetObstacle().IsWalkable()){
                 walkable = false;
             }
-            layers.Add(new Tuple<float, Obstacle>(result.GetPosition().y, result.GetObstacle()));
+            layers.Add(new IntersectionResult(
+                result.GetPosition(),
+                result.GetObstacle()
+            ));
             speedModifier *= result.GetObstacle().GetSpeedModifier();
         });
         ShouldContinueRayCast continueCondition = (result => {
@@ -311,7 +314,16 @@ public class EnvironmentPhysics : MonoBehaviour {
             onIntersect,
             continueCondition
         );
-        return new MapNode(new Vector3(x, height, z), height, layers, walkable);
+
+        MapNode newMapNode = Pools.MapNode;
+        newMapNode.Set(
+            new Vector3(location.x, height, location.y),
+            height,
+            layers,
+            walkable
+        );
+
+        return newMapNode;
     }
 
     public static List<MapNode> CreateMapNodesAt(List<Vector2> locations){
@@ -347,7 +359,12 @@ public class EnvironmentPhysics : MonoBehaviour {
                 if (!r.GetObstacle().IsWalkable()){
                     result.walkable = false;
                 }
-                result.layers.Add(new Tuple<float, Obstacle>(r.GetPosition().y, r.GetObstacle()));
+                result.layers.Add(
+                    new IntersectionResult(
+                        r.GetPosition(),
+                        r.GetObstacle()
+                    )
+                );
 
                 result.speedModifier *= r.GetObstacle().GetSpeedModifier();
             });
@@ -373,13 +390,16 @@ public class EnvironmentPhysics : MonoBehaviour {
             ParallelIncrementalRaycastResult result = 
                 tuple.Item2;
             Vector2 location = tuple.Item1;
+            MapNode newMapNode = Pools.MapNode;
+            newMapNode.Set(
+                new Vector3(location.x, result.height, location.y),
+                result.height,
+                result.layers,
+                result.walkable
+            );
+
             mapNodes.Add(
-                new MapNode(
-                    new Vector3(location.x, result.height, location.y),
-                    result.height,
-                    result.layers,
-                    result.walkable
-                )
+                newMapNode
             );
         }
 
@@ -477,7 +497,7 @@ public class EnvironmentPhysics : MonoBehaviour {
         public float height;
         public bool walkable;
         public float speedModifier;
-        public List<Tuple<float, Obstacle>> layers;
+        public List<IntersectionResult> layers;
 
         public RaycastHit hit;
 
@@ -485,7 +505,7 @@ public class EnvironmentPhysics : MonoBehaviour {
 
         public ParallelIncrementalRaycastResult(){
             heightSet = false;
-            layers = new List<Tuple<float, Obstacle>>();
+            layers = new List<IntersectionResult>();
         }
     }
 
@@ -520,6 +540,10 @@ public class EnvironmentPhysics : MonoBehaviour {
     private delegate bool ShouldContinueRayCastFast(List<IntersectionResult> result);
     /*
      *  Cannot be used for vertical raycasts!
+     * 
+     * Also attempted to parallelize a portion of the
+     * code,which WILL ACTUALLY RESULT IN SLOWDOWN
+     * in the case that the enemy cannot see the humanoid
      */
     private static void IncrementalRaycastFast(
         Vector3 start,
@@ -550,9 +574,11 @@ public class EnvironmentPhysics : MonoBehaviour {
         }
         Profiler.EndSample();
         Profiler.BeginSample("Nodes in the way");
+        Profiler.BeginSample("Finding the nodes");
         List<MapNode> nodesInTheWay =
             instance.grid.GetMapNodesBetween(start2D,end2D);
-
+        Profiler.EndSample();
+        Profiler.BeginSample("Sorting the nodes");
         nodesInTheWay.Sort(
             (x, y) =>{
                 float xDistance = Vector2.Distance(
@@ -567,32 +593,34 @@ public class EnvironmentPhysics : MonoBehaviour {
             }
         );
         Profiler.EndSample();
+
+        Profiler.EndSample();
         Profiler.BeginSample("Calculations");
+        List<IntersectionResult> results = Pools.ListIntersectionResults;
+        List<IntersectionResult> tallEnough = Pools.ListIntersectionResults;
+
         for (int i = 0; i < nodesInTheWay.Count; i ++){
+            Profiler.BeginSample("Get Intersection Results");
             MapNode node = nodesInTheWay[i];
 
             var layers = node.GetLayers();
             Vector2 mapLocation = node.GetLocation().To2D();
 
-            List<IntersectionResult> results = new List<IntersectionResult>();
             for(int j = 0; j < layers.Count; j++){
                 var tuple = layers[j];
                 results.Add(
-                    new IntersectionResult(
-                        mapLocation.To3DWithY(tuple.Item1),
-                        tuple.Item2
-                    )
+                    tuple
                 );
             }
 
-            List<IntersectionResult> tallEnough =
-                new List<IntersectionResult>();
-
+            Profiler.EndSample();
+            Profiler.BeginSample("Height check");
             for(int j = 0; j < results.Count; j++){
                 IntersectionResult result = results[j];
+                Vector3 resultPosition = result.GetPosition();
                 float distanceFromHigher =
                         Vector2.Distance(
-                            result.GetPosition().To2D(), higher.To2D()
+                            resultPosition.To2D(), higher.To2D()
                         );
                 float heightAtLS = FindHeightAtLineSegment(
                     new Vector2(0, 0),
@@ -602,18 +630,25 @@ public class EnvironmentPhysics : MonoBehaviour {
                     ),
                     distanceFromHigher
                 );
-                if(result.GetPosition().y > heightAtLS){
+                if(resultPosition.y > heightAtLS){
                     tallEnough.Add(result);
                 }
             }
-
+            Profiler.EndSample();
+            Profiler.BeginSample("Lambdas");
             onIntersect(tallEnough);
+            Profiler.EndSample();
             if (!shouldContinue(tallEnough)){
                 break;
             }
+            results.Clear();
+            tallEnough.Clear();
         }
         Profiler.EndSample();
         Profiler.EndSample();
+        Pools.ListIntersectionResults = results;
+        Pools.ListMapNodes = nodesInTheWay;
+        Pools.ListIntersectionResults = tallEnough;
     }
 
     private static float FindHeightAtLineSegment(
