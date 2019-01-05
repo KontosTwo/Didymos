@@ -58,7 +58,9 @@ public class Grid : MonoBehaviour{
 
     public static MapNode GetMapNodeAt(Vector3 location){
         Point point = instance.WorldCoordToNode(location);
-        return instance.GetMapNodeAt(point);
+        MapNode node = instance.GetMapNodeAt(point);
+        Pools.Point = point;
+        return node;
     }
 
     public MapNode GetMapNodeAt(Point point){
@@ -79,11 +81,16 @@ public class Grid : MonoBehaviour{
 
     private static void AdjacencyMissResolve(Point location){
         List<Point> neighbors = instance.GetNeighbors(location);
-             
+
         List<Point> unInitializedNeighbours =
-            neighbors.FindAll(
-                p => instance.nodes[p] == null
-            ).ToList();
+            Pools.ListPoints;
+
+        for(int i = 0; i < neighbors.Count; i++){
+            Point current = neighbors[i];
+            if(instance.nodes[current] == null){
+                unInitializedNeighbours.Add(current);
+            }
+        }
         BatchAddNodes(unInitializedNeighbours);
         MapNode node = instance.nodes[location];
         neighbors = instance.GetNeighbors(location);
@@ -94,7 +101,11 @@ public class Grid : MonoBehaviour{
                 }
             ).ToList()
         );
+        Pools.FreeListPoints(neighbors);
+        Pools.FreeListPoints(unInitializedNeighbours);
+
         Pools.ListPoints = neighbors;
+        Pools.ListPoints = unInitializedNeighbours;
     }
 
     /*
@@ -105,6 +116,8 @@ public class Grid : MonoBehaviour{
         List<Point> points
      ){
         Profiler.BeginSample("GetBatchMapNodesAt");
+
+        List<Point> newlyCreated = Pools.ListPoints;
 
         List<Point> cacheHits = Pools.ListPoints;
         for(int i = 0; i < points.Count; i++){
@@ -132,8 +145,13 @@ public class Grid : MonoBehaviour{
                 );
 
             for (int j = 0; j < neighbours.Count; j++){
-                allNeededPoints.Add(neighbours[j]);
+                Point neighbor = neighbours[j];
+                allNeededPoints.Add(neighbor);
+                if (!points.Contains(neighbor)){
+                    newlyCreated.Add(neighbor);
+                }
             }
+            Pools.ListPoints = neighbours;
         }
 
         List<Point> allNeededPointsMisses = Pools.ListPoints;
@@ -155,11 +173,15 @@ public class Grid : MonoBehaviour{
             mapnodes.Add(instance.nodes[points[i]]);
         }
 
+
+
+        Pools.FreeListPoints(newlyCreated);
+
         Pools.HashSetPoints = allNeededPoints;
         Pools.ListPoints = cacheHits;
         Pools.ListPoints = cacheMisses;
         Pools.ListPoints = allNeededPointsMisses;
-
+        Pools.ListPoints = newlyCreated;
         return mapnodes;
     }
     public static List<MapNode> GetBatchMapNodeAt(List<Vector2> locations){
@@ -172,6 +194,8 @@ public class Grid : MonoBehaviour{
             points.Add(instance.WorldCoordToNode(current.To3D()));
         }
         List<MapNode> mapnodes = GetBatchMapNodesAt(points);
+        Pools.FreeListPoints(points);
+
         Pools.ListPoints = points;
         return mapnodes;
     }
@@ -206,7 +230,12 @@ public class Grid : MonoBehaviour{
     }
 
     public Point WorldCoordToNode(Vector3 worldCoord){
-        return new Point((int)(worldCoord.x / nodeSize - bottomLeftCorner.x), (int)(worldCoord.z / nodeSize - bottomLeftCorner.y));
+        Point node = Pools.Point;
+        node.Set(
+            (int)(worldCoord.x / nodeSize - bottomLeftCorner.x), 
+            (int)(worldCoord.z / nodeSize - bottomLeftCorner.y)
+        );
+        return node;
     }
 
     public Vector3 NodeToWorldCoord(Point point){
@@ -226,7 +255,9 @@ public class Grid : MonoBehaviour{
         List<Point> intersectingPoints = Bresenham.FindTiles(relativeStart, relativeEnd, nodeSize);
 
         List<MapNode> between = GetBatchMapNodesAt(intersectingPoints);
+        Pools.FreeListPoints(intersectingPoints);
         Pools.ListPoints = intersectingPoints;
+
         return between;
     }
 
@@ -301,7 +332,7 @@ public class Grid : MonoBehaviour{
 
     private static void BatchAddNodes(List<Point> locations){
 
-        List<Vector2> worldLocations = new List<Vector2>();
+        List<Vector2> worldLocations = Pools.ListVector2s;
         for(int i = 0; i < locations.Count; i++){
             worldLocations.Add(instance.NodeTo2DWorldCoord(locations[i]));
         }
@@ -316,9 +347,7 @@ public class Grid : MonoBehaviour{
                     current;
         }
         Pools.ListMapNodes = newNodes;
-        //for(int i = 0; i < instance.nodes.Count - MAX_NODE_CACHE_SIZE; i++){
-        //    RemoveNode();
-        //}
+        Pools.ListVector2s = worldLocations;
     }
 
     /*
@@ -328,10 +357,6 @@ public class Grid : MonoBehaviour{
     private static void RemoveNode(){
         MapNode removed = instance.nodes.PopFirst();
         Pools.MapNode = removed;
-        //if (AllPool.MapNodes.IsPinned(removed))
-        //{
-        //    Debug.Log("WARNING: Mapnode that just got removed is pinned");
-        //}
     }
 
     void OnDrawGizmos(){

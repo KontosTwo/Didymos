@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-
+/*
+ * If something wierd happens, blame
+ * the incorrect recycling of lists 
+ * and poolable objects
+ */
 public class Pools : MonoBehaviour {
     private static Pools instance;
 
@@ -56,6 +60,20 @@ public class Pools : MonoBehaviour {
             instance.listMapNodes.Recycle(value);
         }
     }
+    public static void FreeListPoints(List<Point> data)
+    {
+        for(int i = 0; i < data.Count; i++){
+            Point = data[i];
+        }
+    }
+    public static void FreeHashSetPoints(HashSet<Point> data)
+    {
+        IEnumerator<Point> enumerator = data.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            Point = enumerator.Current;
+        }
+    }
     public static List<Point> ListPoints
     {
         get
@@ -96,6 +114,35 @@ public class Pools : MonoBehaviour {
         set
         {
             instance.listIntersectionResults.Recycle(value);
+        }
+    }
+    public static List<Vector2> ListVector2s
+    {
+        get
+        {
+            List<Vector2> data =
+                instance.listVector2s.Get();
+            data.Clear();
+            return data;
+        }
+        set
+        {
+            instance.listVector2s.Recycle(value);
+        }
+    }
+
+    public static List<Vector3> ListVector3s
+    {
+        get
+        {
+            List<Vector3> data =
+                instance.listVector3s.Get();
+            data.Clear();
+            return data;
+        }
+        set
+        {
+            instance.listVector3s.Recycle(value);
         }
     }
     private void Awake() {

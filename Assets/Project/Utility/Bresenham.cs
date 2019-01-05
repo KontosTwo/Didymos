@@ -19,10 +19,15 @@ public static class Bresenham{
         float difX = end.x - start.x;
         float difY = end.y - start.y;
 
-        if (start.ToGridCoord(tileSize).Equals(end.ToGridCoord(tileSize))){
-            tiles.Add(start.ToGridCoord(tileSize));
+        Point startPoint = start.ToGridCoord(tileSize);
+        Point endPoint = end.ToGridCoord(tileSize);
+        if (startPoint.Equals(endPoint)){
+            tiles.Add(startPoint);
+            Pools.Point = endPoint;
             return tiles;
         }
+        Pools.Point = startPoint;
+        Pools.Point = endPoint;
 
         float dist = Mathf.Abs(difX) + Mathf.Abs(difY);
 
@@ -53,7 +58,12 @@ public static class Bresenham{
     }
 
     private static Point ToGridCoord(this Vector2 v, float tileSize){
-        return new Point((int)(v.x / tileSize), (int)(v.y / tileSize));
+        Point p = Pools.Point;
+        p.Set(
+            (int)(v.x / tileSize), 
+            (int)(v.y / tileSize)
+        );
+        return p;
     }
 }
 

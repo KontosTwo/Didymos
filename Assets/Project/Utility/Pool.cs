@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.Profiling;
 /*
  * Source (Paraphrased)
  * http://gameprogrammingpatterns.com/object-pool.html
  */
-public class Pool<P> where P : new()
+using UnityEngine.Profiling;
+public class Pool<P> where P : class,new()
 {
     private Queue<P> freeList;
     private long total;
     private HashSet<P> pinned;
     private Queue<P> pinQueue;
-
+    private HashSet<P> noDuplicates;
 
     private static float EXP_INCREASE = 1.4f;
 
@@ -25,6 +27,20 @@ public class Pool<P> where P : new()
             P newP = new P();
             freeList.Enqueue(newP);
         }
+        noDuplicates = new HashSet<P>(new NoDuplicateByObjectReference());
+    }
+
+    private class NoDuplicateByObjectReference : IEqualityComparer<P>
+    {
+        public bool Equals(P x, P y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(P obj)
+        {
+            return obj.GetHashCode();
+        }
     }
     /*
      * This field is NOT thread safe!
@@ -32,30 +48,36 @@ public class Pool<P> where P : new()
     private List<P> toBeRemoved;
 
     public P Get(){
-        int pinQueueSize = pinQueue.Count;
-        for(int i = 0; i < pinQueueSize; i++){
-            P current = pinQueue.Dequeue();
-            if (pinned.Contains(current)){
-                pinQueue.Enqueue(current);
-            }
-            else{
-                freeList.Enqueue(current);
-            }
-        }
+        //int pinQueueSize = pinQueue.Count;
+        //for(int i = 0; i < pinQueueSize; i++){
+        //    P current = pinQueue.Dequeue();
+        //    if (pinned.Contains(current)){
+        //        pinQueue.Enqueue(current);
+        //    }
+        //    else{
+        //        freeList.Enqueue(current);
+        //    }
+        //}
         if (freeList.Count <= 1){
             Resize();
         }
-        return freeList.Dequeue();
+        P taken = freeList.Dequeue();
+        noDuplicates.Remove(taken);
+        return taken;
     }
 
     public void Recycle(P obj)
     {
-        if (pinned.Contains(obj)){
-            pinQueue.Enqueue(obj);
+        //if (pinned.Contains(obj)){
+        //    pinQueue.Enqueue(obj);
+        //}
+        //else{
+            if (!noDuplicates.Contains(obj))
+            {
+                noDuplicates.Add(obj);
+                freeList.Enqueue(obj);
         }
-        else{
-            freeList.Enqueue(obj);
-        }
+        //}
     }
     /*
      * The poolable object may have
@@ -90,10 +112,14 @@ public class Pool<P> where P : new()
     private void Resize()
     {
         long newTotal = (int)(total * EXP_INCREASE);
+        Profiler.BeginSample("Resize pool");
         for (int i = 0; i < newTotal - total; i++){
             P newP = new P();
             freeList.Enqueue(newP);
+            noDuplicates.Add(newP);
         }
+        Debug.Log("RESIZING: " + freeList.Peek().GetType() + " " + (newTotal - total));
         total = newTotal;
+        Profiler.EndSample();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public struct Point
+public class Point
 {
 
     public int x;
@@ -10,7 +10,11 @@ public struct Point
 		this.x = x;
 		this.y = y;
 	}
-	public override string ToString(){
+    public Point()
+    {
+
+    }
+    public override string ToString(){
 		return x + " " + y;
 	}
     public void Set(int x, int y)

@@ -124,6 +124,7 @@ public class PathfinderHelper :MonoBehaviour{
             activeNodes.TryGetValue(currentPoint, out currentNode);
             if (currentNode != null){
                 neighbors.Add(currentNode);
+                Pools.Point = currentPoint;
             }
             else{
                 unActiveNeighbors.Add(currentPoint);
@@ -134,6 +135,9 @@ public class PathfinderHelper :MonoBehaviour{
                 neighbors.Add(currentNode);
             }
         }
+
+        Pools.ListPoints = neighborPoints;
+        Pools.ListPoints = unActiveNeighbors;
         
         return neighbors;
     }

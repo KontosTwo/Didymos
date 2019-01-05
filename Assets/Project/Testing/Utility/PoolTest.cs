@@ -88,8 +88,11 @@ public class PoolTest {
     public void PoolRecyclesMultipleTrials()
     {
         var obj1 = pool.Get();
+        obj1.Set(1);
         var obj2 = pool.Get();
+        obj2.Set(2);
         var obj3 = pool.Get();
+        obj3.Set(3);
         pool.Recycle(obj3);
         pool.Recycle(obj1);
         pool.Recycle(obj2);
@@ -98,9 +101,9 @@ public class PoolTest {
         var obj5 = pool.Get();
         var obj6 = pool.Get();
 
-        pool.Recycle(obj3);
-        pool.Recycle(obj1);
-        pool.Recycle(obj2);
+        pool.Recycle(obj4);
+        pool.Recycle(obj6);
+        pool.Recycle(obj5);
 
         var obj7 = pool.Get();
         var obj8 = pool.Get();
@@ -110,6 +113,28 @@ public class PoolTest {
 
     }
 
+    [Test]
+    public void Pool_RecycleNoDuplicate()
+    {
+        var obj1 = pool.Get();
+        obj1.Set(1);
+        var obj2 = pool.Get();
+        obj2.Set(2);
+        var obj3 = obj2;
+        obj3.Set(3);
+        pool.Recycle(obj3);
+        pool.Recycle(obj1);
+        pool.Recycle(obj2);
+
+        var obj4 = pool.Get();
+        var obj5 = pool.Get();
+        var obj6 = pool.Get();
+        var obj7 = pool.Get();
+
+        Assert.AreEqual(5, pool.GetSize());
+
+    }
+    /*
     [Test]
     public void Pool_PinsOnlyElement()
     {
@@ -148,14 +173,24 @@ public class PoolTest {
 
         Assert.AreSame(obj1, obj5);
     }
-
+    */
     private class TestPoolableObject
     {
-        private int lol = 1;
+        private int lol = 0;
 
         public TestPoolableObject()
         {
 
+        }
+
+        public void Set(int i)
+        {
+            lol = i;
+        }
+
+        public override string ToString()
+        {
+            return "" + lol;
         }
     }
 }
