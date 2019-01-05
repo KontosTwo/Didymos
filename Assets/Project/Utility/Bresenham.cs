@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections;
 using UnityEngine.Profiling;
 public static class Bresenham{
     /*
@@ -14,7 +14,6 @@ public static class Bresenham{
         Vector2 end,
         float tileSize
     ){
-
         List<Point> tiles = Pools.ListPoints;
         float difX = end.x - start.x;
         float difY = end.y - start.y;
@@ -39,21 +38,34 @@ public static class Bresenham{
 
             x = (int)Mathf.Round(Mathf.Floor(start.x + dx * i));
             y = (int)Mathf.Round(Mathf.Floor(start.y + dy * i));
-            tiles.Add(new Point(x, y));
+            Point newPoint = Pools.Point;
+            newPoint.Set(x, y);
 
+            tiles.Add(newPoint);
         }
         HashSet<Point> noDuplicated = Pools.HashSetPoints;
+        List<Point> remaining = Pools.ListPoints;
         for(int i = 0; i < tiles.Count; i ++){
-            noDuplicated.Add(tiles[i]);
+            Point tile = tiles[i];
+            if (!noDuplicated.Contains(tile)){
+                noDuplicated.Add(tile);
+            }
+            else{
+                remaining.Add(tile);
+            }
         }
         List<Point> noDuplicatedList = Pools.ListPoints;
-        IEnumerator<Point> noDuplicatedIterator = 
+        HashSet<Point>.Enumerator noDuplicatedIterator = 
             noDuplicated.GetEnumerator();
         while (noDuplicatedIterator.MoveNext()){
             noDuplicatedList.Add(noDuplicatedIterator.Current);
         }
+        // Change this
+        Pools.FreeListPoints(remaining);
+
         Pools.HashSetPoints = noDuplicated;
         Pools.ListPoints = tiles;
+        Pools.ListPoints = remaining;
         return noDuplicatedList;
     }
 

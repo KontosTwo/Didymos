@@ -151,7 +151,7 @@ public class Pools : MonoBehaviour {
         listPoints = new Pool<List<Point>>(30);
         listIntersectionResults = new Pool<List<EnvironmentPhysics.IntersectionResult>>(30);
         hashSetPoints = new Pool<HashSet<Point>>(30);
-        points = new Pool<Point>(1000);
+        points = new Pool<Point>(100);
         listVector2s = new Pool<List<Vector2>>(100);
         listVector3s = new Pool<List<Vector3>>(100);
         instance = this; 

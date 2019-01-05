@@ -111,13 +111,12 @@ public class PathfinderHelper :MonoBehaviour{
 
     public static List<PathfinderNode> GetNeighbors(
         PathfinderNode node, 
-        Dictionary<Point, 
-        PathfinderNode> activeNodes,
+        Dictionary<Point, PathfinderNode> activeNodes,
         PathfinderNodeCreator nodeCreator
     ){
         List<PathfinderNode> neighbors = new List<PathfinderNode>();
         List<Point> neighborPoints = instance.grid.GetNeighbors(node.GetGridCoord());
-        List<Point> unActiveNeighbors = new List<Point>();
+        List<Point> unActiveNeighbors = Pools.ListPoints;
         for (int i = 0; i < neighborPoints.Count; i++){
             Point currentPoint = neighborPoints[i];
             PathfinderNode currentNode = null;

@@ -12,22 +12,22 @@ public class Pool<P> where P : class,new()
 {
     private Queue<P> freeList;
     private long total;
-    private HashSet<P> pinned;
-    private Queue<P> pinQueue;
-    private HashSet<P> noDuplicates;
+    //private HashSet<P> pinned;
+    //private Queue<P> pinQueue;
+    //private HashSet<P> noDuplicates;
 
     private static float EXP_INCREASE = 1.4f;
 
     public Pool(int initialSize){
         freeList = new Queue<P>(initialSize);
         total = initialSize;
-        pinned = new HashSet<P>();
-        pinQueue = new Queue<P>();
+        //pinned = new HashSet<P>();
+        //pinQueue = new Queue<P>();
         for(int i = 0; i < initialSize; i++){
             P newP = new P();
             freeList.Enqueue(newP);
         }
-        noDuplicates = new HashSet<P>(new NoDuplicateByObjectReference());
+        //noDuplicates = new HashSet<P>(new NoDuplicateByObjectReference());
     }
 
     private class NoDuplicateByObjectReference : IEqualityComparer<P>
@@ -62,7 +62,7 @@ public class Pool<P> where P : class,new()
             Resize();
         }
         P taken = freeList.Dequeue();
-        noDuplicates.Remove(taken);
+        //noDuplicates.Remove(taken);
         return taken;
     }
 
@@ -72,11 +72,11 @@ public class Pool<P> where P : class,new()
         //    pinQueue.Enqueue(obj);
         //}
         //else{
-            if (!noDuplicates.Contains(obj))
-            {
-                noDuplicates.Add(obj);
+            //if (!noDuplicates.Contains(obj))
+           // {
+               // noDuplicates.Add(obj);
                 freeList.Enqueue(obj);
-        }
+        //}
         //}
     }
     /*
@@ -88,15 +88,16 @@ public class Pool<P> where P : class,new()
      */
     public void Pin(P obj)
     {
-        pinned.Add(obj);
+        //pinned.Add(obj);
     }
     public void Unpin(P obj)
     {
-        pinned.Remove(obj);
+        //pinned.Remove(obj);
     }
     public bool IsPinned(P obj)
     {
-        return pinned.Contains(obj);
+        //return pinned.Contains(obj);
+        return false;
     }
     public long GetSize()
     {
@@ -105,8 +106,8 @@ public class Pool<P> where P : class,new()
 
     public override string ToString()
     {
-        return "FreeCount: " + freeList.Count
-                +  " | PinCount: " + pinQueue.Count;
+        return "FreeCount: " + freeList.Count;
+                //+  " | PinCount: " + pinQueue.Count;
     }
 
     private void Resize()
@@ -116,7 +117,7 @@ public class Pool<P> where P : class,new()
         for (int i = 0; i < newTotal - total; i++){
             P newP = new P();
             freeList.Enqueue(newP);
-            noDuplicates.Add(newP);
+            //noDuplicates.Add(newP);
         }
         Debug.Log("RESIZING: " + freeList.Peek().GetType() + " " + (newTotal - total));
         total = newTotal;

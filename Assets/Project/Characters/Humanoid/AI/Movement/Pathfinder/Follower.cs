@@ -24,7 +24,7 @@ public class Follower : MonoBehaviour {
 
 	void Start() {
         watch = new Stopwatch();
-		//StartCoroutine (UpdatePath ());
+		StartCoroutine (UpdatePath ());
 	}
 
 	IEnumerator UpdatePath() {

@@ -47,7 +47,7 @@ public class MapNode {
         this.height = 0;
         terrainIsWalkable = true;
         isCoverNode = false;
-        this.location = new Vector3();
+        this.location = new Vector3(0,0,0);
         neighboursChecked = false;
         this.layers = null;
     }
@@ -105,6 +105,11 @@ public class MapNode {
 
 
     private bool LowerThan(MapNode other){
+        if(other == null)
+        {
+            Debug.Log(location);
+            DrawGizmo.AddGizmo(Color.cyan, "LOOK HERE", GetLocation());
+        }
         return other.height - this.height
             > NEGLIGIBLE_COVER_THRESHOLD;
     }

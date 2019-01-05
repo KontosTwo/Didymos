@@ -7,7 +7,7 @@ using UnityEngine.AI;
 using Unity.Jobs;
 using System;
 using Unity.Collections;
-using UnityEngine.Profiling;
+//using UnityEngine.Profiling;
 
 /*
  * To do: shorten projectil length. Even though a projectile has a start
@@ -198,31 +198,31 @@ public class EnvironmentPhysics : MonoBehaviour {
 	}
 
 	public static bool ProjectileCanPassThrough(Projectile projectile,Vector3 start, Vector3 target){
-		//ProcessIntersection onIntersect = (result => {
-		//	projectile.SlowedBy(result.GetObstacle());
+		ProcessIntersection onIntersect = (result => {
+			projectile.SlowedBy(result.GetObstacle());
 
 
-		//});
-		//ShouldContinueRayCast continueCondition = (result => {
-		//	return projectile.IsStillActive();
-		//});
-		//IncrementalRaycast (start, target, onIntersect,continueCondition);
-		//bool passedThrough = projectile.IsStillActive ();
-		//projectile.ResetStrength ();
-		//return passedThrough;
-         ProcessIntersectionFast onIntersect = (result => {
-            for(int i = 0; i <  result.Count; i++) {
-                 var r = result[i];
-                 projectile.SlowedBy(r.GetObstacle());
-            }
-        });
-        ShouldContinueRayCastFast continueCondition = (result => {
-            return projectile.IsStillActive();
-        });
-        IncrementalRaycastFast (start, target, onIntersect,continueCondition);
-        bool passedThrough = projectile.IsStillActive ();
-        projectile.ResetStrength ();
-        return passedThrough;
+		});
+		ShouldContinueRayCast continueCondition = (result => {
+			return projectile.IsStillActive();
+		});
+		IncrementalRaycast (start, target, onIntersect,continueCondition);
+		bool passedThrough = projectile.IsStillActive ();
+		projectile.ResetStrength ();
+		return passedThrough;
+        // ProcessIntersectionFast onIntersect = (result => {
+        //    for(int i = 0; i <  result.Count; i++) {
+        //         var r = result[i];
+        //         projectile.SlowedBy(r.GetObstacle());
+        //    }
+        //});
+        //ShouldContinueRayCastFast continueCondition = (result => {
+        //    return projectile.IsStillActive();
+        //});
+        //IncrementalRaycastFast (start, target, onIntersect,continueCondition);
+        //bool passedThrough = projectile.IsStillActive ();
+        //projectile.ResetStrength ();
+        //return passedThrough;
 
     }
 
@@ -551,8 +551,7 @@ public class EnvironmentPhysics : MonoBehaviour {
         ProcessIntersectionFast onIntersect,
         ShouldContinueRayCastFast shouldContinue
     ){
-        Profiler.BeginSample("IncrementalRaycastFast");
-        Profiler.BeginSample("Preliminary");
+
         Vector2 start2D = start.To2D();
         Vector2 end2D = end.To2D();
 
@@ -572,13 +571,10 @@ public class EnvironmentPhysics : MonoBehaviour {
             higher = end;
             lower = start;
         }
-        Profiler.EndSample();
-        Profiler.BeginSample("Nodes in the way");
-        Profiler.BeginSample("Finding the nodes");
+
         List<MapNode> nodesInTheWay =
             instance.grid.GetMapNodesBetween(start2D,end2D);
-        Profiler.EndSample();
-        Profiler.BeginSample("Sorting the nodes");
+
         nodesInTheWay.Sort(
             (x, y) =>{
                 float xDistance = Vector2.Distance(
@@ -592,15 +588,11 @@ public class EnvironmentPhysics : MonoBehaviour {
                 return xDistance.CompareTo(yDistance);
             }
         );
-        Profiler.EndSample();
 
-        Profiler.EndSample();
-        Profiler.BeginSample("Calculations");
         List<IntersectionResult> results = Pools.ListIntersectionResults;
         List<IntersectionResult> tallEnough = Pools.ListIntersectionResults;
 
         for (int i = 0; i < nodesInTheWay.Count; i ++){
-            Profiler.BeginSample("Get Intersection Results");
             MapNode node = nodesInTheWay[i];
 
             var layers = node.GetLayers();
@@ -613,8 +605,7 @@ public class EnvironmentPhysics : MonoBehaviour {
                 );
             }
 
-            Profiler.EndSample();
-            Profiler.BeginSample("Height check");
+           
             for(int j = 0; j < results.Count; j++){
                 IntersectionResult result = results[j];
                 Vector3 resultPosition = result.GetPosition();
@@ -634,18 +625,13 @@ public class EnvironmentPhysics : MonoBehaviour {
                     tallEnough.Add(result);
                 }
             }
-            Profiler.EndSample();
-            Profiler.BeginSample("Lambdas");
             onIntersect(tallEnough);
-            Profiler.EndSample();
             if (!shouldContinue(tallEnough)){
                 break;
             }
             results.Clear();
             tallEnough.Clear();
         }
-        Profiler.EndSample();
-        Profiler.EndSample();
         Pools.ListIntersectionResults = results;
         Pools.ListMapNodes = nodesInTheWay;
         Pools.ListIntersectionResults = tallEnough;

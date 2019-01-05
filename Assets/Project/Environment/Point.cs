@@ -22,10 +22,15 @@ public class Point
         this.x = x;
         this.y = y;
     }
+    /*
+     * If a negative coord shows
+     * up then a point was recycled
+     * before it was done
+     */
     public void Clear()
     {
-        x = 0;
-        y = 0;
+        x = -999;
+        y = -999;
     }
     public override bool Equals(object obj)
     {

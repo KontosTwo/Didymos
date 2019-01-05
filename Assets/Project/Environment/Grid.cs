@@ -26,7 +26,7 @@ public class Grid : MonoBehaviour{
 
     private static Grid instance;
 
-    private static readonly int MAX_NODE_CACHE_SIZE = 10;
+    private static readonly int MAX_NODE_CACHE_SIZE = 10000;
 
     void Awake(){
         Vector3 bottomLeftCorner3d = mapbounds.GetBottomLeftCorner();
@@ -84,26 +84,28 @@ public class Grid : MonoBehaviour{
 
         List<Point> unInitializedNeighbours =
             Pools.ListPoints;
-
         for(int i = 0; i < neighbors.Count; i++){
             Point current = neighbors[i];
-            if(instance.nodes[current] == null){
+
+            if (instance.nodes[current] == null){
                 unInitializedNeighbours.Add(current);
             }
         }
         BatchAddNodes(unInitializedNeighbours);
         MapNode node = instance.nodes[location];
         neighbors = instance.GetNeighbors(location);
+        List<MapNode> adjacentMapNodes = Pools.ListMapNodes;
+        for(int i = 0; i < neighbors.Count; i++){
+            adjacentMapNodes.Add(instance.nodes[neighbors[i]]);
+        }
+
         node.CalculateAdjancencyData(
-            neighbors.Select(
-                n => {
-                    return instance.nodes[n];
-                }
-            ).ToList()
+            adjacentMapNodes
         );
         Pools.FreeListPoints(neighbors);
         Pools.FreeListPoints(unInitializedNeighbours);
 
+        Pools.ListMapNodes = adjacentMapNodes;
         Pools.ListPoints = neighbors;
         Pools.ListPoints = unInitializedNeighbours;
     }
@@ -115,8 +117,6 @@ public class Grid : MonoBehaviour{
      public static List<MapNode> GetBatchMapNodesAt(
         List<Point> points
      ){
-        Profiler.BeginSample("GetBatchMapNodesAt");
-
         List<Point> newlyCreated = Pools.ListPoints;
 
         List<Point> cacheHits = Pools.ListPoints;
@@ -155,7 +155,7 @@ public class Grid : MonoBehaviour{
         }
 
         List<Point> allNeededPointsMisses = Pools.ListPoints;
-        IEnumerator<Point> allNeededPointsEnum =
+        HashSet<Point>.Enumerator allNeededPointsEnum =
             allNeededPoints.GetEnumerator();
         while (allNeededPointsEnum.MoveNext()){
             Point current = allNeededPointsEnum.Current;
@@ -166,7 +166,6 @@ public class Grid : MonoBehaviour{
 
         BatchNodesMissResolve(allNeededPointsMisses);
         BatchAdjacencyMissResolve(cacheMisses);
-        Profiler.EndSample();
 
         List<MapNode> mapnodes = Pools.ListMapNodes;
         for(int i = 0; i < points.Count; i++){
@@ -239,6 +238,7 @@ public class Grid : MonoBehaviour{
     }
 
     public Vector3 NodeToWorldCoord(Point point){
+
         return new Vector3(
             (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
             , nodes[point].GetHeight()
@@ -251,13 +251,11 @@ public class Grid : MonoBehaviour{
     ) {
         Vector2 relativeStart = start - bottomLeftCorner;
         Vector2 relativeEnd = end - bottomLeftCorner;
-
         List<Point> intersectingPoints = Bresenham.FindTiles(relativeStart, relativeEnd, nodeSize);
 
         List<MapNode> between = GetBatchMapNodesAt(intersectingPoints);
         Pools.FreeListPoints(intersectingPoints);
         Pools.ListPoints = intersectingPoints;
-
         return between;
     }
 
@@ -297,9 +295,11 @@ public class Grid : MonoBehaviour{
         }
         Point p7 = Pools.Point;
         p7.Set(point.x + 1, point.y );
+
         if (InBound(p7)){
             neighbors.Add(p7);
         }
+
         Point p8 = Pools.Point;
         p8.Set(point.x, point.y + 1);
         if (InBound(p8)){
@@ -362,9 +362,18 @@ public class Grid : MonoBehaviour{
     void OnDrawGizmos(){
         if (Application.isPlaying){
             foreach (var pair in nodes){
+                Point point = pair.Value.Item2;
                 MapNode node = pair.Value.Item1;
-                Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
-                Gizmos.DrawCube(NodeToWorldCoord(pair.Value.Item2), Vector3.one * (nodeSize-.1f));
+                if (node == null)
+                {
+                    Debug.Log("null mapnode!");
+                }
+                if (point == null)
+                {
+                    Debug.Log("null point!");
+                }
+                //Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
+                //Gizmos.DrawCube(NodeToWorldCoord(pair.Value.Item2), Vector3.one * (nodeSize-.1f));
             }
         }
 
