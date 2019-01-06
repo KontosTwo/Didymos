@@ -22,14 +22,14 @@ public class Pools : MonoBehaviour {
 
     private void Awake()
     {
-        listMapNodes = new Pool<List<MapNode>>(30);
-        mapNodes = new Pool<MapNode>(1000);
-        listPoints = new Pool<List<Point>>(30);
-        listIntersectionResults = new Pool<List<EnvironmentPhysics.IntersectionResult>>(30);
-        hashSetPoints = new Pool<HashSet<Point>>(30);
-        points = new Pool<Point>(5000);
-        listVector2s = new Pool<List<Vector2>>(100);
-        listVector3s = new Pool<List<Vector3>>(100);
+        listMapNodes = new Pool<List<MapNode>>(100,1.4f);
+        mapNodes = new Pool<MapNode>(1000,1.2f);
+        listPoints = new Pool<List<Point>>(100,1.1f);
+        listIntersectionResults = new Pool<List<EnvironmentPhysics.IntersectionResult>>(30,1.3f);
+        hashSetPoints = new Pool<HashSet<Point>>(10,1.5f);
+        points = new Pool<Point>(10000,1.1f);
+        listVector2s = new Pool<List<Vector2>>(10,1.5f);
+        listVector3s = new Pool<List<Vector3>>(10,1.5f);
         instance = this;
     }
     public static MapNode MapNode
@@ -55,7 +55,14 @@ public class Pools : MonoBehaviour {
         }
         set
         {
-            instance.points.Recycle(value);
+            if(value.Equals(new Point(44, 58)))
+            {
+                Debug.Log("Recycling target!");
+            }
+            //if (!Grid.PointInUse(value))
+            {
+                instance.points.Recycle(value);
+            }
         }
     }
     public static List<MapNode> ListMapNodes

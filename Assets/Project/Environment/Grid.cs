@@ -58,8 +58,8 @@ public class Grid : MonoBehaviour{
         }
     }
 
-    public bool PointInUse(Point p){
-        return pointsInUse.Contains(p);
+    public static bool PointInUse(Point p){
+        return instance.pointsInUse.Contains(p);
     }
 
     public static MapNode GetMapNodeAt(Vector3 location){
@@ -179,8 +179,6 @@ public class Grid : MonoBehaviour{
             mapnodes.Add(instance.nodes[points[i]]);
         }
 
-
-
         Pools.FreeListPoints(newlyCreated);
 
         Pools.HashSetPoints = allNeededPoints;
@@ -243,7 +241,9 @@ public class Grid : MonoBehaviour{
         );
         return node;
     }
-
+    /*
+     * Assumes the mapnode exists
+     */
     public Vector3 NodeToWorldCoord(Point point){
         if(nodes[point] == null)
         {
@@ -332,8 +332,7 @@ public class Grid : MonoBehaviour{
     }
 
     private static void AddNode(Point location){
-        if(location.Equals(new Point(44, 58)))
-        {
+        if(location.Equals(new Point(44, 58))){
             Debug.Log("44,58 is added");
         }
         MapNode newNode =
@@ -398,7 +397,7 @@ public class Grid : MonoBehaviour{
                 {
                     Debug.Log("null point!");
                 }
-                Gizmos.color = (node.TerrainIsWalkable()) ? Color.white : Color.red;
+                Gizmos.color = (node.TerrainIsWalkable()) ? Color.green : Color.red;
                 Gizmos.DrawCube(NodeToWorldCoord(pair.Value.Item2), Vector3.one * (nodeSize-.1f));
             }
         }
@@ -410,6 +409,7 @@ public class Grid : MonoBehaviour{
         public bool Equals(Point x, Point y)
         {
             return object.ReferenceEquals(x, y);
+            //return object.ReferenceEquals(x, y);
         }
 
         public int GetHashCode(Point obj)

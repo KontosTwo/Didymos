@@ -35,6 +35,8 @@ public class Follower : MonoBehaviour {
     {
         if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
         {
+            UnityEngine.Debug.Log("Path start");
+
             PathResult result = Pathfinder.FindPath(
                new PathRequest(
                    transform.position,
@@ -56,6 +58,8 @@ public class Follower : MonoBehaviour {
                 //watch = new Stopwatch();
             }
             targetPosOld = target.position;
+            UnityEngine.Debug.Log("Path end");
+
             //watch.Start();
         }
     }

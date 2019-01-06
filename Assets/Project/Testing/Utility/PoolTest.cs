@@ -8,7 +8,7 @@ public class PoolTest {
 
     [SetUp]
     public void SetUp(){
-        pool = new Pool<TestPoolableObject>(3);
+        pool = new Pool<TestPoolableObject>(3,1.4f);
     }
 
     [Test]

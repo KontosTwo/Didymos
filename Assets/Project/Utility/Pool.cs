@@ -16,9 +16,9 @@ public class Pool<P> where P : class,new()
     //private Queue<P> pinQueue;
     //private HashSet<P> noDuplicates;
 
-    private static float EXP_INCREASE = 1.4f;
+    private float expIncrease = 1.4f;
 
-    public Pool(int initialSize){
+    public Pool(int initialSize,float expIncrease){
         freeList = new Queue<P>(initialSize);
         total = initialSize;
         //pinned = new HashSet<P>();
@@ -26,6 +26,11 @@ public class Pool<P> where P : class,new()
         for(int i = 0; i < initialSize; i++){
             P newP = new P();
             freeList.Enqueue(newP);
+        }
+        this.expIncrease = expIncrease;
+        if((int)(initialSize * (expIncrease - 1)) < 1)
+        {
+            Debug.Log("WARNING, pool will never grow");
         }
         //noDuplicates = new HashSet<P>(new NoDuplicateByObjectReference());
     }
@@ -112,7 +117,7 @@ public class Pool<P> where P : class,new()
 
     private void Resize()
     {
-        long newTotal = (int)(total * EXP_INCREASE);
+        long newTotal = (int)(total * expIncrease);
         Profiler.BeginSample("Resize pool");
         for (int i = 0; i < newTotal - total; i++){
             P newP = new P();

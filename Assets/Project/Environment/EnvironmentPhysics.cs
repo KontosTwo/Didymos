@@ -85,25 +85,43 @@ public class EnvironmentPhysics : MonoBehaviour {
 
 
     public static bool LineOfSightToVantagePointExists(int visionSharpness,Vector3 start,Vector3 target){
-		bool uninterrupted = true;
-		int clarityLeft = visionSharpness;
-		ProcessIntersectionFast onIntersect = (result => {
-            for(int i = 0; i < result.Count; i ++){
-                IntersectionResult r = result[i];
-                clarityLeft -= r.GetObstacle().GetTransparency();
-            }
-            if (clarityLeft <= 0){
-				uninterrupted = false;
-			}
-		});
-		ShouldContinueRayCastFast continueCondition = (result => {
-			return clarityLeft > 0;
-		});
+        //bool uninterrupted = true;
+        //int clarityLeft = visionSharpness;
+        //ProcessIntersectionFast onIntersect = (result => {
+        //          for(int i = 0; i < result.Count; i ++){
+        //              IntersectionResult r = result[i];
+        //              clarityLeft -= r.GetObstacle().GetTransparency();
+        //          }
+        //          if (clarityLeft <= 0){
+        //		uninterrupted = false;
+        //	}
+        //});
+        //ShouldContinueRayCastFast continueCondition = (result => {
+        //	return clarityLeft > 0;
+        //});
 
-        IncrementalRaycastFast(start, target, onIntersect,continueCondition);
+        //IncrementalRaycastFast(start, target, onIntersect,continueCondition);
+
+        //return uninterrupted;
+        bool uninterrupted = true;
+        int clarityLeft = visionSharpness;
+        ProcessIntersection onIntersect = (result => {
+
+                clarityLeft -= result.GetObstacle().GetTransparency();
+
+            if (clarityLeft <= 0)
+            {
+                uninterrupted = false;
+            }
+        });
+        ShouldContinueRayCast continueCondition = (result => {
+            return clarityLeft > 0;
+        });
+
+        IncrementalRaycast(start, target, onIntersect, continueCondition);
 
         return uninterrupted;
-	}
+    }
 
 	public static bool LineOfSightToGroundExists(int visionSharpness,Vector3 start,Vector3 target){
 		/* To avoid floating point errors and hitting the terrain,

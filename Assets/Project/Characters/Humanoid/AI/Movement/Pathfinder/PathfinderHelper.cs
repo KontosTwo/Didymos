@@ -62,7 +62,10 @@ public class PathfinderHelper :MonoBehaviour{
                 endPoint,
                 instance.grid.GetMapNodeAt(endPoint)
             );
-
+        /*
+         * If startnode and targetnode are the same
+         * it causes a heap error        
+         */
         if (startNode.IsWalkable() && targetNode.IsWalkable()){
 
 
@@ -75,10 +78,11 @@ public class PathfinderHelper :MonoBehaviour{
 
                 instance.closedSet.Add(currentNode);
 
-                /*if (currentNode == targetNode){
+
+                if (currentNode == targetNode){
                     pathSuccess = true;
                     break;
-                }*/
+                }
                 if (instance.openSet.Contains(targetNode))
                 {
                     pathSuccess = true;
@@ -101,9 +105,10 @@ public class PathfinderHelper :MonoBehaviour{
             waypoints = RetracePath(startNode, targetNode);
             pathSuccess = waypoints.Length > 0;
         }
+
         List<Point> recycledPoints = Pools.ListPoints;
-        recycledPoints.Add(startPoint);
-        recycledPoints.Add(endPoint);
+        //recycledPoints.Add(startPoint);
+        //recycledPoints.Add(endPoint);
         Dictionary<Point,PathfinderNode>.Enumerator enumerator = 
             instance.activeNodes.GetEnumerator();
         while (enumerator.MoveNext()){
@@ -111,26 +116,18 @@ public class PathfinderHelper :MonoBehaviour{
             Point p = current.Key;
             recycledPoints.Add(p);
         }
-        //HashSet<PathfinderNode>.Enumerator enumerator2 =
-        //    instance.closedSet.GetEnumerator();
-        //while (enumerator2.MoveNext()){
-        //    var current = enumerator2.Current;
-        //    Point p = current.GetGridCoord();
-        //    recycledPoints.Add(p);
-        //}
-
-        for(int i = 0; i < recycledPoints.Count; i++)
-        {
+        for(int i = 0; i < recycledPoints.Count; i++){
             Point current = recycledPoints[i];
-            if (!instance.grid.PointInUse(current))
+            if (!Grid.PointInUse(current))
             {
                 Pools.Point = current;
             }
+
         }
 
         Pools.ListPoints = recycledPoints;
         PathfinderVisualizer.Visualize();
-
+        //Debug.Log("path end");
         return new PathResult(
             waypoints,
             pathSuccess
@@ -161,9 +158,14 @@ public class PathfinderHelper :MonoBehaviour{
             // current node is already active
             if (currentNode != null){
                 neighbors.Add(currentNode);
-                Pools.Point = currentPoint;
-            // current node is not active
-            }else{
+                if (!Grid.PointInUse(currentPoint))
+                {
+                    Pools.Point = currentPoint;
+
+                }
+                // current node is not active
+            }
+            else{
                 unActiveNeighbors.Add(currentPoint);
                 currentNode = nodeCreator.CreateNode(
                     currentPoint, instance.grid.GetMapNodeAt(currentPoint)

@@ -97,11 +97,7 @@ public class CostCalculatorHelper {
 
         }
 
-        //return totalDisparity;
-        return new List<TerrainDisparity>()
-        {
-            new TerrainDisparity()
-        };
+        return totalDisparity;
     }
 
     private class ListHumanoidVantageComparer : IEqualityComparer<List<HumanoidVantage>>
