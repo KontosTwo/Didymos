@@ -129,41 +129,41 @@ public class EnvironmentPhysics : MonoBehaviour {
 
 
     public static bool LineOfSightToVantagePointExists(int visionSharpness, Vector3 start, Vector3 target) {
-        Profiler.BeginSample("Fast");
-        bool uninterrupted = true;
-        int clarityLeft = visionSharpness;
-        ProcessIntersectionFast onIntersect = (result => {
-            for (int i = 0; i < result.Count; i++) {
-                IntersectionResult r = result[i];
-                clarityLeft -= r.GetObstacle().GetTransparency();
-            }
-            if (clarityLeft <= 0) {
-                uninterrupted = false;
-            }
-        });
-        ShouldContinueRayCastFast continueCondition = (result => {
-            return clarityLeft > 0;
-        });
-        IncrementalRaycastFast(start, target, onIntersect, continueCondition);
-        Profiler.EndSample();
+        //Profiler.BeginSample("Fast");
+        //bool uninterrupted = true;
+        //int clarityLeft = visionSharpness;
+        //ProcessIntersectionFast onIntersect = (result => {
+        //    for (int i = 0; i < result.Count; i++) {
+        //        IntersectionResult r = result[i];
+        //        clarityLeft -= r.GetObstacle().GetTransparency();
+        //    }
+        //    if (clarityLeft <= 0) {
+        //        uninterrupted = false;
+        //    }
+        //});
+        //ShouldContinueRayCastFast continueCondition = (result => {
+        //    return clarityLeft > 0;
+        //});
+        //IncrementalRaycastFast(start, target, onIntersect, continueCondition);
+        //Profiler.EndSample();
 
         Profiler.BeginSample("Regular");
 
         bool uninterrupted2 = true;
         int clarityLeft2 = visionSharpness;
         ProcessIntersection onIntersect2 = (result => {
-            clarityLeft -= result.GetObstacle().GetTransparency();
-            if (clarityLeft <= 0){
-                uninterrupted = false;
+            clarityLeft2 -= result.GetObstacle().GetTransparency();
+            if (clarityLeft2 <= 0){
+                uninterrupted2 = false;
             }
         });
         ShouldContinueRayCast continueCondition2 = (result => {
-            return clarityLeft > 0;
+            return clarityLeft2 > 0;
         });
 
         IncrementalRaycast(start, target, onIntersect2, continueCondition2);
         Profiler.EndSample();
-        return uninterrupted;
+        return uninterrupted2;
     }
 
     public static bool LineOfSightToGroundExists(int visionSharpness, Vector3 start, Vector3 target) {
@@ -305,27 +305,27 @@ public class EnvironmentPhysics : MonoBehaviour {
             return instance.projectileCanPassThroughCache[data];
         }
 
-        //ProcessIntersection onIntersect = (result => {
-        //    projectile.SlowedBy(result.GetObstacle());
-        //});
-        //ShouldContinueRayCast continueCondition = (result => {
-        //    return projectile.IsStillActive();
-        //});
-        //IncrementalRaycast(start, target, onIntersect, continueCondition);
-        //bool passedThrough = projectile.IsStillActive();
-        //projectile.ResetStrength();
-         ProcessIntersectionFast onIntersect = (result => {
-            for(int i = 0; i <  result.Count; i++) {
-                 var r = result[i];
-                 projectile.SlowedBy(r.GetObstacle());
-            }
+        ProcessIntersection onIntersect = (result => {
+            projectile.SlowedBy(result.GetObstacle());
         });
-        ShouldContinueRayCastFast continueCondition = (result => {
+        ShouldContinueRayCast continueCondition = (result => {
             return projectile.IsStillActive();
         });
-        IncrementalRaycastFast (start, target, onIntersect,continueCondition);
-        bool passedThrough = projectile.IsStillActive ();
-        projectile.ResetStrength ();
+        IncrementalRaycast(start, target, onIntersect, continueCondition);
+        bool passedThrough = projectile.IsStillActive();
+        projectile.ResetStrength();
+        // ProcessIntersectionFast onIntersect = (result => {
+        //    for(int i = 0; i <  result.Count; i++) {
+        //         var r = result[i];
+        //         projectile.SlowedBy(r.GetObstacle());
+        //    }
+        //});
+        //ShouldContinueRayCastFast continueCondition = (result => {
+        //    return projectile.IsStillActive();
+        //});
+        //IncrementalRaycastFast (start, target, onIntersect,continueCondition);
+        //bool passedThrough = projectile.IsStillActive ();
+        //projectile.ResetStrength ();
 
 
         instance.projectileCanPassThroughCache[data] = passedThrough;
@@ -689,9 +689,10 @@ public class EnvironmentPhysics : MonoBehaviour {
             higher = end;
             lower = start;
         }
-
+        Profiler.BeginSample("Bresenham");
         List<MapNode> nodesInTheWay =
             instance.grid.GetMapNodesBetween(start2D, end2D);
+        Profiler.EndSample();
         /*
         nodesInTheWay.Sort(
             (x, y) => {
@@ -707,61 +708,109 @@ public class EnvironmentPhysics : MonoBehaviour {
             }
         );
         */
-        List<FindTallEnoughDepthCubeJob> jobs = Pools.ListFindTallEnoughDepthCubeJob;
-        for(int i = 0; i < nodesInTheWay.Count; i++){
-            MapNode node = nodesInTheWay[i];
-            var layers = node.GetLayers();
+        //List<FindTallEnoughDepthCubeJob> jobs = Pools.ListFindTallEnoughDepthCubeJob;
+        //for(int i = 0; i < nodesInTheWay.Count; i++){
+        //    MapNode node = nodesInTheWay[i];
+        //    var layers = node.GetLayers();
 
-            FindTallEnoughDepthCubeJob job = Pools.FindTallEnoughDepthCubeJob;
-            job.endpointDistance2D = endpointDistance2D;
-            job.endpointHeight2D = endpointHeight2D;
-            job.position = node.GetLocation();
-            job.higher = higher;
-            job.layers = new NativeArray<float>(layers.Count, Allocator.TempJob);
-            job.tallEnough = new NativeArray<int>(layers.Count, Allocator.TempJob);
-            for(int j = 0; j < layers.Count; j++){
-                job.layers[j] = layers[j].GetPosition().y;
-                job.tallEnough[j] = 0;
-            }
-            jobs.Add(job);
-        }
+        //    FindTallEnoughDepthCubeJob job = Pools.FindTallEnoughDepthCubeJob;
+        //    job.endpointDistance2D = endpointDistance2D;
+        //    job.endpointHeight2D = endpointHeight2D;
+        //    job.position = node.GetLocation();
+        //    job.higher = higher;
+        //    job.layers = new NativeArray<float>(layers.Count, Allocator.TempJob);
+        //    job.tallEnough = new NativeArray<int>(layers.Count, Allocator.TempJob);
+        //    for(int j = 0; j < layers.Count; j++){
+        //        job.layers[j] = layers[j].GetPosition().y;
+        //        job.tallEnough[j] = 0;
+        //    }
+        //    jobs.Add(job);
+        //}
 
-        List<JobHandle> jobHandles = new List<JobHandle>();
-        for(int i = 0; i < jobs.Count; i++){
-            jobHandles.Add(jobs[i].Schedule());
-        }
-        for (int i = 0; i < jobs.Count; i++){
-            jobHandles[i].Complete();
-        }
+        //List<JobHandle> jobHandles = new List<JobHandle>();
+        //for(int i = 0; i < jobs.Count; i++){
+        //    jobHandles.Add(jobs[i].Schedule());
+        //}
+        //for (int i = 0; i < jobs.Count; i++){
+        //    jobHandles[i].Complete();
+        //}
+
+        //List<IntersectionResult> results = Pools.ListIntersectionResults;
+        //for (int i = 0; i < jobs.Count; i++) {
+        //    FindTallEnoughDepthCubeJob job = jobs[i];
+        //    NativeArray<int> tallEnough = job.tallEnough;
+        //    MapNode node = nodesInTheWay[i];
+        //    var layers = node.GetLayers();
+
+        //    for (int j = 0; j < tallEnough.Length; j++)
+        //    {
+        //        if (tallEnough[j] == 1)
+        //        {
+        //            results.Add(layers[j]);
+        //        }
+        //    }
+        //    onIntersect(results);
+        //    if (!shouldContinue(results))
+        //    {
+        //        break;
+        //    }
+        //    results.Clear();
+        //}
+        //for (int i = 0; i < jobs.Count; i++){
+        //    Pools.FindTallEnoughDepthCubeJob = jobs[i];
+        //}
+        //Pools.ListIntersectionResults = results;
+        //Pools.ListMapNodes = nodesInTheWay;
+        //Pools.ListFindTallEnoughDepthCubeJob = jobs;
+        //Pools.ListJobHandles = jobHandles;
 
         List<IntersectionResult> results = Pools.ListIntersectionResults;
-        for (int i = 0; i < jobs.Count; i++) {
-            FindTallEnoughDepthCubeJob job = jobs[i];
-            NativeArray<int> tallEnough = job.tallEnough;
+        List<IntersectionResult> tallEnough = Pools.ListIntersectionResults;
+        Profiler.BeginSample("Calculations");
+        for (int i = 0; i < nodesInTheWay.Count; i++) {
             MapNode node = nodesInTheWay[i];
-            var layers = node.GetLayers();
 
-            for (int j = 0; j < tallEnough.Length; j++)
-            {
-                if (tallEnough[j] == 1)
-                {
-                    results.Add(layers[j]);
+            var layers = node.GetLayers();
+            Vector2 mapLocation = node.GetLocation().To2D();
+
+            for (int j = 0; j < layers.Count; j++) {
+                var tuple = layers[j];
+                results.Add(
+                    tuple
+                );
+            }
+
+
+            for (int j = 0; j < results.Count; j++) {
+                IntersectionResult result = results[j];
+                Vector3 resultPosition = result.GetPosition();
+                float distanceFromHigher =
+                        Vector2.Distance(
+                            resultPosition.To2D(), higher.To2D()
+                        );
+                float heightAtLS = FindHeightAtLineSegment(
+                    new Vector2(0, 0),
+                    new Vector2(
+                        endpointDistance2D,
+                        endpointHeight2D
+                    ),
+                    distanceFromHigher
+                );
+                if (resultPosition.y > heightAtLS) {
+                    tallEnough.Add(result);
                 }
             }
-            onIntersect(results);
-            if (!shouldContinue(results))
-            {
+            onIntersect(tallEnough);
+            if (!shouldContinue(tallEnough)) {
                 break;
             }
             results.Clear();
-        }
-        for (int i = 0; i < jobs.Count; i++){
-            Pools.FindTallEnoughDepthCubeJob = jobs[i];
+            tallEnough.Clear();
         }
         Pools.ListIntersectionResults = results;
         Pools.ListMapNodes = nodesInTheWay;
-        Pools.ListFindTallEnoughDepthCubeJob = jobs;
-        Pools.ListJobHandles = jobHandles;
+        Pools.ListIntersectionResults = tallEnough;
+        Profiler.EndSample();
     }
 
     private static float FindHeightAtLineSegment(

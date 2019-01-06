@@ -29,20 +29,26 @@ public class Follower : MonoBehaviour {
 	void Start() {
          sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
          targetPosOld = target.position;
-        AttemptPathfind();
     }
 
     private void Update()
     {
+        if(Time.timeSinceLevelLoad < .3f)
+        {
+            AttemptPathfind();
+
+        }
         Profiler.BeginSample("Pathfinder");
-        AttemptPathfind();
+        if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+        {
+            AttemptPathfind();
+        }
         Profiler.EndSample();
     }
 
     private void AttemptPathfind()
     {
-        if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
-        {
+
             //UnityEngine.Debug.Log("Path start");
             watch = new Stopwatch();
             watch.Start();
@@ -69,7 +75,7 @@ public class Follower : MonoBehaviour {
             //UnityEngine.Debug.Log("Path end");
             watch.Stop();
             UnityEngine.Debug.Log(watch.ElapsedMilliseconds);
-        }
+
     }
 
     IEnumerator UpdatePath() {

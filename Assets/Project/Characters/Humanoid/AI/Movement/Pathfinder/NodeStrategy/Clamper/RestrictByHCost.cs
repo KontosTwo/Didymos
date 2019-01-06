@@ -3,7 +3,7 @@
 public class RestrictByHCost : INodeDistanceClamper{
 
     public bool WithinRangeOfStart(PathfinderNode node, int nodeDistance){
-        return node.GetHCost() < nodeDistance;
+        return node.GetHCost() < nodeDistance * 10;
     }
 }
 

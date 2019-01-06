@@ -45,6 +45,7 @@ public static class Bresenham {
                 );
                 copy.Add(copyPoint);
             }
+            //Debug.Log("cache hit");
             return copy;
         }
 

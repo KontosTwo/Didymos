@@ -12,7 +12,8 @@ public class FavorCoverAndStrategyCostCreator : PathfinderNodeCreator{
                 location,
                 data,
                 new FavorCoverAndStrategyCost(),
-                new RestrictByDistanceFromStart(start),
+                //new RestrictByDistanceFromStart(start),
+                new RestrictByGCost(),
                 new ExtractVisibleToEnemyPenalty()
         );
     }
