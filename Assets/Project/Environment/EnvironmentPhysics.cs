@@ -20,20 +20,20 @@ using Unity.Collections;
 //using System.Linq;
 public class EnvironmentPhysics : MonoBehaviour {
 
-	private static EnvironmentPhysics instance;
+    private static EnvironmentPhysics instance;
 
-	[SerializeField]
-	private LayerMask collisionMask;
-	private Vector3 bottomLeftCorner;
-	private Vector3 maxDimensions;
+    [SerializeField]
+    private LayerMask collisionMask;
+    private Vector3 bottomLeftCorner;
+    private Vector3 maxDimensions;
     [SerializeField]
     private LayerMask boundsMask;
-	[SerializeField]
-	private MapBound mapbounds;
+    [SerializeField]
+    private MapBound mapbounds;
 
     [SerializeField]
     private Grid grid;
-	private static readonly int TERRAINDISPARITYCONFIDENCEINTERVAL = 4	;
+    private static readonly int TERRAINDISPARITYCONFIDENCEINTERVAL = 4;
 
     private static readonly float CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE = .2f;
 
@@ -41,27 +41,32 @@ public class EnvironmentPhysics : MonoBehaviour {
     private LinkedDictionary<Tuple<Projectile, Vector3, Vector3>, bool> projectileCanPassThroughCache;
 
     private static readonly int CALCULATE_TERRAIN_DISPARITY_BETWEEN_CACHE_MAX_SIZE = 20000;
-    private LinkedDictionary<Tuple<Projectile,Projectile,Vector3,Vector3>, TerrainDisparity> calculateTerrainDisparityBetweenCache;
+    private LinkedDictionary<Tuple<Projectile, Projectile, Vector3, Vector3>, TerrainDisparity> calculateTerrainDisparityBetweenCache;
 
-    void Awake(){
-		instance = this;
-		bottomLeftCorner = mapbounds.GetBottomLeftCorner();
-		maxDimensions = mapbounds.GetDimensions ();
+    private static readonly int CALCULATE_VISIBLE_PORTION_CACHE_MAX_SiZE = 20000;
+    private LinkedDictionary<Tuple<Projectile, Vector3, Vector3>, VisiblePortionResult> calculateVisiblePortionCache;
+
+    void Awake() {
+        instance = this;
+        bottomLeftCorner = mapbounds.GetBottomLeftCorner();
+        maxDimensions = mapbounds.GetDimensions();
         projectileCanPassThroughCache =
             new LinkedDictionary<Tuple<Projectile, Vector3, Vector3>, bool>(
                 new ProjectileCanPassThroughCacheComparer()
             );
-
         calculateTerrainDisparityBetweenCache =
-            new LinkedDictionary<Tuple<Projectile, Projectile, Vector3, Vector3>, TerrainDisparity>();
+            new LinkedDictionary<Tuple<Projectile, Projectile, Vector3, Vector3>, TerrainDisparity>(
+                new CalculateTerrainDisparityBetweenComparer()
+            );
+        calculateVisiblePortionCache =
+            new LinkedDictionary<Tuple<Projectile, Vector3, Vector3>, VisiblePortionResult>();
+    }
+
+    void OnDrawGizmos() {
 
     }
 
-	void OnDrawGizmos(){
-		
-	}
-
-    public static void NotifyOfNewObstacle(Obstacle obstacle){
+    public static void NotifyOfNewObstacle(Obstacle obstacle) {
         /*
          * 
          * 
@@ -75,69 +80,69 @@ public class EnvironmentPhysics : MonoBehaviour {
          * 
          * 
          * 
-         */        
+         */
     }
 
-    public struct IntersectionResult{
-		private Vector3 position;
-		private Obstacle obstacle;
-		public IntersectionResult(RaycastHit info){
-			position = info.point;
-			obstacle = info.collider.transform.GetComponent<Obstacle>();
-		}
+    public struct IntersectionResult {
+        private Vector3 position;
+        private Obstacle obstacle;
+        public IntersectionResult(RaycastHit info) {
+            position = info.point;
+            obstacle = info.collider.transform.GetComponent<Obstacle>();
+        }
         public IntersectionResult(
             Vector3 location,
             Obstacle obstacle
-        ){
+        ) {
             this.position = location;
             this.obstacle = obstacle;
         }
 
-        public Vector3 GetPosition(){
-			return position;
-		}
-		public Obstacle GetObstacle(){
-			return obstacle;
-		}
-	}
+        public Vector3 GetPosition() {
+            return position;
+        }
+        public Obstacle GetObstacle() {
+            return obstacle;
+        }
+    }
 
     /*****
      * 
      * CACHE THIS AS WELL
      * 
      */
-	private static List<Obstacle> FindNearbyObstacles(Vector3 location, float radius){
-		Collider[] collided = Physics.OverlapSphere (location, radius, instance.collisionMask);
-		List<Obstacle> obstacles = new List<Obstacle> ();
-		for(int i = 0; i < collided.Length; i ++){
+    private static List<Obstacle> FindNearbyObstacles(Vector3 location, float radius) {
+        Collider[] collided = Physics.OverlapSphere(location, radius, instance.collisionMask);
+        List<Obstacle> obstacles = new List<Obstacle>();
+        for (int i = 0; i < collided.Length; i++) {
             Collider collider = collided[i];
 
-			Obstacle newObstacle = collider.GetComponent<Obstacle> ();
-			if(newObstacle != null){
-				obstacles.Add (newObstacle);
-			}
-		}
-		return obstacles;
-	}
+            Obstacle newObstacle = collider.GetComponent<Obstacle>();
+            if (newObstacle != null) {
+                obstacles.Add(newObstacle);
+            }
+        }
+        return obstacles;
+    }
 
 
 
-    public static bool LineOfSightToVantagePointExists(int visionSharpness,Vector3 start,Vector3 target){
+    public static bool LineOfSightToVantagePointExists(int visionSharpness, Vector3 start, Vector3 target) {
         bool uninterrupted = true;
         int clarityLeft = visionSharpness;
         ProcessIntersectionFast onIntersect = (result => {
-                  for(int i = 0; i < result.Count; i ++){
-                      IntersectionResult r = result[i];
-                      clarityLeft -= r.GetObstacle().GetTransparency();
-                  }
-                  if (clarityLeft <= 0){
-        		uninterrupted = false;
-        	}
+            for (int i = 0; i < result.Count; i++) {
+                IntersectionResult r = result[i];
+                clarityLeft -= r.GetObstacle().GetTransparency();
+            }
+            if (clarityLeft <= 0) {
+                uninterrupted = false;
+            }
         });
         ShouldContinueRayCastFast continueCondition = (result => {
-        	return clarityLeft > 0;
+            return clarityLeft > 0;
         });
-        IncrementalRaycastFast(start, target, onIntersect,continueCondition);
+        IncrementalRaycastFast(start, target, onIntersect, continueCondition);
 
         return uninterrupted;
         //bool uninterrupted = true;
@@ -160,14 +165,14 @@ public class EnvironmentPhysics : MonoBehaviour {
         //return uninterrupted;
     }
 
-	public static bool LineOfSightToGroundExists(int visionSharpness,Vector3 start,Vector3 target){
-		/* To avoid floating point errors and hitting the terrain,
+    public static bool LineOfSightToGroundExists(int visionSharpness, Vector3 start, Vector3 target) {
+        /* To avoid floating point errors and hitting the terrain,
 			raise the height of the target a bit above ground level	
 			*/
-		return LineOfSightToVantagePointExists(visionSharpness,start,FindGroundedLocation(target.x,target.z) + new Vector3(0,0.1f,0));
-	}
+        return LineOfSightToVantagePointExists(visionSharpness, start, FindGroundedLocation(target.x, target.z) + new Vector3(0, 0.1f, 0));
+    }
 
-	public static void SendProjectile(Projectile projectile,Vector3 start,Vector3 target){
+    public static void SendProjectile(Projectile projectile, Vector3 start, Vector3 target) {
         /*
          * First extend the target point to the bounds
          */
@@ -190,8 +195,8 @@ public class EnvironmentPhysics : MonoBehaviour {
         //Debug.DrawLine(start, target, color: Color.white, duration: .2f);
 
         Vector3 lastImpact = target;
-		ProcessIntersection onIntersect = (result => {
-			result.GetObstacle().HitBy(projectile);
+        ProcessIntersection onIntersect = (result => {
+            result.GetObstacle().HitBy(projectile);
 
             Vector3 location = result.GetPosition();
             float power = projectile.GetStrength();
@@ -200,22 +205,22 @@ public class EnvironmentPhysics : MonoBehaviour {
             EnvironmentInteractions.ProjectileInstantImpactEffect(location, suppressiveRadius, power);
 
 
-			projectile.SlowedBy(result.GetObstacle());
-		});
-		ShouldContinueRayCast continueCondition = (result => {
-			return projectile.IsStillActive();
-		});
-		IncrementalRaycast (start, target, onIntersect,continueCondition);
-		projectile.ResetStrength ();
+            projectile.SlowedBy(result.GetObstacle());
+        });
+        ShouldContinueRayCast continueCondition = (result => {
+            return projectile.IsStillActive();
+        });
+        IncrementalRaycast(start, target, onIntersect, continueCondition);
+        projectile.ResetStrength();
         Debug.DrawLine(start, lastImpact, color: Color.white, duration: .2f);
-	}
+    }
 
     public static TerrainDisparity CalculateTerrainDisparityBetween(
-        Projectile heuristicOfObserver, 
-        Projectile heuristicOfTarget, 
-        Vector3 observerVantage, 
+        Projectile heuristicOfObserver,
+        Projectile heuristicOfTarget,
+        Vector3 observerVantage,
         Vector3 targetVantage
-    ){
+    ) {
         Tuple<Projectile, Projectile, Vector3, Vector3> data =
             new Tuple<Projectile, Projectile, Vector3, Vector3>(
                 heuristicOfObserver,
@@ -224,14 +229,14 @@ public class EnvironmentPhysics : MonoBehaviour {
                 targetVantage
             );
 
-        if (instance.calculateTerrainDisparityBetweenCache.ContainsKey(data)){
+        if (instance.calculateTerrainDisparityBetweenCache.ContainsKey(data)) {
             return instance.calculateTerrainDisparityBetweenCache[data];
         }
 
         TerrainDisparity result = new TerrainDisparity();
-        VisiblePortionResult observerResult = 
+        VisiblePortionResult observerResult =
             CalculateVisiblePortion(heuristicOfObserver, observerVantage, targetVantage);
-        VisiblePortionResult targetResult = 
+        VisiblePortionResult targetResult =
             CalculateVisiblePortion(heuristicOfTarget, targetVantage, observerVantage);
 
         result.visibleToObserver = observerResult.visible;
@@ -241,61 +246,76 @@ public class EnvironmentPhysics : MonoBehaviour {
 
         instance.calculateTerrainDisparityBetweenCache[data] =
             result;
-        if(instance.calculateTerrainDisparityBetweenCache.Count 
-            > CALCULATE_TERRAIN_DISPARITY_BETWEEN_CACHE_MAX_SIZE){
+        if (instance.calculateTerrainDisparityBetweenCache.Count
+            > CALCULATE_TERRAIN_DISPARITY_BETWEEN_CACHE_MAX_SIZE) {
             instance.calculateTerrainDisparityBetweenCache.PopFirst();
         }
         return result;
-	}
+    }
 
-    public struct VisiblePortionResult{
+    public struct VisiblePortionResult {
         public float visible;
         public float heightOfTarget;
     }
 
-    private static VisiblePortionResult CalculateVisiblePortion (Projectile heuristic,
-                                                  Vector3 observerVantage, 
-                                                  Vector3 targetVantage){
-		float targetHeightAboveGround = targetVantage.y - FindHeightAt (targetVantage.x,targetVantage.z);
-		float heightAdjustment = targetHeightAboveGround / 2;
-		Vector3 rayTarget = targetVantage - new Vector3(0,heightAdjustment,0);
-		bool canPassThrough = false;
-		for(int i = 0; i < TERRAINDISPARITYCONFIDENCEINTERVAL; i ++){
-			heightAdjustment /= 2;
-			heuristic.ResetStrength ();
-			canPassThrough = ProjectileCanPassThrough (heuristic, observerVantage, rayTarget);
-			if (canPassThrough) {
-				rayTarget.y -= heightAdjustment;
-			} else {
-				rayTarget.y += heightAdjustment;
-			}
-		}
+    private static VisiblePortionResult CalculateVisiblePortion(Projectile heuristic,
+                                                  Vector3 observerVantage,
+                                                  Vector3 targetVantage) {
+
+        var data = new Tuple<Projectile, Vector3, Vector3>(
+            heuristic,
+            observerVantage,
+            targetVantage
+        );
+        if (instance.calculateVisiblePortionCache.ContainsKey(data)){
+            return instance.calculateVisiblePortionCache[data];
+        }
+
+        float targetHeightAboveGround = targetVantage.y - FindHeightAt(targetVantage.x, targetVantage.z);
+        float heightAdjustment = targetHeightAboveGround / 2;
+        Vector3 rayTarget = targetVantage - new Vector3(0, heightAdjustment, 0);
+        bool canPassThrough = false;
+        for (int i = 0; i < TERRAINDISPARITYCONFIDENCEINTERVAL; i++) {
+            heightAdjustment /= 2;
+            heuristic.ResetStrength();
+            canPassThrough = ProjectileCanPassThrough(heuristic, observerVantage, rayTarget);
+            if (canPassThrough) {
+                rayTarget.y -= heightAdjustment;
+            } else {
+                rayTarget.y += heightAdjustment;
+            }
+        }
         //Debug.DrawLine(observerVantage, rayTarget);
         VisiblePortionResult result = new VisiblePortionResult();
         result.visible = targetVantage.y - rayTarget.y;
         result.heightOfTarget = targetHeightAboveGround;
+
+        instance.calculateVisiblePortionCache[data] = result;
+        if(instance.calculateVisiblePortionCache.Count > CALCULATE_VISIBLE_PORTION_CACHE_MAX_SiZE){
+            instance.calculateVisiblePortionCache.PopFirst();
+        }
         return result;
-	}
+    }
 
 
-	public static bool ProjectileCanPassThrough(Projectile projectile,Vector3 start, Vector3 target){
-        var data = new Tuple<Projectile,Vector3,Vector3>(projectile, start, target);
-        if (instance.projectileCanPassThroughCache.ContainsKey(data)){
+    public static bool ProjectileCanPassThrough(Projectile projectile, Vector3 start, Vector3 target) {
+        var data = new Tuple<Projectile, Vector3, Vector3>(projectile, start, target);
+        if (instance.projectileCanPassThroughCache.ContainsKey(data)) {
             return instance.projectileCanPassThroughCache[data];
         }
 
         ProcessIntersection onIntersect = (result => {
-			projectile.SlowedBy(result.GetObstacle());
-		});
-		ShouldContinueRayCast continueCondition = (result => {
-			return projectile.IsStillActive();
-		});
-		IncrementalRaycast (start, target, onIntersect,continueCondition);
-		bool passedThrough = projectile.IsStillActive ();
-		projectile.ResetStrength ();
+            projectile.SlowedBy(result.GetObstacle());
+        });
+        ShouldContinueRayCast continueCondition = (result => {
+            return projectile.IsStillActive();
+        });
+        IncrementalRaycast(start, target, onIntersect, continueCondition);
+        bool passedThrough = projectile.IsStillActive();
+        projectile.ResetStrength();
 
         instance.projectileCanPassThroughCache[data] = passedThrough;
-        if(instance.projectileCanPassThroughCache.Count > PROJECTILE_CAN_PASS_THROUGH_CACHE_MAX_SIZE){
+        if (instance.projectileCanPassThroughCache.Count > PROJECTILE_CAN_PASS_THROUGH_CACHE_MAX_SIZE) {
             instance.projectileCanPassThroughCache.PopFirst();
         }
 
@@ -316,44 +336,44 @@ public class EnvironmentPhysics : MonoBehaviour {
 
     }
 
-    public static float FindHeightAt(float x,float z){	
-		float height = 0;
-		ProcessIntersection onIntersect = (result => {
-			height = result.GetPosition().y;
-		});
-		ShouldContinueRayCast continueCondition = (result => {
-			return result.GetObstacle().CanPhaseThrough();
-		});
-		IncrementalRaycast (
-			new Vector3(x,instance.bottomLeftCorner.y + instance.maxDimensions.y,z),
-			new Vector3(x,instance.bottomLeftCorner.y,z),
-			onIntersect,
-			continueCondition
-		);
-		return height;
-	}
+    public static float FindHeightAt(float x, float z) {
+        float height = 0;
+        ProcessIntersection onIntersect = (result => {
+            height = result.GetPosition().y;
+        });
+        ShouldContinueRayCast continueCondition = (result => {
+            return result.GetObstacle().CanPhaseThrough();
+        });
+        IncrementalRaycast(
+            new Vector3(x, instance.bottomLeftCorner.y + instance.maxDimensions.y, z),
+            new Vector3(x, instance.bottomLeftCorner.y, z),
+            onIntersect,
+            continueCondition
+        );
+        return height;
+    }
 
 
-    public static float FindWalkableHeightAt(float x, float z){
+    public static float FindWalkableHeightAt(float x, float z) {
         return FindHeightAt(x, z) + 0.01f;
     }
 
-	public static bool WalkableAt(float x,float z,float radius){
-		float height = FindHeightAt (x, z);
-		List<Obstacle> obstacles = FindNearbyObstacles (new Vector3 (x, height, z), radius);
-		for(int i = 0; i < obstacles.Count; i ++){
-			if(!obstacles[i].IsWalkable()){
-				return false;
-			}
-		}
-		return true;
-	}
+    public static bool WalkableAt(float x, float z, float radius) {
+        float height = FindHeightAt(x, z);
+        List<Obstacle> obstacles = FindNearbyObstacles(new Vector3(x, height, z), radius);
+        for (int i = 0; i < obstacles.Count; i++) {
+            if (!obstacles[i].IsWalkable()) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	public static Vector3 FindGroundedLocation(float x,float z){
-		return new Vector3 (x, FindHeightAt (x,z), z);
-	}
+    public static Vector3 FindGroundedLocation(float x, float z) {
+        return new Vector3(x, FindHeightAt(x, z), z);
+    }
 
-    public static Vector3 ScreenToEnvironmentPoint(GameplayCamera cam, Vector3 screenPoint){
+    public static Vector3 ScreenToEnvironmentPoint(GameplayCamera cam, Vector3 screenPoint) {
         Vector3 environmentPoint = new Vector3();
         Camera camera = cam.GetCamera();
         Ray rayFromMouse = camera.ScreenPointToRay(screenPoint);
@@ -372,7 +392,7 @@ public class EnvironmentPhysics : MonoBehaviour {
         return environmentPoint;
     }
 
-    public static MapNode CreateMapNodeAt(Vector2 location){
+    public static MapNode CreateMapNodeAt(Vector2 location) {
         float x = location.x;
         float z = location.y;
         float height = 0;
@@ -382,11 +402,11 @@ public class EnvironmentPhysics : MonoBehaviour {
         List<IntersectionResult> layers =
             new List<IntersectionResult>();
         ProcessIntersection onIntersect = (result => {
-            if (!heightSet && !result.GetObstacle().CanPhaseThrough()){
+            if (!heightSet && !result.GetObstacle().CanPhaseThrough()) {
                 height = result.GetPosition().y;
                 heightSet = true;
             }
-            if (!result.GetObstacle().IsWalkable()){
+            if (!result.GetObstacle().IsWalkable()) {
                 walkable = false;
             }
             layers.Add(new IntersectionResult(
@@ -416,11 +436,11 @@ public class EnvironmentPhysics : MonoBehaviour {
         return newMapNode;
     }
 
-    public static List<MapNode> CreateMapNodesAt(List<Vector2> locations){
+    public static List<MapNode> CreateMapNodesAt(List<Vector2> locations) {
 
         List<Tuple<Vector2, ParallelIncrementalRaycastResult>> results =
             new List<Tuple<Vector2, ParallelIncrementalRaycastResult>>();
-        for(int i = 0; i < locations.Count; i++){
+        for (int i = 0; i < locations.Count; i++) {
             results.Add(
                 new Tuple<Vector2, ParallelIncrementalRaycastResult>(
                     locations[i],
@@ -431,7 +451,7 @@ public class EnvironmentPhysics : MonoBehaviour {
         List<ParallelIncrementalRaycastData> raycastData =
             new List<ParallelIncrementalRaycastData>();
 
-        for (int i = 0; i < results.Count; i++){
+        for (int i = 0; i < results.Count; i++) {
             var tuple = results[i];
 
             ParallelIncrementalRaycastResult result = tuple.Item2;
@@ -442,11 +462,11 @@ public class EnvironmentPhysics : MonoBehaviour {
             result.heightSet = false;
 
             ProcessIntersection onIntersect = (r => {
-                if (!result.heightSet && !r.GetObstacle().CanPhaseThrough()){
+                if (!result.heightSet && !r.GetObstacle().CanPhaseThrough()) {
                     result.height = r.GetPosition().y;
                     result.heightSet = true;
                 }
-                if (!r.GetObstacle().IsWalkable()){
+                if (!r.GetObstacle().IsWalkable()) {
                     result.walkable = false;
                 }
                 result.layers.Add(
@@ -462,7 +482,7 @@ public class EnvironmentPhysics : MonoBehaviour {
                 return true;
             });
 
-            raycastData.Add( 
+            raycastData.Add(
                 new ParallelIncrementalRaycastData(
                     new Vector3(x, instance.bottomLeftCorner.y + instance.maxDimensions.y, z),
                     new Vector3(x, instance.bottomLeftCorner.y, z),
@@ -475,9 +495,9 @@ public class EnvironmentPhysics : MonoBehaviour {
         ParallelIncrementalRaycast(raycastData);
 
         List<MapNode> mapNodes = new List<MapNode>();
-        for(int i = 0; i < results.Count; i++){
+        for (int i = 0; i < results.Count; i++) {
             var tuple = results[i];
-            ParallelIncrementalRaycastResult result = 
+            ParallelIncrementalRaycastResult result =
                 tuple.Item2;
             Vector2 location = tuple.Item1;
             MapNode newMapNode = Pools.MapNode;
@@ -504,7 +524,7 @@ public class EnvironmentPhysics : MonoBehaviour {
     */
     private static void ParallelIncrementalRaycast(
         List<ParallelIncrementalRaycastData> paths
-    ){
+    ) {
         List<ParallelIncrementalRaycastData> remainingPaths =
             new List<ParallelIncrementalRaycastData>(paths);
 
@@ -512,10 +532,10 @@ public class EnvironmentPhysics : MonoBehaviour {
         NativeArray<RaycastCommand> commands = default(NativeArray<RaycastCommand>);
         do {
 
-             results = new NativeArray<RaycastHit>(remainingPaths.Count, Allocator.TempJob);
-             commands = new NativeArray<RaycastCommand>(remainingPaths.Count, Allocator.TempJob);
+            results = new NativeArray<RaycastHit>(remainingPaths.Count, Allocator.TempJob);
+            commands = new NativeArray<RaycastCommand>(remainingPaths.Count, Allocator.TempJob);
 
-            for (int i = 0; i < remainingPaths.Count; i++){
+            for (int i = 0; i < remainingPaths.Count; i++) {
                 commands[i] = new RaycastCommand(
                     remainingPaths[i].start,
                     remainingPaths[i].dx,
@@ -527,11 +547,11 @@ public class EnvironmentPhysics : MonoBehaviour {
             JobHandle handle = RaycastCommand.ScheduleBatch(commands, results, 1, default(JobHandle));
             handle.Complete();
 
-            for (int i = 0; i < remainingPaths.Count; i++){
+            for (int i = 0; i < remainingPaths.Count; i++) {
                 ParallelIncrementalRaycastData data = remainingPaths[i];
                 RaycastHit batchedHit = results[i];
                 data.hit = batchedHit;
-                if(batchedHit.collider == null){
+                if (batchedHit.collider == null) {
                     continue;
                 }
 
@@ -540,7 +560,7 @@ public class EnvironmentPhysics : MonoBehaviour {
                 data.start = (batchedHit.point + data.dx);
 
 
-                if (batchedHit.collider.transform.GetComponent<Obstacle>() != null){
+                if (batchedHit.collider.transform.GetComponent<Obstacle>() != null) {
                     IntersectionResult result = new IntersectionResult(batchedHit);
                     data.onIntersect(result);
                 }
@@ -556,7 +576,7 @@ public class EnvironmentPhysics : MonoBehaviour {
     }
 
 
-    private class ParallelIncrementalRaycastData{
+    private class ParallelIncrementalRaycastData {
         public Vector3 start;
         public readonly Vector3 end;
         public readonly ProcessIntersection onIntersect;
@@ -572,7 +592,7 @@ public class EnvironmentPhysics : MonoBehaviour {
             Vector3 end,
             ProcessIntersection onIntersect,
             ShouldContinueRayCast continueCondition
-        ){
+        ) {
             this.start = start;
             this.end = end;
             this.onIntersect = onIntersect;
@@ -583,7 +603,7 @@ public class EnvironmentPhysics : MonoBehaviour {
         }
     }
 
-    private class ParallelIncrementalRaycastResult{
+    private class ParallelIncrementalRaycastResult {
         public float height;
         public bool walkable;
         public float speedModifier;
@@ -593,7 +613,7 @@ public class EnvironmentPhysics : MonoBehaviour {
 
         public bool heightSet;
 
-        public ParallelIncrementalRaycastResult(){
+        public ParallelIncrementalRaycastResult() {
             heightSet = false;
             layers = new List<IntersectionResult>();
         }
@@ -609,22 +629,22 @@ public class EnvironmentPhysics : MonoBehaviour {
         Vector3 end,
         ProcessIntersection onIntersect,
         ShouldContinueRayCast shouldContinue
-    ){
+    ) {
         RaycastHit hitInfo;
         Vector3 ray = end - start;
         Vector3 dx = ray.normalized;
         Vector3 remaining = end - start;
         dx.Scale(new Vector3(.01f, .01f, .01f));
-        while (Physics.Raycast(start, dx, out hitInfo, remaining.magnitude, instance.collisionMask)){
+        while (Physics.Raycast(start, dx, out hitInfo, remaining.magnitude, instance.collisionMask)) {
 
             remaining -= (hitInfo.point - start);
             start = (hitInfo.point + dx);
 
             //hit object must have an obstacle script
-            if (hitInfo.collider.transform.GetComponent<Obstacle>() != null){
+            if (hitInfo.collider.transform.GetComponent<Obstacle>() != null) {
                 IntersectionResult result = new IntersectionResult(hitInfo);
                 onIntersect(result);
-                if (!shouldContinue(result)){
+                if (!shouldContinue(result)) {
                     break;
                 }
             }
@@ -645,7 +665,7 @@ public class EnvironmentPhysics : MonoBehaviour {
         Vector3 end,
         ProcessIntersectionFast onIntersect,
         ShouldContinueRayCastFast shouldContinue
-    ){
+    ) {
 
         Vector2 start2D = start.To2D();
         Vector2 end2D = end.To2D();
@@ -658,20 +678,20 @@ public class EnvironmentPhysics : MonoBehaviour {
 
         Vector3 higher = new Vector3();
         Vector3 lower = new Vector3();
-        if(start.y > end.y){
+        if (start.y > end.y) {
             higher = start;
             lower = end;
         }
-        else{
+        else {
             higher = end;
             lower = start;
         }
 
         List<MapNode> nodesInTheWay =
-            instance.grid.GetMapNodesBetween(start2D,end2D);
+            instance.grid.GetMapNodesBetween(start2D, end2D);
 
         nodesInTheWay.Sort(
-            (x, y) =>{
+            (x, y) => {
                 float xDistance = Vector2.Distance(
                     x.GetLocation().To2D(),
                     start2D
@@ -687,21 +707,21 @@ public class EnvironmentPhysics : MonoBehaviour {
         List<IntersectionResult> results = Pools.ListIntersectionResults;
         List<IntersectionResult> tallEnough = Pools.ListIntersectionResults;
 
-        for (int i = 0; i < nodesInTheWay.Count; i ++){
+        for (int i = 0; i < nodesInTheWay.Count; i++) {
             MapNode node = nodesInTheWay[i];
 
             var layers = node.GetLayers();
             Vector2 mapLocation = node.GetLocation().To2D();
 
-            for(int j = 0; j < layers.Count; j++){
+            for (int j = 0; j < layers.Count; j++) {
                 var tuple = layers[j];
                 results.Add(
                     tuple
                 );
             }
 
-           
-            for(int j = 0; j < results.Count; j++){
+
+            for (int j = 0; j < results.Count; j++) {
                 IntersectionResult result = results[j];
                 Vector3 resultPosition = result.GetPosition();
                 float distanceFromHigher =
@@ -716,12 +736,12 @@ public class EnvironmentPhysics : MonoBehaviour {
                     ),
                     distanceFromHigher
                 );
-                if(resultPosition.y > heightAtLS){
+                if (resultPosition.y > heightAtLS) {
                     tallEnough.Add(result);
                 }
             }
             onIntersect(tallEnough);
-            if (!shouldContinue(tallEnough)){
+            if (!shouldContinue(tallEnough)) {
                 break;
             }
             results.Clear();
@@ -736,18 +756,18 @@ public class EnvironmentPhysics : MonoBehaviour {
         Vector2 lower,
         Vector2 higher,
         float distanceFromHigher
-    ){
+    ) {
         float y2 = (higher - lower).y;
         float x2 = Math.Abs((higher - lower).x);
         float x = x2 - distanceFromHigher;
         return ((x * y2) / x2) + lower.y;
     }
 
-    private class ProjectileCanPassThroughCacheComparer : IEqualityComparer<Tuple<Projectile, Vector3, Vector3>>{
+    private class ProjectileCanPassThroughCacheComparer : IEqualityComparer<Tuple<Projectile, Vector3, Vector3>> {
         public bool Equals(
             Tuple<Projectile, Vector3, Vector3> x,
             Tuple<Projectile, Vector3, Vector3> y
-        ){
+        ) {
             return
                 Vector3.Distance(x.Item2, y.Item2) < CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE &&
                 Vector3.Distance(x.Item3, y.Item3) < CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE &&
@@ -756,7 +776,7 @@ public class EnvironmentPhysics : MonoBehaviour {
 
         public int GetHashCode(
             Tuple<Projectile, Vector3, Vector3> obj
-        ){
+        ) {
             int hash = 17;
             // Suitable nullity checks etc, of course :)
             hash = hash * 23 + obj.Item1.GetHashCode();
@@ -765,6 +785,30 @@ public class EnvironmentPhysics : MonoBehaviour {
             return hash;
         }
 
+    }
+
+    private class CalculateTerrainDisparityBetweenComparer : IEqualityComparer<Tuple<Projectile, Projectile, Vector3, Vector3>>
+    {
+
+        public bool Equals(Tuple<Projectile, Projectile, Vector3, Vector3> x, Tuple<Projectile, Projectile, Vector3, Vector3> y)
+        {
+            return
+                Vector3.Distance(x.Item4, y.Item4) < CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE &&
+                Vector3.Distance(x.Item3, y.Item3) < CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE &&
+                x.Item1.Equals(y.Item1) &&
+                x.Item2.Equals(y.Item2);
+        }
+
+        public int GetHashCode(Tuple<Projectile, Projectile, Vector3, Vector3> obj)
+        {
+            int hash = 17;
+            // Suitable nullity checks etc, of course :)
+            hash = hash * 23 + obj.Item1.GetHashCode();
+            hash = hash * 23 + obj.Item2.GetHashCode();
+            hash = hash * 23 + obj.Item3.GetHashCode();
+            hash = hash * 23 + obj.Item4.GetHashCode();
+            return hash;
+        }
     }
 }
 

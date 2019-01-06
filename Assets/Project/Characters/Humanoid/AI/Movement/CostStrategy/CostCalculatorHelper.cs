@@ -8,14 +8,7 @@ public class CostCalculatorHelper {
     /*
      * Flush the first dictionary KV pair 
      */
-    private static Dictionary<HumanoidModel,Dictionary<List<HumanoidVantage>, Dictionary<Vector3, TerrainDisparity>>> cache;
-
-    static CostCalculatorHelper(){
-        cache = 
-            new Dictionary<HumanoidModel, Dictionary<List<HumanoidVantage>, Dictionary<Vector3, TerrainDisparity>>>(
-            
-            );
-    }
+   
 
     public static float CalculateHeightPenalty(float heightDiff,
                                              float goUpPenalty,
