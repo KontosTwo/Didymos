@@ -1,14 +1,7 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Environment/EnvironmentPhysics.cs">
     <Files>
-      <File FileName="Assets/Project/Environment/Grid.cs" Line="384" Column="49" />
-      <File FileName="Assets/Project/Utility/Pools.cs" Line="57" Column="10" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderHelper.cs" Line="75" Column="77" />
-      <File FileName="Assets/Project/Environment/Point.cs" Line="33" Column="8" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/Follower.cs" Line="61" Column="15" />
-      <File FileName="Assets/Project/Debug/DrawGizmo.cs" Line="27" Column="28" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/ImplementationStrategy/BaseImplementation.cs" Line="49" Column="11" />
-      <File FileName="Assets/Project/Environment/MapNode.cs" Line="107" Column="43" />
+      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="94" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

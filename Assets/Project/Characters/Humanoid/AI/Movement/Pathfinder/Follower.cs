@@ -36,6 +36,8 @@ public class Follower : MonoBehaviour {
         if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
         {
             //UnityEngine.Debug.Log("Path start");
+            watch = new Stopwatch();
+            watch.Start();
 
             PathResult result = Pathfinder.FindPath(
                new PathRequest(
@@ -53,14 +55,12 @@ public class Follower : MonoBehaviour {
             if (pathSuccessful)
             {
                 path = new Path(result.path, stoppingDst);
-                //watch.Stop();
                 //UnityEngine.Debug.Log("Elapsed in ms: " + watch.ElapsedMilliseconds);
-                //watch = new Stopwatch();
             }
             targetPosOld = target.position;
             //UnityEngine.Debug.Log("Path end");
-
-            //watch.Start();
+            watch.Stop();
+            UnityEngine.Debug.Log(watch.ElapsedMilliseconds);
         }
     }
 
@@ -162,7 +162,7 @@ public class Follower : MonoBehaviour {
 
 	public void OnDrawGizmos() {
 		if (path != null) {
-			//path.DrawWithGizmos ();
+			path.DrawWithGizmos ();
 		}
 	}
 }

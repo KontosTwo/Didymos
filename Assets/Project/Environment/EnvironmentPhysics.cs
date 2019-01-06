@@ -216,31 +216,31 @@ public class EnvironmentPhysics : MonoBehaviour {
 	}
 
 	public static bool ProjectileCanPassThrough(Projectile projectile,Vector3 start, Vector3 target){
-		ProcessIntersection onIntersect = (result => {
-			projectile.SlowedBy(result.GetObstacle());
+		//ProcessIntersection onIntersect = (result => {
+		//	projectile.SlowedBy(result.GetObstacle());
 
 
-		});
-		ShouldContinueRayCast continueCondition = (result => {
-			return projectile.IsStillActive();
-		});
-		IncrementalRaycast (start, target, onIntersect,continueCondition);
-		bool passedThrough = projectile.IsStillActive ();
-		projectile.ResetStrength ();
-		return passedThrough;
-        // ProcessIntersectionFast onIntersect = (result => {
-        //    for(int i = 0; i <  result.Count; i++) {
-        //         var r = result[i];
-        //         projectile.SlowedBy(r.GetObstacle());
-        //    }
-        //});
-        //ShouldContinueRayCastFast continueCondition = (result => {
-        //    return projectile.IsStillActive();
-        //});
-        //IncrementalRaycastFast (start, target, onIntersect,continueCondition);
-        //bool passedThrough = projectile.IsStillActive ();
-        //projectile.ResetStrength ();
-        //return passedThrough;
+		//});
+		//ShouldContinueRayCast continueCondition = (result => {
+		//	return projectile.IsStillActive();
+		//});
+		//IncrementalRaycast (start, target, onIntersect,continueCondition);
+		//bool passedThrough = projectile.IsStillActive ();
+		//projectile.ResetStrength ();
+		//return passedThrough;
+         ProcessIntersectionFast onIntersect = (result => {
+            for(int i = 0; i <  result.Count; i++) {
+                 var r = result[i];
+                 projectile.SlowedBy(r.GetObstacle());
+            }
+        });
+        ShouldContinueRayCastFast continueCondition = (result => {
+            return projectile.IsStillActive();
+        });
+        IncrementalRaycastFast (start, target, onIntersect,continueCondition);
+        bool passedThrough = projectile.IsStillActive ();
+        projectile.ResetStrength ();
+        return passedThrough;
 
     }
 

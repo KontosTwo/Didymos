@@ -124,7 +124,7 @@ public class Pool<P> where P : class,new()
             freeList.Enqueue(newP);
             //noDuplicates.Add(newP);
         }
-        Debug.Log("RESIZING: " + freeList.Peek().GetType() + " " + (newTotal - total));
+        //Debug.Log("RESIZING: " + freeList.Peek().GetType() + " " + (newTotal - total));
         total = newTotal;
         Profiler.EndSample();
     }
