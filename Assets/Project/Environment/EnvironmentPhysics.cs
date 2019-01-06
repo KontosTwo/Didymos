@@ -305,15 +305,28 @@ public class EnvironmentPhysics : MonoBehaviour {
             return instance.projectileCanPassThroughCache[data];
         }
 
-        ProcessIntersection onIntersect = (result => {
-            projectile.SlowedBy(result.GetObstacle());
+        //ProcessIntersection onIntersect = (result => {
+        //    projectile.SlowedBy(result.GetObstacle());
+        //});
+        //ShouldContinueRayCast continueCondition = (result => {
+        //    return projectile.IsStillActive();
+        //});
+        //IncrementalRaycast(start, target, onIntersect, continueCondition);
+        //bool passedThrough = projectile.IsStillActive();
+        //projectile.ResetStrength();
+         ProcessIntersectionFast onIntersect = (result => {
+            for(int i = 0; i <  result.Count; i++) {
+                 var r = result[i];
+                 projectile.SlowedBy(r.GetObstacle());
+            }
         });
-        ShouldContinueRayCast continueCondition = (result => {
+        ShouldContinueRayCastFast continueCondition = (result => {
             return projectile.IsStillActive();
         });
-        IncrementalRaycast(start, target, onIntersect, continueCondition);
-        bool passedThrough = projectile.IsStillActive();
-        projectile.ResetStrength();
+        IncrementalRaycastFast (start, target, onIntersect,continueCondition);
+        bool passedThrough = projectile.IsStillActive ();
+        projectile.ResetStrength ();
+
 
         instance.projectileCanPassThroughCache[data] = passedThrough;
         if (instance.projectileCanPassThroughCache.Count > PROJECTILE_CAN_PASS_THROUGH_CACHE_MAX_SIZE) {
@@ -321,19 +334,7 @@ public class EnvironmentPhysics : MonoBehaviour {
         }
 
         return passedThrough;
-        // ProcessIntersectionFast onIntersect = (result => {
-        //    for(int i = 0; i <  result.Count; i++) {
-        //         var r = result[i];
-        //         projectile.SlowedBy(r.GetObstacle());
-        //    }
-        //});
-        //ShouldContinueRayCastFast continueCondition = (result => {
-        //    return projectile.IsStillActive();
-        //});
-        //IncrementalRaycastFast (start, target, onIntersect,continueCondition);
-        //bool passedThrough = projectile.IsStillActive ();
-        //projectile.ResetStrength ();
-        //return passedThrough;
+
 
     }
 

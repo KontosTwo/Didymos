@@ -33,7 +33,19 @@ public static class Bresenham {
                 tileSize
             );
         if (cache.ContainsKey(data)){
-            return cache[data];
+            List<Point> original = cache[data];
+            List<Point> copy = Pools.ListPoints;
+            for(int i = 0; i < original.Count; i++)
+            {
+                Point originalPoint = original[i];
+                Point copyPoint = Pools.Point;
+                copyPoint.Set(
+                    originalPoint.x,
+                    originalPoint.y
+                );
+                copy.Add(copyPoint);
+            }
+            return copy;
         }
 
         List<Point> tiles = Pools.ListPoints;
@@ -91,12 +103,19 @@ public static class Bresenham {
 
         List<Point> cachedPath = Pools.ListPoints;
         for(int i = 0; i < noDuplicatedList.Count; i ++){
-            cachedPath.Add(noDuplicatedList[i]);
+            Point original = noDuplicatedList[i];
+            Point copy = Pools.Point;
+            copy.Set(original.x, original.y);
+            cachedPath.Add(copy);
         }
         cache[data] = cachedPath;
         if(cache.Count > CACHE_MAX_SIZE)
         {
-            cache.PopFirst();
+            // dispose the list properly
+            List<Point> discard = cache.PopFirst();
+            Pools.FreeListPoints(discard);
+            Pools.ListPoints = discard;
+
         }
         return noDuplicatedList;
     }
@@ -116,7 +135,7 @@ public static class Bresenham {
         {
             return Vector3.Distance(x.Item1, y.Item1) < CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE &&
                 Vector3.Distance(x.Item2, y.Item2) < CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE &&
-                (x.Item3 - y.Item3).CloseToZero(.01f);
+                (x.Item3 - y.Item3).CloseToZero(.1f);
         }
 
         public int GetHashCode(Tuple<Vector2, Vector2, float> obj)
