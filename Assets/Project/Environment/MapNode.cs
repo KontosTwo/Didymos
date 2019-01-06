@@ -105,11 +105,6 @@ public class MapNode {
 
 
     private bool LowerThan(MapNode other){
-        if(other == null)
-        {
-            Debug.Log(location);
-            DrawGizmo.AddGizmo(Color.cyan, "LOOK HERE", GetLocation());
-        }
         return other.height - this.height
             > NEGLIGIBLE_COVER_THRESHOLD;
     }

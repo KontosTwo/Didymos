@@ -245,13 +245,6 @@ public class Grid : MonoBehaviour{
      * Assumes the mapnode exists
      */
     public Vector3 NodeToWorldCoord(Point point){
-        if(nodes[point] == null)
-        {
-            DrawGizmo.AddGizmo(Color.cyan, "" + point, new Vector3(
-            (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
-            , 10
-            , (point.y * nodeSize + nodeSize / 2) + bottomLeftCorner.y));
-        }
         return new Vector3(
             (point.x * nodeSize + nodeSize / 2) + bottomLeftCorner.x
             , nodes[point].GetHeight()
@@ -389,14 +382,6 @@ public class Grid : MonoBehaviour{
             foreach (var pair in nodes){
                 Point point = pair.Value.Item2;
                 MapNode node = pair.Value.Item1;
-                if (node == null)
-                {
-                    Debug.Log("null mapnode!");
-                }
-                if (point == null)
-                {
-                    Debug.Log("null point!");
-                }
                 Gizmos.color = (node.TerrainIsWalkable()) ? Color.green : Color.red;
                 Gizmos.DrawCube(NodeToWorldCoord(pair.Value.Item2), Vector3.one * (nodeSize-.1f));
             }

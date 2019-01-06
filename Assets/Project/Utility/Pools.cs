@@ -55,11 +55,7 @@ public class Pools : MonoBehaviour {
         }
         set
         {
-            if(value.Equals(new Point(44, 58)))
-            {
-                Debug.Log("Recycling target!");
-            }
-            //if (!Grid.PointInUse(value))
+            if (!Grid.PointInUse(value))
             {
                 instance.points.Recycle(value);
             }

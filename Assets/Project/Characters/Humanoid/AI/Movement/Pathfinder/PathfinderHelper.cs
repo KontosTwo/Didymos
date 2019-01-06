@@ -118,10 +118,8 @@ public class PathfinderHelper :MonoBehaviour{
         }
         for(int i = 0; i < recycledPoints.Count; i++){
             Point current = recycledPoints[i];
-            if (!Grid.PointInUse(current))
-            {
-                Pools.Point = current;
-            }
+            Pools.Point = current;
+
 
         }
 
@@ -158,11 +156,10 @@ public class PathfinderHelper :MonoBehaviour{
             // current node is already active
             if (currentNode != null){
                 neighbors.Add(currentNode);
-                if (!Grid.PointInUse(currentPoint))
-                {
-                    Pools.Point = currentPoint;
+               
+                Pools.Point = currentPoint;
 
-                }
+                
                 // current node is not active
             }
             else{

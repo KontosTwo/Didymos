@@ -48,15 +48,6 @@ public class BaseImplementation : PathfinderImplementationStrategy{
             currentNodeCreator
         );
 
-        if (neighbors.Contains(targetNode))
-        {
-            DrawGizmo.AddGizmo(
-                Color.black,
-                "Containing targetnode",
-                currentLocation
-            );
-        }
-
         foreach (PathfinderNode neighbour in neighbors){
 
             Vector3 neighbourLocation = grid.NodeToWorldCoord(neighbour.GetGridCoord());

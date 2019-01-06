@@ -19,8 +19,7 @@ public class Point
 	}
     public void Set(int x, int y)
     {
-        if(new Point(x,y).Equals(new Point(44,58)))
-        Debug.Log("Setting target point");
+
         this.x = x;
         this.y = y;
     }
@@ -31,9 +30,7 @@ public class Point
      */
     public void Clear()
     {
-        if (this.Equals(new Point(44, 58)))
-
-            Debug.Log("Clearing target point");
+       
         x = -999;
         y = -999;
     }
