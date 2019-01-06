@@ -1,8 +1,10 @@
 ﻿<Properties StartupConfiguration="{825F629E-91F6-DCDD-5175-BF75F16FF618}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Characters/Humanoid/AI/Movement/CostStrategy/CostCalculatorHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Project/Utility/Bresenham.cs">
     <Files>
-      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="36" Column="69" />
-      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/CostStrategy/CostCalculatorHelper.cs" Line="18" Column="6" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/PathfinderHelper.cs" Line="81" Column="17" />
+      <File FileName="Assets/Project/Characters/Humanoid/AI/Movement/Pathfinder/Follower.cs" Line="32" Column="27" />
+      <File FileName="Assets/Project/Utility/Bresenham.cs" Line="7" Column="5" />
+      <File FileName="Assets/Project/Environment/EnvironmentPhysics.cs" Line="39" Column="69" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

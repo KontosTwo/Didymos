@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Diagnostics;
+using UnityEngine.Profiling;
 
 public class Follower : MonoBehaviour {
 
@@ -28,10 +29,17 @@ public class Follower : MonoBehaviour {
 	void Start() {
          sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
          targetPosOld = target.position;
-        //StartCoroutine (UpdatePath ());
+        AttemptPathfind();
     }
 
     private void Update()
+    {
+        Profiler.BeginSample("Pathfinder");
+        AttemptPathfind();
+        Profiler.EndSample();
+    }
+
+    private void AttemptPathfind()
     {
         if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
         {

@@ -18,6 +18,7 @@ using Unity.Collections;
  * a bit beyond the camera bounds
  */
 //using System.Linq;
+using UnityEngine.Profiling;
 public class EnvironmentPhysics : MonoBehaviour {
 
     private static EnvironmentPhysics instance;
@@ -128,6 +129,7 @@ public class EnvironmentPhysics : MonoBehaviour {
 
 
     public static bool LineOfSightToVantagePointExists(int visionSharpness, Vector3 start, Vector3 target) {
+        Profiler.BeginSample("Fast");
         bool uninterrupted = true;
         int clarityLeft = visionSharpness;
         ProcessIntersectionFast onIntersect = (result => {
@@ -143,26 +145,25 @@ public class EnvironmentPhysics : MonoBehaviour {
             return clarityLeft > 0;
         });
         IncrementalRaycastFast(start, target, onIntersect, continueCondition);
+        Profiler.EndSample();
 
+        Profiler.BeginSample("Regular");
+
+        bool uninterrupted2 = true;
+        int clarityLeft2 = visionSharpness;
+        ProcessIntersection onIntersect2 = (result => {
+            clarityLeft -= result.GetObstacle().GetTransparency();
+            if (clarityLeft <= 0){
+                uninterrupted = false;
+            }
+        });
+        ShouldContinueRayCast continueCondition2 = (result => {
+            return clarityLeft > 0;
+        });
+
+        IncrementalRaycast(start, target, onIntersect2, continueCondition2);
+        Profiler.EndSample();
         return uninterrupted;
-        //bool uninterrupted = true;
-        //int clarityLeft = visionSharpness;
-        //ProcessIntersection onIntersect = (result => {
-
-        //        clarityLeft -= result.GetObstacle().GetTransparency();
-
-        //    if (clarityLeft <= 0)
-        //    {
-        //        uninterrupted = false;
-        //    }
-        //});
-        //ShouldContinueRayCast continueCondition = (result => {
-        //    return clarityLeft > 0;
-        //});
-
-        //IncrementalRaycast(start, target, onIntersect, continueCondition);
-
-        //return uninterrupted;
     }
 
     public static bool LineOfSightToGroundExists(int visionSharpness, Vector3 start, Vector3 target) {

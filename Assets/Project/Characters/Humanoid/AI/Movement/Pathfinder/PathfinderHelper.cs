@@ -8,6 +8,7 @@ using System;
  * 
  *  NOT THREAD OR COROUTINE SAFE
  */
+using UnityEngine.Profiling;
 public class PathfinderHelper :MonoBehaviour{
     [SerializeField]
     private Grid grid;
@@ -74,9 +75,13 @@ public class PathfinderHelper :MonoBehaviour{
             instance.activeNodes.Add(startNode.GetGridCoord(), startNode);
             instance.activeNodes.Add(targetNode.GetGridCoord(), targetNode);
             while (instance.openSet.Count > 0){
+                Profiler.BeginSample("Remove first from open set");
                 PathfinderNode currentNode = instance.openSet.RemoveFirst();
+                Profiler.EndSample();
 
+                Profiler.BeginSample("Add current to closed set");
                 instance.closedSet.Add(currentNode);
+                Profiler.EndSample();
 
 
                 if (currentNode == targetNode){
@@ -88,6 +93,7 @@ public class PathfinderHelper :MonoBehaviour{
                     pathSuccess = true;
                     break;
                 }
+                Profiler.BeginSample("Process current node");
                 implementationStrategy.ProcessNode(
                     currentNode,
                     startNode,
@@ -98,6 +104,7 @@ public class PathfinderHelper :MonoBehaviour{
                     instance.grid,
                     maxPathLength
                 );
+                Profiler.EndSample();
 
             }
         }
