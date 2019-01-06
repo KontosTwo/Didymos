@@ -35,17 +35,50 @@ public class EnvironmentPhysics : MonoBehaviour {
     private Grid grid;
 	private static readonly int TERRAINDISPARITYCONFIDENCEINTERVAL = 4	;
 
-	void Awake(){
+    private static readonly float CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE = .2f;
+
+    private static readonly int PROJECTILE_CAN_PASS_THROUGH_CACHE_MAX_SIZE = 20000;
+    private LinkedDictionary<Tuple<Projectile, Vector3, Vector3>, bool> projectileCanPassThroughCache;
+
+    private static readonly int CALCULATE_TERRAIN_DISPARITY_BETWEEN_CACHE_MAX_SIZE = 20000;
+    private LinkedDictionary<Tuple<Projectile,Projectile,Vector3,Vector3>, TerrainDisparity> calculateTerrainDisparityBetweenCache;
+
+    void Awake(){
 		instance = this;
 		bottomLeftCorner = mapbounds.GetBottomLeftCorner();
 		maxDimensions = mapbounds.GetDimensions ();
-	}
+        projectileCanPassThroughCache =
+            new LinkedDictionary<Tuple<Projectile, Vector3, Vector3>, bool>(
+                new ProjectileCanPassThroughCacheComparer()
+            );
+
+        calculateTerrainDisparityBetweenCache =
+            new LinkedDictionary<Tuple<Projectile, Projectile, Vector3, Vector3>, TerrainDisparity>();
+
+    }
 
 	void OnDrawGizmos(){
 		
 	}
 
-	public struct IntersectionResult{
+    public static void NotifyOfNewObstacle(Obstacle obstacle){
+        /*
+         * 
+         * 
+         * 
+         * 
+         * Implement, sp that notifying of an obstacle
+         * that interesects a cached raycast will invadliate
+         * that cached data
+         * 
+         * 
+         * 
+         * 
+         * 
+         */        
+    }
+
+    public struct IntersectionResult{
 		private Vector3 position;
 		private Obstacle obstacle;
 		public IntersectionResult(RaycastHit info){
@@ -68,6 +101,11 @@ public class EnvironmentPhysics : MonoBehaviour {
 		}
 	}
 
+    /*****
+     * 
+     * CACHE THIS AS WELL
+     * 
+     */
 	private static List<Obstacle> FindNearbyObstacles(Vector3 location, float radius){
 		Collider[] collided = Physics.OverlapSphere (location, radius, instance.collisionMask);
 		List<Obstacle> obstacles = new List<Obstacle> ();
@@ -85,42 +123,41 @@ public class EnvironmentPhysics : MonoBehaviour {
 
 
     public static bool LineOfSightToVantagePointExists(int visionSharpness,Vector3 start,Vector3 target){
-        //bool uninterrupted = true;
-        //int clarityLeft = visionSharpness;
-        //ProcessIntersectionFast onIntersect = (result => {
-        //          for(int i = 0; i < result.Count; i ++){
-        //              IntersectionResult r = result[i];
-        //              clarityLeft -= r.GetObstacle().GetTransparency();
-        //          }
-        //          if (clarityLeft <= 0){
-        //		uninterrupted = false;
-        //	}
-        //});
-        //ShouldContinueRayCastFast continueCondition = (result => {
-        //	return clarityLeft > 0;
-        //});
-
-        //IncrementalRaycastFast(start, target, onIntersect,continueCondition);
-
-        //return uninterrupted;
         bool uninterrupted = true;
         int clarityLeft = visionSharpness;
-        ProcessIntersection onIntersect = (result => {
-
-                clarityLeft -= result.GetObstacle().GetTransparency();
-
-            if (clarityLeft <= 0)
-            {
-                uninterrupted = false;
-            }
+        ProcessIntersectionFast onIntersect = (result => {
+                  for(int i = 0; i < result.Count; i ++){
+                      IntersectionResult r = result[i];
+                      clarityLeft -= r.GetObstacle().GetTransparency();
+                  }
+                  if (clarityLeft <= 0){
+        		uninterrupted = false;
+        	}
         });
-        ShouldContinueRayCast continueCondition = (result => {
-            return clarityLeft > 0;
+        ShouldContinueRayCastFast continueCondition = (result => {
+        	return clarityLeft > 0;
         });
-
-        IncrementalRaycast(start, target, onIntersect, continueCondition);
+        IncrementalRaycastFast(start, target, onIntersect,continueCondition);
 
         return uninterrupted;
+        //bool uninterrupted = true;
+        //int clarityLeft = visionSharpness;
+        //ProcessIntersection onIntersect = (result => {
+
+        //        clarityLeft -= result.GetObstacle().GetTransparency();
+
+        //    if (clarityLeft <= 0)
+        //    {
+        //        uninterrupted = false;
+        //    }
+        //});
+        //ShouldContinueRayCast continueCondition = (result => {
+        //    return clarityLeft > 0;
+        //});
+
+        //IncrementalRaycast(start, target, onIntersect, continueCondition);
+
+        //return uninterrupted;
     }
 
 	public static bool LineOfSightToGroundExists(int visionSharpness,Vector3 start,Vector3 target){
@@ -173,16 +210,41 @@ public class EnvironmentPhysics : MonoBehaviour {
         Debug.DrawLine(start, lastImpact, color: Color.white, duration: .2f);
 	}
 
-    public static TerrainDisparity CalculateTerrainDisparityBetween(Projectile heuristicOfObserver, Projectile heuristicOfTarget, Vector3 observerVantage, Vector3 targetVantage)
-    {
+    public static TerrainDisparity CalculateTerrainDisparityBetween(
+        Projectile heuristicOfObserver, 
+        Projectile heuristicOfTarget, 
+        Vector3 observerVantage, 
+        Vector3 targetVantage
+    ){
+        Tuple<Projectile, Projectile, Vector3, Vector3> data =
+            new Tuple<Projectile, Projectile, Vector3, Vector3>(
+                heuristicOfObserver,
+                heuristicOfTarget,
+                observerVantage,
+                targetVantage
+            );
+
+        if (instance.calculateTerrainDisparityBetweenCache.ContainsKey(data)){
+            return instance.calculateTerrainDisparityBetweenCache[data];
+        }
+
         TerrainDisparity result = new TerrainDisparity();
-        VisiblePortionResult observerResult = CalculateVisiblePortion(heuristicOfObserver, observerVantage, targetVantage);
-        VisiblePortionResult targetResult = CalculateVisiblePortion(heuristicOfTarget, targetVantage, observerVantage);
+        VisiblePortionResult observerResult = 
+            CalculateVisiblePortion(heuristicOfObserver, observerVantage, targetVantage);
+        VisiblePortionResult targetResult = 
+            CalculateVisiblePortion(heuristicOfTarget, targetVantage, observerVantage);
 
         result.visibleToObserver = observerResult.visible;
         result.targetHeight = observerResult.heightOfTarget;
         result.visibleToTarget = targetResult.visible;
         result.observerHeight = targetResult.heightOfTarget;
+
+        instance.calculateTerrainDisparityBetweenCache[data] =
+            result;
+        if(instance.calculateTerrainDisparityBetweenCache.Count 
+            > CALCULATE_TERRAIN_DISPARITY_BETWEEN_CACHE_MAX_SIZE){
+            instance.calculateTerrainDisparityBetweenCache.PopFirst();
+        }
         return result;
 	}
 
@@ -215,32 +277,42 @@ public class EnvironmentPhysics : MonoBehaviour {
         return result;
 	}
 
+
 	public static bool ProjectileCanPassThrough(Projectile projectile,Vector3 start, Vector3 target){
-		//ProcessIntersection onIntersect = (result => {
-		//	projectile.SlowedBy(result.GetObstacle());
+        var data = new Tuple<Projectile,Vector3,Vector3>(projectile, start, target);
+        if (instance.projectileCanPassThroughCache.ContainsKey(data)){
+            return instance.projectileCanPassThroughCache[data];
+        }
 
+        ProcessIntersection onIntersect = (result => {
+			projectile.SlowedBy(result.GetObstacle());
+		});
+		ShouldContinueRayCast continueCondition = (result => {
+			return projectile.IsStillActive();
+		});
+		IncrementalRaycast (start, target, onIntersect,continueCondition);
+		bool passedThrough = projectile.IsStillActive ();
+		projectile.ResetStrength ();
 
-		//});
-		//ShouldContinueRayCast continueCondition = (result => {
-		//	return projectile.IsStillActive();
-		//});
-		//IncrementalRaycast (start, target, onIntersect,continueCondition);
-		//bool passedThrough = projectile.IsStillActive ();
-		//projectile.ResetStrength ();
-		//return passedThrough;
-         ProcessIntersectionFast onIntersect = (result => {
-            for(int i = 0; i <  result.Count; i++) {
-                 var r = result[i];
-                 projectile.SlowedBy(r.GetObstacle());
-            }
-        });
-        ShouldContinueRayCastFast continueCondition = (result => {
-            return projectile.IsStillActive();
-        });
-        IncrementalRaycastFast (start, target, onIntersect,continueCondition);
-        bool passedThrough = projectile.IsStillActive ();
-        projectile.ResetStrength ();
+        instance.projectileCanPassThroughCache[data] = passedThrough;
+        if(instance.projectileCanPassThroughCache.Count > PROJECTILE_CAN_PASS_THROUGH_CACHE_MAX_SIZE){
+            instance.projectileCanPassThroughCache.PopFirst();
+        }
+
         return passedThrough;
+        // ProcessIntersectionFast onIntersect = (result => {
+        //    for(int i = 0; i <  result.Count; i++) {
+        //         var r = result[i];
+        //         projectile.SlowedBy(r.GetObstacle());
+        //    }
+        //});
+        //ShouldContinueRayCastFast continueCondition = (result => {
+        //    return projectile.IsStillActive();
+        //});
+        //IncrementalRaycastFast (start, target, onIntersect,continueCondition);
+        //bool passedThrough = projectile.IsStillActive ();
+        //projectile.ResetStrength ();
+        //return passedThrough;
 
     }
 
@@ -527,6 +599,11 @@ public class EnvironmentPhysics : MonoBehaviour {
         }
     }
 
+    private static void test()
+    {
+        String name = nameof(LineOfSightToVantagePointExists);
+    }
+
     private static void IncrementalRaycast(
         Vector3 start,
         Vector3 end,
@@ -664,6 +741,30 @@ public class EnvironmentPhysics : MonoBehaviour {
         float x2 = Math.Abs((higher - lower).x);
         float x = x2 - distanceFromHigher;
         return ((x * y2) / x2) + lower.y;
+    }
+
+    private class ProjectileCanPassThroughCacheComparer : IEqualityComparer<Tuple<Projectile, Vector3, Vector3>>{
+        public bool Equals(
+            Tuple<Projectile, Vector3, Vector3> x,
+            Tuple<Projectile, Vector3, Vector3> y
+        ){
+            return
+                Vector3.Distance(x.Item2, y.Item2) < CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE &&
+                Vector3.Distance(x.Item3, y.Item3) < CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE &&
+                x.Item1.Equals(y.Item1);
+        }
+
+        public int GetHashCode(
+            Tuple<Projectile, Vector3, Vector3> obj
+        ){
+            int hash = 17;
+            // Suitable nullity checks etc, of course :)
+            hash = hash * 23 + obj.Item1.GetHashCode();
+            hash = hash * 23 + obj.Item2.GetHashCode();
+            hash = hash * 23 + obj.Item3.GetHashCode();
+            return hash;
+        }
+
     }
 }
 

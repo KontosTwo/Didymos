@@ -27,7 +27,7 @@ public class Pools : MonoBehaviour {
         listPoints = new Pool<List<Point>>(100,1.1f);
         listIntersectionResults = new Pool<List<EnvironmentPhysics.IntersectionResult>>(30,1.3f);
         hashSetPoints = new Pool<HashSet<Point>>(10,1.5f);
-        points = new Pool<Point>(10000,1.1f);
+        points = new Pool<Point>(1000,1.1f);
         listVector2s = new Pool<List<Vector2>>(10,1.5f);
         listVector3s = new Pool<List<Vector3>>(10,1.5f);
         instance = this;

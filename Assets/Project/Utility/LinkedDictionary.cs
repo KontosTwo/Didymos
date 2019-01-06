@@ -7,7 +7,7 @@ using UnityEngine;
  * https://stackoverflow.com/questions/29205934/c-sharp-equivalent-of-linkedhashmap
  */
 using UnityEngine.Profiling;
-public class LinkedDictionary<T, U> : IEnumerable<KeyValuePair<long,Tuple<U,T>>> where U : class{
+public class LinkedDictionary<T, U> : IEnumerable<KeyValuePair<long,Tuple<U,T>>> {
     private Dictionary<T, LinkedListNode<Tuple<long, Tuple<U, T>>>> D;
     private SortedList<long,Tuple<U, T>> LL;
     /*
@@ -24,6 +24,13 @@ public class LinkedDictionary<T, U> : IEnumerable<KeyValuePair<long,Tuple<U,T>>>
         tail = 0;
     }
 
+    public LinkedDictionary(IEqualityComparer<T>  comparer)  {
+        D = new Dictionary<T, LinkedListNode<Tuple<long, Tuple<U, T>>>>(comparer);
+        LL = new SortedList<long, Tuple<U, T>>();
+        head = 0;
+        tail = 0;
+    }
+
     public U this[T c]{
         get{
             LinkedListNode<Tuple<long, Tuple<U, T>>> value = null;
@@ -31,7 +38,7 @@ public class LinkedDictionary<T, U> : IEnumerable<KeyValuePair<long,Tuple<U,T>>>
                 return D[c].Value.Item2.Item1;
             }
             else{
-                return null;
+                return default(U);
             }
         }
 

@@ -4,7 +4,7 @@
 public class Projectile
 {
 	private readonly int strength;
-    private float suppressiveRadius;
+    private readonly float suppressiveRadius;
 	private int currentStrength;
 
 
@@ -42,6 +42,20 @@ public class Projectile
 	public interface IObstructable{
 		int GetResistance();
 	}
+
+    public override bool Equals(object obj){
+        Projectile other = (Projectile)obj;
+        return other.strength == this.strength &&
+            (other.suppressiveRadius - this.suppressiveRadius).CloseToZero(0.01f);
+    }
+
+    public override int GetHashCode(){
+        int hash = 17;
+        // Suitable nullity checks etc, of course :)
+        hash = hash * 23 + strength;
+        hash = hash * 23 + (int)Math.Round(suppressiveRadius);
+        return hash;
+    }
 }
 
 
