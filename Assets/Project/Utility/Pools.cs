@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using static EnvironmentPhysics;
 /*
  * If something wierd happens, blame
  * the incorrect recycling of lists 
  * and poolable objects
  */
+using Unity.Jobs;
 public class Pools : MonoBehaviour {
     private static Pools instance;
 
@@ -14,22 +16,28 @@ public class Pools : MonoBehaviour {
     private Pool<List<MapNode>> listMapNodes;
     private Pool<List<Point>> listPoints;
     private Pool<MapNode> mapNodes;
-    private Pool<List<EnvironmentPhysics.IntersectionResult>> listIntersectionResults;
+    private Pool<List<IntersectionResult>> listIntersectionResults;
     private Pool<HashSet<Point>> hashSetPoints;
     private Pool<Point> points;
     private Pool<List<Vector2>> listVector2s;
     private Pool<List<Vector3>> listVector3s;
+    private Pool<List<FindTallEnoughDepthCubeJob>> listFindTallEnoughDepthCubeJob;
+    private Pool<FindTallEnoughDepthCubeJob> findTallEnoughDepthCube;
+    private Pool<List<JobHandle>> listJobHandles;
 
     private void Awake()
     {
         listMapNodes = new Pool<List<MapNode>>(100,1.4f);
         mapNodes = new Pool<MapNode>(1000,1.2f);
         listPoints = new Pool<List<Point>>(100,1.1f);
-        listIntersectionResults = new Pool<List<EnvironmentPhysics.IntersectionResult>>(30,1.3f);
+        listIntersectionResults = new Pool<List<IntersectionResult>>(30,1.3f);
         hashSetPoints = new Pool<HashSet<Point>>(10,1.5f);
         points = new Pool<Point>(1000,1.1f);
         listVector2s = new Pool<List<Vector2>>(10,1.5f);
         listVector3s = new Pool<List<Vector3>>(10,1.5f);
+        listFindTallEnoughDepthCubeJob = new Pool<List<FindTallEnoughDepthCubeJob>>(3,1.5f);
+        findTallEnoughDepthCube = new Pool<FindTallEnoughDepthCubeJob>(30, 1.5f);
+        listJobHandles = new Pool<List<JobHandle>>(30, 1.5f);
         instance = this;
     }
     public static MapNode MapNode
@@ -73,6 +81,48 @@ public class Pools : MonoBehaviour {
         set
         {
             instance.listMapNodes.Recycle(value);
+        }
+    }
+    public static FindTallEnoughDepthCubeJob FindTallEnoughDepthCubeJob
+    {
+        get
+        {
+            FindTallEnoughDepthCubeJob data = instance.findTallEnoughDepthCube.Get();
+            return data;
+        }
+        set
+        {
+            value.layers.Dispose();
+            value.tallEnough.Dispose();
+            instance.findTallEnoughDepthCube.Recycle(value);
+        }
+    }
+    public static List<FindTallEnoughDepthCubeJob> ListFindTallEnoughDepthCubeJob
+    {
+        get
+        {
+            List<FindTallEnoughDepthCubeJob> data =
+                instance.listFindTallEnoughDepthCubeJob.Get();
+            data.Clear();
+            return data;
+        }
+        set
+        {
+            instance.listFindTallEnoughDepthCubeJob.Recycle(value);
+        }
+    }
+    public static List<JobHandle> ListJobHandles
+    {
+        get
+        {
+            List<JobHandle> data =
+                instance.listJobHandles.Get();
+            data.Clear();
+            return data;
+        }
+        set
+        {
+            instance.listJobHandles.Recycle(value);
         }
     }
     public static void FreeListPoints(List<Point> data)

@@ -678,6 +678,7 @@ public class EnvironmentPhysics : MonoBehaviour {
             Math.Abs(end.y - start.y);
 
         Vector3 higher = new Vector3();
+        Vector2 higher2D = higher.To2D();
         Vector3 lower = new Vector3();
         if (start.y > end.y) {
             higher = start;
@@ -690,7 +691,7 @@ public class EnvironmentPhysics : MonoBehaviour {
 
         List<MapNode> nodesInTheWay =
             instance.grid.GetMapNodesBetween(start2D, end2D);
-
+        /*
         nodesInTheWay.Sort(
             (x, y) => {
                 float xDistance = Vector2.Distance(
@@ -704,53 +705,62 @@ public class EnvironmentPhysics : MonoBehaviour {
                 return xDistance.CompareTo(yDistance);
             }
         );
+        */
+        List<FindTallEnoughDepthCubeJob> jobs = Pools.ListFindTallEnoughDepthCubeJob;
+        for(int i = 0; i < nodesInTheWay.Count; i++){
+            MapNode node = nodesInTheWay[i];
+            var layers = node.GetLayers();
+
+            FindTallEnoughDepthCubeJob job = Pools.FindTallEnoughDepthCubeJob;
+            job.endpointDistance2D = endpointDistance2D;
+            job.endpointHeight2D = endpointHeight2D;
+            job.position = node.GetLocation();
+            job.higher = higher;
+            job.layers = new NativeArray<float>(layers.Count, Allocator.TempJob);
+            job.tallEnough = new NativeArray<int>(layers.Count, Allocator.TempJob);
+            for(int j = 0; j < layers.Count; j++){
+                job.layers[j] = layers[j].GetPosition().y;
+                job.tallEnough[j] = 0;
+            }
+            jobs.Add(job);
+        }
+
+        List<JobHandle> jobHandles = new List<JobHandle>();
+        for(int i = 0; i < jobs.Count; i++){
+            jobHandles.Add(jobs[i].Schedule());
+        }
+        for (int i = 0; i < jobs.Count; i++){
+            jobHandles[i].Complete();
+        }
 
         List<IntersectionResult> results = Pools.ListIntersectionResults;
-        List<IntersectionResult> tallEnough = Pools.ListIntersectionResults;
-
-        for (int i = 0; i < nodesInTheWay.Count; i++) {
+        for (int i = 0; i < jobs.Count; i++) {
+            FindTallEnoughDepthCubeJob job = jobs[i];
+            NativeArray<int> tallEnough = job.tallEnough;
             MapNode node = nodesInTheWay[i];
-
             var layers = node.GetLayers();
-            Vector2 mapLocation = node.GetLocation().To2D();
 
-            for (int j = 0; j < layers.Count; j++) {
-                var tuple = layers[j];
-                results.Add(
-                    tuple
-                );
-            }
-
-
-            for (int j = 0; j < results.Count; j++) {
-                IntersectionResult result = results[j];
-                Vector3 resultPosition = result.GetPosition();
-                float distanceFromHigher =
-                        Vector2.Distance(
-                            resultPosition.To2D(), higher.To2D()
-                        );
-                float heightAtLS = FindHeightAtLineSegment(
-                    new Vector2(0, 0),
-                    new Vector2(
-                        endpointDistance2D,
-                        endpointHeight2D
-                    ),
-                    distanceFromHigher
-                );
-                if (resultPosition.y > heightAtLS) {
-                    tallEnough.Add(result);
+            for (int j = 0; j < tallEnough.Length; j++)
+            {
+                if (tallEnough[j] == 1)
+                {
+                    results.Add(layers[j]);
                 }
             }
-            onIntersect(tallEnough);
-            if (!shouldContinue(tallEnough)) {
+            onIntersect(results);
+            if (!shouldContinue(results))
+            {
                 break;
             }
             results.Clear();
-            tallEnough.Clear();
+        }
+        for (int i = 0; i < jobs.Count; i++){
+            Pools.FindTallEnoughDepthCubeJob = jobs[i];
         }
         Pools.ListIntersectionResults = results;
         Pools.ListMapNodes = nodesInTheWay;
-        Pools.ListIntersectionResults = tallEnough;
+        Pools.ListFindTallEnoughDepthCubeJob = jobs;
+        Pools.ListJobHandles = jobHandles;
     }
 
     private static float FindHeightAtLineSegment(
@@ -809,6 +819,40 @@ public class EnvironmentPhysics : MonoBehaviour {
             hash = hash * 23 + obj.Item3.GetHashCode();
             hash = hash * 23 + obj.Item4.GetHashCode();
             return hash;
+        }
+    }
+
+    public struct FindTallEnoughDepthCubeJob : IJob{
+
+
+        public NativeArray<float> layers;
+        public NativeArray<int> tallEnough;
+        public Vector3 position;
+
+        public Vector3 higher;
+        public float endpointDistance2D;
+        public float endpointHeight2D;
+
+        public void Execute(){
+            for (int i = 0; i < layers.Length; i++){
+                float height = layers[i];
+
+                float distanceFromHigher =
+                        Vector2.Distance(
+                            position.To2D(), higher.To2D()
+                        );
+                float heightAtLS = FindHeightAtLineSegment(
+                    new Vector2(0, 0),
+                    new Vector2(
+                        endpointDistance2D,
+                        endpointHeight2D
+                    ),
+                    distanceFromHigher
+                );
+                if (position.y > heightAtLS){
+                    tallEnough[i] = 1;
+                }
+            }
         }
     }
 }

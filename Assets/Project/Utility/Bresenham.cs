@@ -6,6 +6,7 @@ using UnityEngine.Profiling;
 public static class Bresenham {
     private static readonly float CACHE_VECTOR_CLOSE_ENOUGH_DISTANCE = .2f;
 
+    private static readonly int CACHE_MAX_SIZE = 10000;
     private static LinkedDictionary<Tuple<Vector2, Vector2, float>, List<Point>> cache;
 
     static Bresenham()
@@ -93,7 +94,10 @@ public static class Bresenham {
             cachedPath.Add(noDuplicatedList[i]);
         }
         cache[data] = cachedPath;
-
+        if(cache.Count > CACHE_MAX_SIZE)
+        {
+            cache.PopFirst();
+        }
         return noDuplicatedList;
     }
 

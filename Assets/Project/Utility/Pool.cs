@@ -8,7 +8,7 @@ using Unity.Profiling;
  * http://gameprogrammingpatterns.com/object-pool.html
  */
 using UnityEngine.Profiling;
-public class Pool<P> where P : class,new()
+public class Pool<P> where P : new()
 {
     private Queue<P> freeList;
     private long total;
@@ -35,18 +35,6 @@ public class Pool<P> where P : class,new()
         //noDuplicates = new HashSet<P>(new NoDuplicateByObjectReference());
     }
 
-    private class NoDuplicateByObjectReference : IEqualityComparer<P>
-    {
-        public bool Equals(P x, P y)
-        {
-            return x == y;
-        }
-
-        public int GetHashCode(P obj)
-        {
-            return obj.GetHashCode();
-        }
-    }
     /*
      * This field is NOT thread safe!
      */
