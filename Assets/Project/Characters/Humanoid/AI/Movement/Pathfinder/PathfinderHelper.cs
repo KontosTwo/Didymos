@@ -32,12 +32,6 @@ public class PathfinderHelper :MonoBehaviour{
         MapNode node
     );
 
-    public delegate PathfinderNode FociNodeCreator(
-        Point point,
-        Point foci,
-        MapNode node
-    );
-
 
     public static PathResult FindPath(
         PathRequest request
